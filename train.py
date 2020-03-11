@@ -49,6 +49,7 @@ def train(
     cutoff = -1  # backbone reaches to cutoff layer
     start_epoch = 0
     if resume:
+        print("Loading finetune weight...")
         checkpoint = torch.load(latest, map_location='cpu')
 
         # Load weights to resume from
@@ -66,6 +67,7 @@ def train(
 
     else:
         # Initialize model with backbone (optional)
+        print("Loading backbone...")
         if cfg.endswith('yolov3.cfg'):
             load_darknet_weights(model, osp.join(weights ,'darknet53.conv.74'))
             cutoff = 75
@@ -165,7 +167,8 @@ def train(
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--epochs', type=int, default=30, help='number of epochs')
-    parser.add_argument('--batch-size', type=int, default=32, help='size of each image batch')
+    # parser.add_argument('--batch-size', type=int, default=32, help='size of each image batch')
+    parser.add_argument('--batch-size', type=int, default=8, help='size of each image batch')
     parser.add_argument('--accumulated-batches', type=int, default=1, help='number of batches before optimizer step')
     parser.add_argument('--cfg', type=str, default='cfg/yolov3_1088x608.cfg', help='cfg file path')
     parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe.json', help='coco.data file path')
