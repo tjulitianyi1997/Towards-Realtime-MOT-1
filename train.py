@@ -3,6 +3,7 @@ import json
 import time
 
 import test  
+import test_metrics
 from models import *
 from utils.datasets import JointDataset, collate_fn
 from utils.utils import *
@@ -43,8 +44,6 @@ def train(
 
     # Initialize model
     model = Darknet(cfg_dict, dataset.nID)
-
-    
 
     cutoff = -1  # backbone reaches to cutoff layer
     start_epoch = 0
@@ -158,6 +157,8 @@ def train(
         if epoch % opt.test_interval ==0:
             with torch.no_grad():
                 mAP, R, P = test.test(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
+                mAP, R, P = test_metrics.test_AP_iou(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
+                mAP, R, P = test_metrics.test_AP_giou(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
                 test.test_emb(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
 
 
