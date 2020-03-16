@@ -10,11 +10,10 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from torchvision.ops import nms
-#import maskrcnn_benchmark.layers.nms as nms
 
-def mkdir_if_missing(d):
-    if not osp.exists(d):
-        os.makedirs(d)
+
+def mkdir_if_missing(dir):
+    os.makedirs(dir, exist_ok=True)
 
 
 def float3(x):  # format floats to 3 decimals
@@ -38,7 +37,10 @@ def load_classes(path):
     return list(filter(None, names))  # filter removes empty strings (such as last line)
 
 
-def model_info(model):  # Plots a line-by-line description of a PyTorch model
+def model_info(model):  
+    """
+    Prints out a line-by-line description of a PyTorch model ending with a summary.
+    """
     n_p = sum(x.numel() for x in model.parameters())  # number parameters
     n_g = sum(x.numel() for x in model.parameters() if x.requires_grad)  # number gradients
     print('\n%5s %50s %9s %12s %20s %12s %12s' % ('layer', 'name', 'gradient', 'parameters', 'shape', 'mu', 'sigma'))
@@ -50,7 +52,10 @@ def model_info(model):  # Plots a line-by-line description of a PyTorch model
 
 
 
-def plot_one_box(x, img, color=None, label=None, line_thickness=None):  # Plots one bounding box on image img
+def plot_one_box(x, img, color=None, label=None, line_thickness=None):
+    """
+    Plots one bounding box on image img.
+    """
     tl = line_thickness or round(0.0004 * max(img.shape[0:2])) + 1  # line thickness
     color = color or [random.randint(0, 255) for _ in range(3)]
     c1, c2 = (int(x[0]), int(x[1])), (int(x[2]), int(x[3]))
@@ -74,21 +79,25 @@ def weights_init_normal(m):
 
 def xyxy2xywh(x):
     # Convert bounding box format from [x1, y1, x2, y2] to [x, y, w, h]
-    y = torch.zeros(x.shape) if x.dtype is torch.float32 else np.zeros(x.shape)
-    y[:, 0] = (x[:, 0] + x[:, 2]) / 2
-    y[:, 1] = (x[:, 1] + x[:, 3]) / 2
-    y[:, 2] = x[:, 2] - x[:, 0]
-    y[:, 3] = x[:, 3] - x[:, 1]
+    # x, y are coordinates of center 
+    # (x1, y1) and (x2, y2) are coordinates of bottom left and top right respectively. 
+    y = torch.zeros_like(x) if x.dtype is torch.float32 else np.zeros_like(x)
+    y[:, 0] = (x[:, 0] + x[:, 2]) / 2  # x center
+    y[:, 1] = (x[:, 1] + x[:, 3]) / 2  # y center
+    y[:, 2] = x[:, 2] - x[:, 0]  # width
+    y[:, 3] = x[:, 3] - x[:, 1]  # height
     return y
 
 
 def xywh2xyxy(x):
     # Convert bounding box format from [x, y, w, h] to [x1, y1, x2, y2]
-    y = torch.zeros(x.shape) if x.dtype is torch.float32 else np.zeros(x.shape)
-    y[:, 0] = (x[:, 0] - x[:, 2] / 2)
-    y[:, 1] = (x[:, 1] - x[:, 3] / 2)
-    y[:, 2] = (x[:, 0] + x[:, 2] / 2)
-    y[:, 3] = (x[:, 1] + x[:, 3] / 2)
+    # x, y are coordinates of center 
+    # (x1, y1) and (x2, y2) are coordinates of bottom left and top right respectively. 
+    y = torch.zeros_like(x) if x.dtype is torch.float32 else np.zeros_like(x)
+    y[:, 0] = (x[:, 0] - x[:, 2] / 2)  # Bottom left x
+    y[:, 1] = (x[:, 1] - x[:, 3] / 2)  # Bottom left y
+    y[:, 2] = (x[:, 0] + x[:, 2] / 2)  # Top right x
+    y[:, 3] = (x[:, 1] + x[:, 3] / 2)  # Top right y
     return y
 
 
@@ -107,7 +116,7 @@ def scale_coords(img_size, coords, img0_shape):
 
 
 def ap_per_class(tp, conf, pred_cls, target_cls):
-    """ Compute the average precision, given the recall and precision curves.
+    """ Computes the average precision, given the recall and precision curves.
     Method originally from https://github.com/rafaelpadilla/Object-Detection-Metrics.
     # Arguments
         tp:    True positives (list).
@@ -161,7 +170,7 @@ def ap_per_class(tp, conf, pred_cls, target_cls):
 
 
 def compute_ap(recall, precision):
-    """ Compute the average precision, given the recall and precision curves.
+    """ Computes the average precision, given the recall and precision curves.
     Code originally from https://github.com/rbgirshick/py-faster-rcnn.
     # Arguments
         recall:    The recall curve (list).
@@ -295,7 +304,7 @@ def bbox_diou(box1, box2, x1y1x2y2=False):
     c2 = cw ** 2 + ch ** 2 + 1e-16
     # centerpoint distance squared
     rho2 = ((b2_x1 + b2_x2) - (b1_x1 + b1_x2)) ** 2 / 4 + ((b2_y1 + b2_y2) - (b1_y1 + b1_y2)) ** 2 / 4
-    return iou - rho2 / c2  # DIoU  # DiouLoss = 1 - DIOU,记得减回去
+    return iou - rho2 / c2  # DIoU  # DiouLoss = 1 - DIOU,记得捡回去
 
 
 def build_targets_max(target, anchor_wh, nA, nC, nGh, nGw):
@@ -311,7 +320,7 @@ def build_targets_max(target, anchor_wh, nA, nC, nGh, nGw):
     tid = torch.LongTensor(nB, nA, nGh, nGw, 1).fill_(-1).cuda() 
     for b in range(nB):
         t = target[b]
-        t_id = t[:, 1].clone().long().cuda()  # 取出label文件中的id（这个已经是dataloader中重新排序过的）
+        t_id = t[:, 1].clone().long().cuda()
         t = t[:,[0,2,3,4,5]]
         nTb = len(t)  # number of targets
         if nTb == 0:
@@ -344,19 +353,16 @@ def build_targets_max(target, anchor_wh, nA, nC, nGh, nGw):
             _, iou_order = torch.sort(-iou_best)  # best to worst
 
             # Unique anchor selection
-            # iou排序，然后选择不同的anchor，找到对应的那个gt
             u = torch.stack((gi, gj, a), 0)[:, iou_order]
             # _, first_unique = np.unique(u, axis=1, return_index=True)  # first unique indices
             first_unique = return_torch_unique_index(u, torch.unique(u, dim=1))  # torch alternative
             i = iou_order[first_unique]
             # best anchor must share significant commonality (iou) with target
-            # 对每一个gt找到一个anchor
             i = i[iou_best[i] > 0.60]  # TODO: examine arbitrary threshold
             if len(i) == 0:
                 continue
 
             a, gj, gi, t = a[i], gj[i], gi[i], t[i]
-            # i代表gt的编号index
             t_id = t_id[i]
             if len(t.shape) == 1:
                 t = t.view(1, 5)
@@ -404,12 +410,12 @@ def build_targets_thres(target, anchor_wh, nA, nC, nGh, nGw):
         if nTb == 0:
             continue
 
-        gxy, gwh = t[: , 1:3].clone() , t[:, 3:5].clone()  # JDE数据集对标签做了归一化
-        gxy[:, 0] = gxy[:, 0] * nGw   # 归一化*缩放比例=原图中的坐标（标识在第几格中）
+        gxy, gwh = t[: , 1:3].clone() , t[:, 3:5].clone()
+        gxy[:, 0] = gxy[:, 0] * nGw
         gxy[:, 1] = gxy[:, 1] * nGh
         gwh[:, 0] = gwh[:, 0] * nGw
         gwh[:, 1] = gwh[:, 1] * nGh
-        gxy[:, 0] = torch.clamp(gxy[:, 0], min=0, max=nGw -1)  # 因为标签框可能超过图片大小，所以要clamp掉，修正label
+        gxy[:, 0] = torch.clamp(gxy[:, 0], min=0, max=nGw -1)
         gxy[:, 1] = torch.clamp(gxy[:, 1], min=0, max=nGh -1)
 
         gt_boxes = torch.cat([gxy, gwh], dim=1)                                            # Shape Ngx4 (xc, yc, w, h)
@@ -417,7 +423,7 @@ def build_targets_thres(target, anchor_wh, nA, nC, nGh, nGw):
         anchor_mesh = generate_anchor(nGh, nGw, anchor_wh)
         anchor_list = anchor_mesh.permute(0,2,3,1).contiguous().view(-1, 4)              # Shpae (nA x nGh x nGw) x 4
         #print(anchor_list.shape, gt_boxes.shape)
-        iou_pdist = bbox_iou(anchor_list, gt_boxes)     #[gxy, gwh]                      # Shape (nA x nGh x nGw) x Ng
+        iou_pdist = bbox_iou(anchor_list, gt_boxes)                                      # Shape (nA x nGh x nGw) x Ng
         iou_max, max_gt_index = torch.max(iou_pdist, dim=1)                              # Shape (nA x nGh x nGw), both
 
         iou_map = iou_max.view(nA, nGh, nGw)       
@@ -440,10 +446,9 @@ def build_targets_thres(target, anchor_wh, nA, nC, nGh, nGw):
         if torch.sum(fg_index) > 0:
             tid[b][id_index] =  gt_id_list.unsqueeze(1)
             fg_anchor_list = anchor_list.view(nA, nGh, nGw, 4)[fg_index] 
-            delta_target = encode_delta(gt_box_list, fg_anchor_list)  #[gxy, gwh] -> [dx, dy, dw, dh]
+            delta_target = encode_delta(gt_box_list, fg_anchor_list)
             tbox[b][fg_index] = delta_target
     return tconf, tbox, tid
-
 
 def generate_anchor(nGh, nGw, anchor_wh):
     nA = len(anchor_wh)
@@ -455,7 +460,6 @@ def generate_anchor(nGh, nGw, anchor_wh):
     anchor_offset_mesh = anchor_wh.unsqueeze(-1).unsqueeze(-1).repeat(1, 1, nGh,nGw) # Shape nA x 2 x nGh x nGw
     anchor_mesh = torch.cat([mesh, anchor_offset_mesh], dim=1)                       # Shape nA x 4 x nGh x nGw
     return anchor_mesh
-
 
 def encode_delta(gt_box_list, fg_anchor_list):
     px, py, pw, ph = fg_anchor_list[:, 0], fg_anchor_list[:,1], \
@@ -470,7 +474,7 @@ def encode_delta(gt_box_list, fg_anchor_list):
 
 def decode_delta(delta, fg_anchor_list):
     px, py, pw, ph = fg_anchor_list[:, 0], fg_anchor_list[:,1], \
-                     fg_anchor_list[:, 2], fg_anchor_list[:,3]   # fg_anchor_list: torch.Size([25920, 4])
+                     fg_anchor_list[:, 2], fg_anchor_list[:,3]
     dx, dy, dw, dh = delta[:, 0], delta[:, 1], delta[:, 2], delta[:, 3]
     gx = pw * dx + px
     gy = ph * dy + py
@@ -486,8 +490,8 @@ def decode_delta_map(delta_map, anchors):
     nB, nA, nGh, nGw, _ = delta_map.shape
     anchor_mesh = generate_anchor(nGh, nGw, anchors) 
     anchor_mesh = anchor_mesh.permute(0,2,3,1).contiguous()              # Shpae (nA x nGh x nGw) x 4
-    anchor_mesh = anchor_mesh.unsqueeze(0).repeat(nB,1,1,1,1)            # Shpae (nB x nA x nGh x nGw) x 4
-    pred_list = decode_delta(delta_map.view(-1,4), anchor_mesh.view(-1,4))  # torch.Size([1, 4, 60, 108, 4])  torch.Size([1, 4, 60, 108, 4])
+    anchor_mesh = anchor_mesh.unsqueeze(0).repeat(nB,1,1,1,1)
+    pred_list = decode_delta(delta_map.view(-1,4), anchor_mesh.view(-1,4))
     pred_map = pred_list.view(nB, nA, nGh, nGw, 4)
     return pred_map
 
@@ -626,8 +630,6 @@ def jaccard(box_a, box_b, iscrowd:bool=False):
     return out if use_batch else out.squeeze(0)
 
 
-
-
 def return_torch_unique_index(u, uv):
     n = uv.shape[1]  # number of columns
     first_unique = torch.zeros(n, device=u.device).long()
@@ -639,16 +641,19 @@ def return_torch_unique_index(u, uv):
 
 def strip_optimizer_from_checkpoint(filename='weights/best.pt'):
     # Strip optimizer from *.pt files for lighter files (reduced by 2/3 size)
-
     a = torch.load(filename, map_location='cpu')
     a['optimizer'] = []
     torch.save(a, filename.replace('.pt', '_lite.pt'))
 
 
 def plot_results():
-    # Plot YOLO training results file 'results.txt'
-    # import os; os.system('wget https://storage.googleapis.com/ultralytics/yolov3/results_v1.txt')
-
+    """
+    Plot YOLO training results from the file 'results.txt'
+    Example of what this is trying to plot can be found at: 
+    https://user-images.githubusercontent.com/26833433/63258271-fe9d5300-c27b-11e9-9a15-95038daf4438.png
+    An example results.txt file:
+    import os; os.system('wget https://storage.googleapis.com/ultralytics/yolov3/results_v1.txt')
+    """
     plt.figure(figsize=(14, 7))
     s = ['X + Y', 'Width + Height', 'Confidence', 'Classification', 'Total Loss', 'mAP', 'Recall', 'Precision']
     files = sorted(glob.glob('results*.txt'))
@@ -661,16 +666,3 @@ def plot_results():
             plt.title(s[i])
             if i == 0:
                 plt.legend()
-
-# # Plot lr schedule
-# y = []
-# for _ in range(epochs):
-#     scheduler.step()
-#     y.append(optimizer.param_groups[0]['lr'])
-# plt.plot(y, label='LambdaLR')
-# plt.xlabel('epoch')
-# plt.ylabel('LR')
-# plt.tight_layout()
-# plt.savefig('LR.png', dpi=300)
-
-

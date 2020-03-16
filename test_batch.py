@@ -427,13 +427,20 @@ if __name__ == '__main__':
     # 576x320 batch 16
     parser = argparse.ArgumentParser(prog='test.py')
     # parser.add_argument('--batch-size', type=int, default=40, help='size of each image batch')
-    parser.add_argument('--batch-size', type=int, default=16, help='size of each image batch')
+    parser.add_argument('--batch-size', type=int, default=8, help='size of each image batch')
+
     # parser.add_argument('--cfg', type=str, default='cfg/yolov3.cfg', help='cfg file path')
-    parser.add_argument('--cfg', type=str, default='cfg/yolov3_576x320.cfg', help='cfg file path')
+    # parser.add_argument('--cfg', type=str, default='cfg/yolov3_576x320.cfg', help='cfg file path')
+    parser.add_argument('--cfg', type=str, default='cfg/yolov3_1088x608.cfg', help='cfg file path')
+
     # parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe.json', help='data config')
-    parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe_easy2.json', help='data config')
+    # parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe_easy.json', help='data config')
+    parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe_our.json', help='data config')   # "caltech":"./data/caltech.easy.val"
+
     # parser.add_argument('--weights', type=str, default='weights/latest.pt', help='path to weights file')
-    parser.add_argument('--weights', type=str, default='/home/master/kuanzi/weights/jde_576x320_uncertainty.pt', help='path to weights file')
+    # parser.add_argument('--weights', type=str, default='/home/master/kuanzi/weights/jde_576x320_uncertainty.pt', help='path to weights file')
+    parser.add_argument('--weights', type=str, default='/home/master/kuanzi/weights/jde_1088x608_uncertainty.pt', help='path to weights file')
+    
     parser.add_argument('--iou-thres', type=float, default=0.5, help='iou threshold required to qualify as detected')
     parser.add_argument('--conf-thres', type=float, default=0.3, help='object confidence threshold')
     parser.add_argument('--nms-thres', type=float, default=0.5, help='iou threshold for non-maximum suppression')
@@ -451,30 +458,6 @@ if __name__ == '__main__':
                 opt.conf_thres,
                 opt.nms_thres,
                 opt.print_interval)
-        print ("test.test:\t", mAP, "\t", R, "\t", P)
-        sys.stdout.flush()
-
-        # mAP, R, P = test_metrics.test_AP_iou( opt.cfg,
-        #         opt.data_cfg,
-        #         opt.weights,
-        #         opt.batch_size,
-        #         opt.iou_thres,
-        #         opt.conf_thres,
-        #         opt.nms_thres,
-        #         opt.print_interval)
-        # print ("test_metrics.test_AP_iou:\t", mAP, "\t", R, "\t", P)
-        # sys.stdout.flush()
-        
-        # mAP, R, P = test_metrics.test_AP_giou( opt.cfg,
-        #         opt.data_cfg,
-        #         opt.weights,
-        #         opt.batch_size,
-        #         opt.iou_thres,
-        #         opt.conf_thres,
-        #         opt.nms_thres,
-        #         opt.print_interval)
-        # print ("test_metrics.test_AP_giou:\t", mAP, "\t", R, "\t", P)
-        # sys.stdout.flush()
 
         test_emb(opt.cfg,
                 opt.data_cfg,
@@ -484,28 +467,5 @@ if __name__ == '__main__':
                 opt.conf_thres,
                 opt.nms_thres,
                 opt.print_interval)
-        # print ("test.test_emb:\t", mAP, "\t", R, "\t", P)  #tarfar
 
-        # if opt.test_emb:
-        #     res = test_emb(
-                # opt.cfg,
-                # opt.data_cfg,
-                # opt.weights,
-                # opt.batch_size,
-                # opt.iou_thres,
-                # opt.conf_thres,
-                # opt.nms_thres,
-                # opt.print_interval,
-        #     )
-        # else:
-        #     mAP = test(
-        #         opt.cfg,
-        #         opt.data_cfg,
-        #         opt.weights,
-        #         opt.batch_size,
-        #         opt.iou_thres,
-        #         opt.conf_thres,
-        #         opt.nms_thres,
-        #         opt.print_interval,
-        #     )
 

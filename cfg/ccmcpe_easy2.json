@@ -1,0 +1,16 @@
+{
+    "root":"/home/master/kuanzi/data/",
+    "train":
+    {
+        "eth":"./data/eth.train"
+    },
+    "test_emb":
+    {
+        "caltech":"./data/caltech.10k.val"
+    },
+    "test":
+    {
+        "caltech":"./data/caltech.10k.val"
+    }
+}
+

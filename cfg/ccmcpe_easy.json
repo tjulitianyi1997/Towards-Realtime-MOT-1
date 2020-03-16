@@ -1,0 +1,15 @@
+{
+    "root":"/home/master/kuanzi/data/",
+    "train":
+    {
+        "mot17":"./data/mot17_easy.train"
+    },
+    "test_emb":
+    {
+        "caltech":"./data/caltech.easy.val"
+    },
+    "test":
+    {
+        "caltech":"./data/caltech.easy.val"
+    }
+}

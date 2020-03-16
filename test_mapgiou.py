@@ -11,7 +11,10 @@ from models import *
 from utils.utils import *
 from torchvision.transforms import transforms as T
 from utils.datasets import LoadImagesAndLabels, JointDataset, collate_fn
-import test_metrics
+
+import multiprocessing
+multiprocessing.set_start_method('spawn',True)
+
 
 def test(
         cfg,
@@ -242,7 +245,8 @@ def test_giou(
         nms_thres=0.45,
         print_interval=40,
 ):
-
+    print("test giou...")
+    sys.stdout.flush()
     # Configure run
     f = open(data_cfg)
     data_cfg_dict = json.load(f)
@@ -252,8 +256,17 @@ def test_giou(
     test_path = data_cfg_dict['test']
     dataset_root = data_cfg_dict['root']
     cfg_dict = parse_model_cfg(cfg)
-    img_size = [int(cfg_dict[0]['width']), int(cfg_dict[0]['height'])]
+    img_size = [int(cfg_dict[0]['width']), int(cfg_dict[0]['height'])]  
+    print("loading data...")
+    sys.stdout.flush()
+    # Get dataloader
+    transforms = T.Compose([T.ToTensor()])
+    dataset = JointDataset(dataset_root, test_path, img_size, augment=False, transforms=transforms)
+    dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=False, 
+                                             num_workers=8, drop_last=False, collate_fn=collate_fn) 
 
+    print("building model...")
+    sys.stdout.flush()
     # Initialize model
     model = Darknet(cfg_dict, test_emb=False)
 
@@ -266,18 +279,21 @@ def test_giou(
     model = torch.nn.DataParallel(model)
     model.cuda().eval()
 
-    # Get dataloader
-    transforms = T.Compose([T.ToTensor()])
-    dataset = JointDataset(dataset_root, test_path, img_size, augment=False, transforms=transforms)
-    dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=False, 
-                                             num_workers=8, drop_last=False, collate_fn=collate_fn) 
-
     mean_mAP, mean_R, mean_P, seen = 0.0, 0.0, 0.0, 0
     print('%11s' * 5 % ('Image', 'Total', 'P', 'R', 'mAP'))
     sys.stdout.flush()
-    outputs, mAPs, mR, mP, TP, confidence, pred_class, target_class, jdict = \
-        [], [], [], [], [], [], [], [], []
+    mAPs, mR, mP, TP = [], [], [], []
     AP_accum, AP_accum_count = np.zeros(nC), np.zeros(nC)
+    # outputs, mAPs, mR, mP, TP, confidence, pred_class, target_class, jdict = \
+    #     [], [], [], [], [], [], [], [], []
+
+    giou_mean_mAP, giou_mean_R, giou_mean_P, giou_seen = 0.0, 0.0, 0.0, 0
+    sys.stdout.flush()
+    giou_mAPs, giou_mR, giou_mP, giou_TP = [], [], [], []
+    giou_AP_accum, giou_AP_accum_count = np.zeros(nC), np.zeros(nC)
+    
+    print("Computing mAP...")
+    sys.stdout.flush()
     for batch_i, (imgs, targets, paths, shapes, targets_len) in enumerate(dataloader):
         t = time.time()
         output = model(imgs.cuda())
@@ -303,9 +319,11 @@ def test_giou(
 
             # If no labels add number of detections as incorrect
             correct = []
+            giou_correct = []
             if labels.size(0) == 0:
                 # correct.extend([0 for _ in range(len(detections))])
                 mAPs.append(0), mR.append(0), mP.append(0)
+                giou_mAPs.append(0), giou_mR.append(0), giou_mP.append(0)
                 continue
             else:
                 target_cls = labels[:, 0]
@@ -318,71 +336,52 @@ def test_giou(
                 target_boxes[:, 3] *= img_size[1]
 
                 detected = []
+                giou_detected = []
                 for *pred_bbox, conf, obj_conf  in detections:
                     obj_pred = 0
                     pred_bbox = torch.FloatTensor(pred_bbox).view(1, -1)
 
-                    # """" mAP@IoU """
-                    # # Compute iou with target boxes
-                    # iou = bbox_iou(pred_bbox, target_boxes, x1y1x2y2=True)[0]
-                    # # Extract index of largest overlap
-                    # best_i = np.argmax(iou)
-                    # # If overlap exceeds threshold and classification is correct mark as correct
-                    # if iou[best_i] > iou_thres and obj_pred == labels[best_i, 0] and best_i not in detected:
-                    #     correct.append(1)
-                    #     detected.append(best_i)
-                    # else:
-                    #     correct.append(0)
+                    """" mAP@IoU """
+                    # Compute iou with target boxes
+                    iou = bbox_iou(pred_bbox, target_boxes, x1y1x2y2=True)[0]
+                    # Extract index of largest overlap
+                    best_i = np.argmax(iou)
+                    # If overlap exceeds threshold and classification is correct mark as correct
+                    if iou[best_i] > iou_thres and obj_pred == labels[best_i, 0] and best_i not in detected:
+                        correct.append(1)
+                        detected.append(best_i)
+                    else:
+                        correct.append(0)
                     
                     """ mAP@GIoU """
                     giou = bbox_giou(pred_bbox, target_boxes, x1y1x2y2=True)[0]  # 为了简便，现在还是用iou，之后要改为giou
                     best_i = np.argmax(giou)
-                    if giou[best_i] > iou_thres and obj_pred == labels[best_i, 0] and best_i not in detected:
+                    if giou[best_i] > iou_thres and obj_pred == labels[best_i, 0] and best_i not in giou_detected:
                         giou_correct.append(1)
                         giou_detected.append(best_i)
                     else:
                         giou_correct.append(0)
 
-            # """" mAP@IoU """
-            # # Compute Average Precision (AP) per class
-            # AP, AP_class, R, P = ap_per_class(tp=correct,
-            #                                   conf=detections[:, 4],
-            #                                   pred_cls=np.zeros_like(detections[:, 5]), # detections[:, 6]
-            #                                   target_cls=target_cls)
+            """" mAP@IoU """
+            # Compute Average Precision (AP) per class
+            AP, AP_class, R, P = ap_per_class(tp=correct,
+                                              conf=detections[:, 4],
+                                              pred_cls=np.zeros_like(detections[:, 5]), # detections[:, 6]
+                                              target_cls=target_cls)
 
-            # # Accumulate AP per class
-            # AP_accum_count += np.bincount(AP_class, minlength=nC)
-            # AP_accum += np.bincount(AP_class, minlength=nC, weights=AP)
+            # Accumulate AP per class
+            AP_accum_count += np.bincount(AP_class, minlength=nC)
+            AP_accum += np.bincount(AP_class, minlength=nC, weights=AP)
 
-            # # Compute mean AP across all classes in this image, and append to image list
-            # mAPs.append(AP.mean())
-            # mR.append(R.mean())
-            # mP.append(P.mean())
+            # Compute mean AP across all classes in this image, and append to image list
+            mAPs.append(AP.mean())
+            mR.append(R.mean())
+            mP.append(P.mean())
 
-            # # Means of all images
-            # mean_mAP = np.sum(mAPs) / ( AP_accum_count + 1E-16)
-            # mean_R = np.sum(mR) / ( AP_accum_count + 1E-16)
-            # mean_P = np.sum(mP) / (AP_accum_count + 1E-16)
-
-            # # Compute Average Precision (AP) per class
-            # AP, AP_class, R, P = ap_per_class(tp=correct,
-            #                                   conf=detections[:, 4],
-            #                                   pred_cls=np.zeros_like(detections[:, 5]), # detections[:, 6]
-            #                                   target_cls=target_cls)
-
-            # # Accumulate AP per class
-            # AP_accum_count += np.bincount(AP_class, minlength=nC)
-            # AP_accum += np.bincount(AP_class, minlength=nC, weights=AP)
-
-            # # Compute mean AP across all classes in this image, and append to image list
-            # mAPs.append(AP.mean())
-            # mR.append(R.mean())
-            # mP.append(P.mean())
-
-            # # Means of all images
-            # mean_mAP = np.sum(mAPs) / ( AP_accum_count + 1E-16)
-            # mean_R = np.sum(mR) / ( AP_accum_count + 1E-16)
-            # mean_P = np.sum(mP) / (AP_accum_count + 1E-16)
+            # Means of all images
+            mean_mAP = np.sum(mAPs) / ( AP_accum_count + 1E-16)
+            mean_R = np.sum(mR) / ( AP_accum_count + 1E-16)
+            mean_P = np.sum(mP) / (AP_accum_count + 1E-16)
 
             """ mAP@GIoU """
             # Compute Average Precision (AP) per class
@@ -393,7 +392,7 @@ def test_giou(
 
             # Accumulate AP per class
             giou_AP_accum_count += np.bincount(giou_AP_class, minlength=nC)
-            giou_AP_accum += np.bincount(giou_AP_class, minlength=nC, weights=AP)
+            giou_AP_accum += np.bincount(giou_AP_class, minlength=nC, weights=giou_AP)
 
             # Compute mean AP across all classes in this image, and append to image list
             giou_mAPs.append(giou_AP.mean())
@@ -409,13 +408,15 @@ def test_giou(
             # Print image mAP and running mean mAP
             print(('%11s%11s' + '%11.3g' * 4 + 's') % (seen, dataloader.dataset.nF, mean_P, mean_R, mean_mAP, time.time() - t))
             sys.stdout.flush()
-            print(('%11s%11s' + '%11.3g' * 4 + 's') % (seen, dataloader.dataset.nF, giou_mean_P, giou_mean_R, giou_mean_mAP, time.time() - t))
+            print(('GIOU:%6s%11s' + '%11.3g' * 4 + 's') % (seen, dataloader.dataset.nF, giou_mean_P, giou_mean_R, giou_mean_mAP, time.time() - t))
             sys.stdout.flush()
 
     # Print mAP per class
     print('%11s' * 5 % ('Image', 'Total', 'P', 'R', 'mAP'))
     sys.stdout.flush()
     print('AP: %-.4f\n\n' % (AP_accum[0] / (AP_accum_count[0] + 1E-16)))
+    sys.stdout.flush()
+    print('giou_AP: %-.4f\n\n' % (giou_AP_accum[0] / (giou_AP_accum_count[0] + 1E-16)))
     sys.stdout.flush()
 
     # Return mAP
@@ -424,26 +425,28 @@ def test_giou(
 
 
 if __name__ == '__main__':
-    # 576x320 batch 16
+    # 576x320 test可以batch=16单卡 train可以batch=8单卡
+    # 864x480 test可以batch=8单卡 train可以batch=4单卡
+    # 1088x608 test可以batch=8单卡 train可以batch=4单卡
     parser = argparse.ArgumentParser(prog='test.py')
+    # parser.add_argument('--weights', type=str, default='/home/master/kuanzi/weights/diou_65_epoch.pt', help='path to weights file')
+    parser.add_argument('--weights', type=str, default='/home/master/kuanzi/weights/60_epoch_diou_arcface.pt', help='path to weights file')
     # parser.add_argument('--batch-size', type=int, default=40, help='size of each image batch')
-    parser.add_argument('--batch-size', type=int, default=16, help='size of each image batch')
+    parser.add_argument('--batch-size', type=int, default=8, help='size of each image batch')
     # parser.add_argument('--cfg', type=str, default='cfg/yolov3.cfg', help='cfg file path')
-    parser.add_argument('--cfg', type=str, default='cfg/yolov3_576x320.cfg', help='cfg file path')
-    # parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe.json', help='data config')
-    parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe_easy2.json', help='data config')
-    # parser.add_argument('--weights', type=str, default='weights/latest.pt', help='path to weights file')
-    parser.add_argument('--weights', type=str, default='/home/master/kuanzi/weights/jde_576x320_uncertainty.pt', help='path to weights file')
+    parser.add_argument('--cfg', type=str, default='cfg/yolov3_864x480.cfg', help='cfg file path')
+    parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe.json', help='data config')
+    # parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe_easy.json', help='data config')
+    
     parser.add_argument('--iou-thres', type=float, default=0.5, help='iou threshold required to qualify as detected')
     parser.add_argument('--conf-thres', type=float, default=0.3, help='object confidence threshold')
     parser.add_argument('--nms-thres', type=float, default=0.5, help='iou threshold for non-maximum suppression')
-    parser.add_argument('--print-interval', type=int, default=1, help='size of each image dimension')
-    parser.add_argument('--test-emb', action='store_true', help='test embedding')
+    parser.add_argument('--print-interval', type=int, default=40, help='size of each image dimension')
     opt = parser.parse_args()
     print(opt, end='\n\n')
 
     with torch.no_grad():
-        mAP, R, P = test( opt.cfg,
+        mAP, R, P = test_giou( opt.cfg,
                 opt.data_cfg,
                 opt.weights,
                 opt.batch_size,
@@ -454,58 +457,15 @@ if __name__ == '__main__':
         print ("test.test:\t", mAP, "\t", R, "\t", P)
         sys.stdout.flush()
 
-        # mAP, R, P = test_metrics.test_AP_iou( opt.cfg,
-        #         opt.data_cfg,
-        #         opt.weights,
-        #         opt.batch_size,
-        #         opt.iou_thres,
-        #         opt.conf_thres,
-        #         opt.nms_thres,
-        #         opt.print_interval)
-        # print ("test_metrics.test_AP_iou:\t", mAP, "\t", R, "\t", P)
-        # sys.stdout.flush()
-        
-        # mAP, R, P = test_metrics.test_AP_giou( opt.cfg,
-        #         opt.data_cfg,
-        #         opt.weights,
-        #         opt.batch_size,
-        #         opt.iou_thres,
-        #         opt.conf_thres,
-        #         opt.nms_thres,
-        #         opt.print_interval)
-        # print ("test_metrics.test_AP_giou:\t", mAP, "\t", R, "\t", P)
-        # sys.stdout.flush()
-
-        test_emb(opt.cfg,
-                opt.data_cfg,
-                opt.weights,
-                opt.batch_size,
-                opt.iou_thres,
-                opt.conf_thres,
-                opt.nms_thres,
-                opt.print_interval)
-        # print ("test.test_emb:\t", mAP, "\t", R, "\t", P)  #tarfar
-
-        # if opt.test_emb:
-        #     res = test_emb(
-                # opt.cfg,
-                # opt.data_cfg,
-                # opt.weights,
-                # opt.batch_size,
-                # opt.iou_thres,
-                # opt.conf_thres,
-                # opt.nms_thres,
-                # opt.print_interval,
-        #     )
-        # else:
-        #     mAP = test(
-        #         opt.cfg,
-        #         opt.data_cfg,
-        #         opt.weights,
-        #         opt.batch_size,
-        #         opt.iou_thres,
-        #         opt.conf_thres,
-        #         opt.nms_thres,
-        #         opt.print_interval,
-        #     )
+        # test_mapgiou.test_emb(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
+        res = test_emb(
+            opt.cfg,
+            opt.data_cfg,
+            opt.weights,
+            opt.batch_size,
+            opt.iou_thres,
+            opt.conf_thres,
+            opt.nms_thres,
+            opt.print_interval,
+        )
 

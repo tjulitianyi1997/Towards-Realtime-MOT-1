@@ -22,7 +22,7 @@ def test_AP_iou(
         print_interval=40,
 ):
     print("test_AP_iou")
-
+    sys.stdout.flush()
     # Configure run
     f = open(data_cfg)
     data_cfg_dict = json.load(f)
@@ -54,6 +54,7 @@ def test_AP_iou(
 
     mean_mAP, mean_R, mean_P, seen = 0.0, 0.0, 0.0, 0
     print('%11s' * 5 % ('Image', 'Total', 'P', 'R', 'mAP'))
+    sys.stdout.flush()
     outputs, mAPs, mR, mP, TP, confidence, pred_class, target_class, jdict = \
         [], [], [], [], [], [], [], [], []
     AP_accum, AP_accum_count = np.zeros(nC), np.zeros(nC)
@@ -136,10 +137,13 @@ def test_AP_iou(
             # Print image mAP and running mean mAP
             print(('%11s%11s' + '%11.3g' * 4 + 's') %
                   (seen, dataloader.dataset.nF, mean_P, mean_R, mean_mAP, time.time() - t))
+            sys.stdout.flush()
     # Print mAP per class
     print('%11s' * 5 % ('Image', 'Total', 'P', 'R', 'mAP'))
+    sys.stdout.flush()
 
     print('AP: %-.4f\n\n' % (AP_accum[0] / (AP_accum_count[0] + 1E-16)))
+    sys.stdout.flush()
 
     # Return mAP
     return mean_mAP, mean_R, mean_P
@@ -156,6 +160,8 @@ def test_AP_giou(
         print_interval=40,
 ):
     print("test_AP_giou")
+    sys.stdout.flush()
+    sys.stdout.flush()
     # Configure run
     f = open(data_cfg)
     data_cfg_dict = json.load(f)
@@ -187,6 +193,7 @@ def test_AP_giou(
 
     mean_mAP, mean_R, mean_P, seen = 0.0, 0.0, 0.0, 0
     print('%11s' * 5 % ('Image', 'Total', 'P', 'R', 'mAP'))
+    sys.stdout.flush()
     outputs, mAPs, mR, mP, TP, confidence, pred_class, target_class, jdict = \
         [], [], [], [], [], [], [], [], []
     AP_accum, AP_accum_count = np.zeros(nC), np.zeros(nC)
@@ -270,11 +277,14 @@ def test_AP_giou(
             # Print image mAP and running mean mAP
             print(('%11s%11s' + '%11.3g' * 4 + 's') %
                   (seen, dataloader.dataset.nF, mean_P, mean_R, mean_mAP, time.time() - t))
+            sys.stdout.flush()
     # Print mAP per class
 
     print('%11s' * 5 % ('Image', 'Total', 'P', 'R', 'mAP'))
+    sys.stdout.flush()
 
     print('AP: %-.4f\n\n' % (AP_accum[0] / (AP_accum_count[0] + 1E-16)))
+    sys.stdout.flush()
 
     # Return mAP
     return mean_mAP, mean_R, mean_P
@@ -291,7 +301,7 @@ def test_emb(
             print_interval=40,
 ):
     print("test_emb")
-
+    sys.stdout.flush()
     # Configure run
     f = open(data_cfg)
     data_cfg_dict = json.load(f)
@@ -320,6 +330,7 @@ def test_emb(
                                              num_workers=8, drop_last=False, collate_fn=collate_fn) 
     embedding, id_labels = [], []
     print('Extracting pedestrain features...')
+    sys.stdout.flush()
     for batch_i, (imgs, targets, paths, shapes, targets_len) in enumerate(dataloader):
         t = time.time()
         output = model(imgs.cuda(), targets.cuda(), targets_len.cuda()).squeeze()
@@ -332,14 +343,17 @@ def test_emb(
 
         if batch_i % print_interval==0:
             print('Extracting {}/{}, # of instances {}, time {:.2f} sec.'.format(batch_i, len(dataloader), len(id_labels), time.time() - t))
+            sys.stdout.flush()
 
     print('Computing pairwise similairity...')
+    sys.stdout.flush()
     if len(embedding) <1 :
         return None
     embedding = torch.stack(embedding, dim=0).cuda()
     id_labels = torch.LongTensor(id_labels)
     n = len(id_labels)
     print(n, len(embedding))
+    sys.stdout.flush()
     assert len(embedding) == n
 
     embedding = F.normalize(embedding, dim=1)
@@ -356,6 +370,7 @@ def test_emb(
     tar_at_far = [interp(x) for x in far_levels]
     for f,fa in enumerate(far_levels):
         print('TPR@FAR={:.7f}: {:.4f}'.format(fa, tar_at_far[f]))
+        sys.stdout.flush()
     return tar_at_far
 
 
@@ -372,6 +387,7 @@ if __name__ == '__main__':
     parser.add_argument('--test-emb', action='store_true', help='test embedding')
     opt = parser.parse_args()
     print(opt, end='\n\n')
+    sys.stdout.flush()
 
     with torch.no_grad():
         if opt.test_emb:

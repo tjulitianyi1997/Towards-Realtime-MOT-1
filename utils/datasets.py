@@ -153,7 +153,7 @@ class LoadImagesAndLabels:  # for training
         if img is None:
             raise ValueError('File corrupt {}'.format(img_path))
         augment_hsv = True
-        if self.augment and augment_hsv:
+        if self.augment and augment_hsv:    
             # SV augmentation by 50%
             fraction = 0.50
             img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -358,6 +358,7 @@ class JointDataset(LoadImagesAndLabels):  # for training
         for ds, label_paths in self.label_files.items():
             max_index = -1
             for lp in label_paths:
+                # print("lp:", lp)
                 lb = np.loadtxt(lp)
                 if len(lb) < 1:
                     continue

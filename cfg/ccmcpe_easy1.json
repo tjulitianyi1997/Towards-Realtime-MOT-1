@@ -1,0 +1,16 @@
+{
+    "root":"/home/master/kuanzi/data/",
+    "train":
+    {
+        "mot17":"./data/mot17_easy.train"
+    },
+    "test_emb":
+    {
+        "cuhksysu":"./data/cuhksysu.val"
+    },
+    "test":
+    {
+        "citypersons":"./data/citypersons.val"
+    }
+}
+
