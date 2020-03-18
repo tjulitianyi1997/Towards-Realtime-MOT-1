@@ -1,0 +1,22 @@
+Namespace(batch_size=16, cfg='cfg/yolov3_576x320.cfg', conf_thres=0.3, data_cfg='cfg/ccmcpe_easy.json', iou_thres=0.5, nms_thres=0.5, print_interval=1, test_emb=False, weights='/home/master/kuanzi/weights/jde_576x320_uncertainty.pt')
+
+================================================================================
+dataset summary
+OrderedDict([('caltech', 163.0)])
+total # identities: 164
+start index
+OrderedDict([('caltech', 0)])
+================================================================================
+      Image      Total          P          R        mAP
+GIOU:          16        100      0.463      0.259      0.247      0.575s
+GIOU:          32        100      0.439      0.235      0.218      0.198s
+GIOU:          48        100      0.439      0.235      0.218       0.17s
+GIOU:          64        100      0.506       0.34      0.326      0.176s
+GIOU:          80        100      0.592      0.467      0.458      0.189s
+GIOU:          96        100      0.448      0.355      0.348      0.189s
+GIOU:         100        100      0.434      0.337      0.331      0.061s
+      Image      Total          P          R        mAP
+giou_AP: 0.3311
+
+
+test.test:	 0.0 	 0.0 	 0.0

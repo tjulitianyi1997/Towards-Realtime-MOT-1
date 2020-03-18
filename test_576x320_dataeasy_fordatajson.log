@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "test.py", line 7, in <module>
+    from sklearn import metrics
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/sklearn/__init__.py", line 17, in <module>
+    import logging
+  File "/home/master/.conda/envs/mot/lib/python3.6/logging/__init__.py", line 26, in <module>
+    import sys, os, time, io, traceback, warnings, weakref, collections
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 951, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 894, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1157, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1129, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1241, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 82, in _path_stat
+KeyboardInterrupt

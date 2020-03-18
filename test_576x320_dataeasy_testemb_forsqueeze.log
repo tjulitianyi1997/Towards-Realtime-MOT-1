@@ -1,0 +1,25 @@
+Namespace(batch_size=16, cfg='cfg/yolov3_576x320.cfg', conf_thres=0.3, data_cfg='cfg/ccmcpe_easy.json', iou_thres=0.5, nms_thres=0.5, print_interval=1, test_emb=False, weights='/home/master/kuanzi/weights/jde_576x320_uncertainty.pt')
+
+================================================================================
+dataset summary
+OrderedDict([('caltech', 163.0)])
+total # identities: 164
+start index
+OrderedDict([('caltech', 0)])
+================================================================================
+Extracting pedestrain features...
+Extracting 0/7, # of instances 33, time 0.55 sec.
+Extracting 1/7, # of instances 106, time 0.25 sec.
+Extracting 2/7, # of instances 133, time 0.22 sec.
+Extracting 3/7, # of instances 168, time 0.25 sec.
+Extracting 4/7, # of instances 196, time 0.23 sec.
+Extracting 5/7, # of instances 224, time 0.24 sec.
+Extracting 6/7, # of instances 244, time 0.08 sec.
+Computing pairwise similairity...
+244 244
+TPR@FAR=0.0000010: 0.2452
+TPR@FAR=0.0000100: 0.2452
+TPR@FAR=0.0001000: 0.2760
+TPR@FAR=0.0010000: 0.3389
+TPR@FAR=0.0100000: 0.5168
+TPR@FAR=0.1000000: 0.8952

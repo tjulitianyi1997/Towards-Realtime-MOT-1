@@ -1,0 +1,310 @@
+================================================================================
+dataset summary
+OrderedDict([('mot17', 547.0), ('caltech', 1043.0), ('citypersons', 0), ('cuhksysu', 11931.0), ('prw', 933.0), ('eth', 0)])
+total # identities: 14455
+start index
+OrderedDict([('mot17', 0), ('caltech', 547.0), ('citypersons', 1590.0), ('cuhksysu', 1590.0), ('prw', 13521.0), ('eth', 14454.0)])
+================================================================================
+Loading finetune weight...
+
+layer                                               name  gradient   parameters                shape           mu        sigma
+    0                             module.0.conv_0.weight      True          864        [32, 3, 3, 3]      -0.0516         2.32
+    1                       module.0.batch_norm_0.weight     False           32                 [32]        0.538          0.3
+    2                         module.0.batch_norm_0.bias     False           32                 [32]            0            0
+    3                             module.1.conv_1.weight      True        18432       [64, 32, 3, 3]        0.194         1.17
+    4                       module.1.batch_norm_1.weight     False           64                 [64]        0.522        0.286
+    5                         module.1.batch_norm_1.bias     False           64                 [64]            0            0
+    6                             module.2.conv_2.weight      True         2048       [32, 64, 1, 1]        0.188         1.84
+    7                       module.2.batch_norm_2.weight     False           32                 [32]        0.464        0.306
+    8                         module.2.batch_norm_2.bias     False           32                 [32]            0            0
+    9                             module.3.conv_3.weight      True        18432       [64, 32, 3, 3]       0.0162         0.62
+   10                       module.3.batch_norm_3.weight     False           64                 [64]        0.493        0.311
+   11                         module.3.batch_norm_3.bias     False           64                 [64]            0            0
+   12                             module.5.conv_5.weight      True        73728      [128, 64, 3, 3]       0.0148        0.393
+   13                       module.5.batch_norm_5.weight     False          128                [128]        0.525        0.281
+   14                         module.5.batch_norm_5.bias     False          128                [128]            0            0
+   15                             module.6.conv_6.weight      True         8192      [64, 128, 1, 1]      -0.0388        0.804
+   16                       module.6.batch_norm_6.weight     False           64                 [64]         0.42        0.301
+   17                         module.6.batch_norm_6.bias     False           64                 [64]            0            0
+   18                             module.7.conv_7.weight      True        73728      [128, 64, 3, 3]      -0.0317        0.232
+   19                       module.7.batch_norm_7.weight     False          128                [128]        0.521        0.303
+   20                         module.7.batch_norm_7.bias     False          128                [128]            0            0
+   21                             module.9.conv_9.weight      True         8192      [64, 128, 1, 1]      -0.0216         0.64
+   22                       module.9.batch_norm_9.weight     False           64                 [64]        0.547        0.291
+   23                         module.9.batch_norm_9.bias     False           64                 [64]            0            0
+   24                           module.10.conv_10.weight      True        73728      [128, 64, 3, 3]     -0.00987        0.212
+   25                     module.10.batch_norm_10.weight     False          128                [128]        0.517        0.285
+   26                       module.10.batch_norm_10.bias     False          128                [128]            0            0
+   27                           module.12.conv_12.weight      True       294912     [256, 128, 3, 3]      -0.0161         0.16
+   28                     module.12.batch_norm_12.weight     False          256                [256]        0.542        0.287
+   29                       module.12.batch_norm_12.bias     False          256                [256]            0            0
+   30                           module.13.conv_13.weight      True        32768     [128, 256, 1, 1]      0.00868        0.479
+   31                     module.13.batch_norm_13.weight     False          128                [128]        0.533        0.296
+   32                       module.13.batch_norm_13.bias     False          128                [128]            0            0
+   33                           module.14.conv_14.weight      True       294912     [256, 128, 3, 3]     -0.00669         0.14
+   34                     module.14.batch_norm_14.weight     False          256                [256]        0.502        0.289
+   35                       module.14.batch_norm_14.bias     False          256                [256]            0            0
+   36                           module.16.conv_16.weight      True        32768     [128, 256, 1, 1]     -0.00316        0.325
+   37                     module.16.batch_norm_16.weight     False          128                [128]        0.514        0.271
+   38                       module.16.batch_norm_16.bias     False          128                [128]            0            0
+   39                           module.17.conv_17.weight      True       294912     [256, 128, 3, 3]     -0.00159        0.134
+   40                     module.17.batch_norm_17.weight     False          256                [256]        0.489        0.307
+   41                       module.17.batch_norm_17.bias     False          256                [256]            0            0
+   42                           module.19.conv_19.weight      True        32768     [128, 256, 1, 1]       0.0156        0.241
+   43                     module.19.batch_norm_19.weight     False          128                [128]        0.495        0.286
+   44                       module.19.batch_norm_19.bias     False          128                [128]            0            0
+   45                           module.20.conv_20.weight      True       294912     [256, 128, 3, 3]     -0.00289        0.107
+   46                     module.20.batch_norm_20.weight     False          256                [256]        0.498        0.284
+   47                       module.20.batch_norm_20.bias     False          256                [256]            0            0
+   48                           module.22.conv_22.weight      True        32768     [128, 256, 1, 1]       0.0105        0.316
+   49                     module.22.batch_norm_22.weight     False          128                [128]        0.498        0.302
+   50                       module.22.batch_norm_22.bias     False          128                [128]            0            0
+   51                           module.23.conv_23.weight      True       294912     [256, 128, 3, 3]     -0.00158        0.106
+   52                     module.23.batch_norm_23.weight     False          256                [256]        0.522        0.278
+   53                       module.23.batch_norm_23.bias     False          256                [256]            0            0
+   54                           module.25.conv_25.weight      True        32768     [128, 256, 1, 1]       0.0108        0.217
+   55                     module.25.batch_norm_25.weight     False          128                [128]        0.503        0.295
+   56                       module.25.batch_norm_25.bias     False          128                [128]            0            0
+   57                           module.26.conv_26.weight      True       294912     [256, 128, 3, 3]      0.00357       0.0864
+   58                     module.26.batch_norm_26.weight     False          256                [256]        0.489        0.282
+   59                       module.26.batch_norm_26.bias     False          256                [256]            0            0
+   60                           module.28.conv_28.weight      True        32768     [128, 256, 1, 1]      0.00908        0.207
+   61                     module.28.batch_norm_28.weight     False          128                [128]        0.507        0.282
+   62                       module.28.batch_norm_28.bias     False          128                [128]            0            0
+   63                           module.29.conv_29.weight      True       294912     [256, 128, 3, 3]     -0.00112       0.0933
+   64                     module.29.batch_norm_29.weight     False          256                [256]        0.525        0.289
+   65                       module.29.batch_norm_29.bias     False          256                [256]            0            0
+   66                           module.31.conv_31.weight      True        32768     [128, 256, 1, 1]     -0.00271        0.231
+   67                     module.31.batch_norm_31.weight     False          128                [128]        0.516        0.297
+   68                       module.31.batch_norm_31.bias     False          128                [128]            0            0
+   69                           module.32.conv_32.weight      True       294912     [256, 128, 3, 3]      0.00281       0.0778
+   70                     module.32.batch_norm_32.weight     False          256                [256]         0.49        0.282
+   71                       module.32.batch_norm_32.bias     False          256                [256]            0            0
+   72                           module.34.conv_34.weight      True        32768     [128, 256, 1, 1]     -0.00218        0.234
+   73                     module.34.batch_norm_34.weight     False          128                [128]        0.473        0.295
+   74                       module.34.batch_norm_34.bias     False          128                [128]            0            0
+   75                           module.35.conv_35.weight      True       294912     [256, 128, 3, 3]      0.00189       0.0924
+   76                     module.35.batch_norm_35.weight     False          256                [256]        0.496        0.283
+   77                       module.35.batch_norm_35.bias     False          256                [256]            0            0
+   78                           module.37.conv_37.weight      True  1.17965e+06     [512, 256, 3, 3]     -0.00316        0.097
+   79                     module.37.batch_norm_37.weight     False          512                [512]          0.5        0.288
+   80                       module.37.batch_norm_37.bias     False          512                [512]            0            0
+   81                           module.38.conv_38.weight      True       131072     [256, 512, 1, 1]      0.00353        0.246
+   82                     module.38.batch_norm_38.weight     False          256                [256]         0.49        0.286
+   83                       module.38.batch_norm_38.bias     False          256                [256]            0            0
+   84                           module.39.conv_39.weight      True  1.17965e+06     [512, 256, 3, 3]     -0.00873       0.0803
+   85                     module.39.batch_norm_39.weight     False          512                [512]        0.489        0.288
+   86                       module.39.batch_norm_39.bias     False          512                [512]            0            0
+   87                           module.41.conv_41.weight      True       131072     [256, 512, 1, 1]      0.00029        0.151
+   88                     module.41.batch_norm_41.weight     False          256                [256]        0.488        0.283
+   89                       module.41.batch_norm_41.bias     False          256                [256]            0            0
+   90                           module.42.conv_42.weight      True  1.17965e+06     [512, 256, 3, 3]      0.00053       0.0522
+   91                     module.42.batch_norm_42.weight     False          512                [512]        0.494         0.28
+   92                       module.42.batch_norm_42.bias     False          512                [512]            0            0
+   93                           module.44.conv_44.weight      True       131072     [256, 512, 1, 1]      0.00225        0.112
+   94                     module.44.batch_norm_44.weight     False          256                [256]        0.485        0.275
+   95                       module.44.batch_norm_44.bias     False          256                [256]            0            0
+   96                           module.45.conv_45.weight      True  1.17965e+06     [512, 256, 3, 3]     0.000139        0.036
+   97                     module.45.batch_norm_45.weight     False          512                [512]        0.494        0.274
+   98                       module.45.batch_norm_45.bias     False          512                [512]            0            0
+   99                           module.47.conv_47.weight      True       131072     [256, 512, 1, 1]     -0.00147       0.0727
+  100                     module.47.batch_norm_47.weight     False          256                [256]        0.499        0.282
+  101                       module.47.batch_norm_47.bias     False          256                [256]            0            0
+  102                           module.48.conv_48.weight      True  1.17965e+06     [512, 256, 3, 3]    -3.14e-05       0.0342
+  103                     module.48.batch_norm_48.weight     False          512                [512]        0.515        0.281
+  104                       module.48.batch_norm_48.bias     False          512                [512]            0            0
+  105                           module.50.conv_50.weight      True       131072     [256, 512, 1, 1]     0.000489        0.061
+  106                     module.50.batch_norm_50.weight     False          256                [256]        0.484        0.269
+  107                       module.50.batch_norm_50.bias     False          256                [256]            0            0
+  108                           module.51.conv_51.weight      True  1.17965e+06     [512, 256, 3, 3]     0.000314       0.0328
+  109                     module.51.batch_norm_51.weight     False          512                [512]        0.495        0.288
+  110                       module.51.batch_norm_51.bias     False          512                [512]            0            0
+  111                           module.53.conv_53.weight      True       131072     [256, 512, 1, 1]     -0.00349        0.103
+  112                     module.53.batch_norm_53.weight     False          256                [256]        0.496        0.287
+  113                       module.53.batch_norm_53.bias     False          256                [256]            0            0
+  114                           module.54.conv_54.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000317       0.0317
+  115                     module.54.batch_norm_54.weight     False          512                [512]        0.515        0.294
+  116                       module.54.batch_norm_54.bias     False          512                [512]            0            0
+  117                           module.56.conv_56.weight      True       131072     [256, 512, 1, 1]     -0.00447       0.0793
+  118                     module.56.batch_norm_56.weight     False          256                [256]          0.5        0.288
+  119                       module.56.batch_norm_56.bias     False          256                [256]            0            0
+  120                           module.57.conv_57.weight      True  1.17965e+06     [512, 256, 3, 3]     0.000484       0.0285
+  121                     module.57.batch_norm_57.weight     False          512                [512]        0.513        0.287
+  122                       module.57.batch_norm_57.bias     False          512                [512]            0            0
+  123                           module.59.conv_59.weight      True       131072     [256, 512, 1, 1]     -0.00695       0.0816
+  124                     module.59.batch_norm_59.weight     False          256                [256]        0.503        0.288
+  125                       module.59.batch_norm_59.bias     False          256                [256]            0            0
+  126                           module.60.conv_60.weight      True  1.17965e+06     [512, 256, 3, 3]     -0.00102       0.0269
+  127                     module.60.batch_norm_60.weight     False          512                [512]        0.506        0.285
+  128                       module.60.batch_norm_60.bias     False          512                [512]            0            0
+  129                           module.62.conv_62.weight      True  4.71859e+06    [1024, 512, 3, 3]      0.00343       0.0269
+  130                     module.62.batch_norm_62.weight     False         1024               [1024]        0.503        0.291
+  131                       module.62.batch_norm_62.bias     False         1024               [1024]            0            0
+  132                           module.63.conv_63.weight      True       524288    [512, 1024, 1, 1]     0.000538       0.0394
+  133                     module.63.batch_norm_63.weight     False          512                [512]         0.53        0.288
+  134                       module.63.batch_norm_63.bias     False          512                [512]            0            0
+  135                           module.64.conv_64.weight      True  4.71859e+06    [1024, 512, 3, 3]     0.000321       0.0149
+  136                     module.64.batch_norm_64.weight     False         1024               [1024]        0.505        0.291
+  137                       module.64.batch_norm_64.bias     False         1024               [1024]            0            0
+  138                           module.66.conv_66.weight      True       524288    [512, 1024, 1, 1]    -8.92e-05       0.0281
+  139                     module.66.batch_norm_66.weight     False          512                [512]        0.489        0.283
+  140                       module.66.batch_norm_66.bias     False          512                [512]            0            0
+  141                           module.67.conv_67.weight      True  4.71859e+06    [1024, 512, 3, 3]     0.000408       0.0145
+  142                     module.67.batch_norm_67.weight     False         1024               [1024]        0.488        0.286
+  143                       module.67.batch_norm_67.bias     False         1024               [1024]            0            0
+  144                           module.69.conv_69.weight      True       524288    [512, 1024, 1, 1]    -0.000608       0.0288
+  145                     module.69.batch_norm_69.weight     False          512                [512]        0.484        0.284
+  146                       module.69.batch_norm_69.bias     False          512                [512]            0            0
+  147                           module.70.conv_70.weight      True  4.71859e+06    [1024, 512, 3, 3]      0.00069       0.0129
+  148                     module.70.batch_norm_70.weight     False         1024               [1024]         0.49        0.289
+  149                       module.70.batch_norm_70.bias     False         1024               [1024]            0            0
+  150                           module.72.conv_72.weight      True       524288    [512, 1024, 1, 1]     -0.00168       0.0272
+  151                     module.72.batch_norm_72.weight     False          512                [512]        0.502        0.302
+  152                       module.72.batch_norm_72.bias     False          512                [512]            0            0
+  153                           module.73.conv_73.weight      True  4.71859e+06    [1024, 512, 3, 3]     0.000444       0.0125
+  154                     module.73.batch_norm_73.weight     False         1024               [1024]        0.522        0.288
+  155                       module.73.batch_norm_73.bias     False         1024               [1024]            0            0
+  156                           module.75.conv_75.weight      True       524288    [512, 1024, 1, 1]     -0.00577       0.0389
+  157                     module.75.batch_norm_75.weight     False          512                [512]        0.516        0.288
+  158                       module.75.batch_norm_75.bias     False          512                [512]            0            0
+  159                           module.76.conv_76.weight      True  4.71859e+06    [1024, 512, 3, 3]      0.00126        0.014
+  160                     module.76.batch_norm_76.weight     False         1024               [1024]        0.511         0.29
+  161                       module.76.batch_norm_76.bias     False         1024               [1024]            0            0
+  162                           module.77.conv_77.weight      True       524288    [512, 1024, 1, 1]      0.00336       0.0235
+  163                     module.77.batch_norm_77.weight     False          512                [512]        0.495        0.289
+  164                       module.77.batch_norm_77.bias     False          512                [512]            0            0
+  165                           module.78.conv_78.weight      True  4.71859e+06    [1024, 512, 3, 3]     4.57e-05       0.0122
+  166                     module.78.batch_norm_78.weight     False         1024               [1024]        0.487        0.292
+  167                       module.78.batch_norm_78.bias     False         1024               [1024]            0            0
+  168                           module.79.conv_79.weight      True       524288    [512, 1024, 1, 1]     0.000233       0.0302
+  169                     module.79.batch_norm_79.weight     False          512                [512]        0.505        0.299
+  170                       module.79.batch_norm_79.bias     False          512                [512]            0            0
+  171                           module.80.conv_80.weight      True  4.71859e+06    [1024, 512, 3, 3]     -0.00108       0.0149
+  172                     module.80.batch_norm_80.weight     False         1024               [1024]        0.495        0.294
+  173                       module.80.batch_norm_80.bias     False         1024               [1024]            0            0
+  174                           module.81.conv_81.weight      True        24576     [24, 1024, 1, 1]       0.0381        0.367
+  175                             module.81.conv_81.bias      True           24                 [24]      -0.0294         1.18
+  176                           module.83.conv_83.weight      True   2.3593e+06     [512, 512, 3, 3]    -7.66e-05      0.00786
+  177                             module.83.conv_83.bias      True          512                [512]     -0.00117       0.0218
+  178                              module.85.yolo_85.s_c      True            1                  [1]        -3.99          nan
+  179                              module.85.yolo_85.s_r      True            1                  [1]         1.95          nan
+  180                             module.85.yolo_85.s_id      True            1                  [1]         1.47          nan
+  181                           module.87.conv_87.weight      True       131072     [256, 512, 1, 1]      0.00546        0.055
+  182                     module.87.batch_norm_87.weight     False          256                [256]        0.521        0.292
+  183                       module.87.batch_norm_87.bias     False          256                [256]            0            0
+  184                           module.90.conv_90.weight      True       196608     [256, 768, 1, 1]      -0.0115         0.11
+  185                     module.90.batch_norm_90.weight     False          256                [256]         0.51        0.291
+  186                       module.90.batch_norm_90.bias     False          256                [256]            0            0
+  187                           module.91.conv_91.weight      True  1.17965e+06     [512, 256, 3, 3]     0.000357       0.0444
+  188                     module.91.batch_norm_91.weight     False          512                [512]        0.493        0.302
+  189                       module.91.batch_norm_91.bias     False          512                [512]            0            02020-03-12 04:40:51 [INFO]:    Epoch       Batch       box      conf        id     total  nTargets      time
+
+  190                           module.92.conv_92.weight      True       131072     [256, 512, 1, 1]       0.0074       0.0689
+  191                     module.92.batch_norm_92.weight     False          256                [256]        0.526        0.281
+  192                       module.92.batch_norm_92.bias     False          256                [256]            0            0
+  193                           module.93.conv_93.weight      True  1.17965e+06     [512, 256, 3, 3]      0.00043       0.0215
+  194                     module.93.batch_norm_93.weight     False          512                [512]        0.491        0.286
+  195                       module.93.batch_norm_93.bias     False          512                [512]            0            0
+  196                           module.94.conv_94.weight      True       131072     [256, 512, 1, 1]      0.00467       0.0423
+  197                     module.94.batch_norm_94.weight     False          256                [256]        0.493        0.277
+  198                       module.94.batch_norm_94.bias     False          256                [256]            0            0
+  199                           module.95.conv_95.weight      True  1.17965e+06     [512, 256, 3, 3]     0.000264       0.0227
+  200                     module.95.batch_norm_95.weight     False          512                [512]        0.491        0.292
+  201                       module.95.batch_norm_95.bias     False          512                [512]            0            0
+  202                           module.96.conv_96.weight      True        12288      [24, 512, 1, 1]       0.0172        0.186
+  203                             module.96.conv_96.bias      True           24                 [24]      0.00917         1.37
+  204                           module.98.conv_98.weight      True  1.17965e+06     [512, 256, 3, 3]     -0.00012       0.0109
+  205                             module.98.conv_98.bias      True          512                [512]      -0.0012       0.0201
+  206                            module.100.yolo_100.s_c      True            1                  [1]         -4.1          nan
+  207                            module.100.yolo_100.s_r      True            1                  [1]         -1.4          nan
+  208                           module.100.yolo_100.s_id      True            1                  [1]          2.1          nan
+  209                         module.102.conv_102.weight      True        32768     [128, 256, 1, 1]     -0.00213       0.0526
+  210                   module.102.batch_norm_102.weight     False          128                [128]        0.515        0.297
+  211                     module.102.batch_norm_102.bias     False          128                [128]            0            0
+  212                         module.105.conv_105.weight      True        49152     [128, 384, 1, 1]      0.00581       0.0988
+  213                   module.105.batch_norm_105.weight     False          128                [128]        0.455        0.303
+  214                     module.105.batch_norm_105.bias     False          128                [128]            0            0
+  215                         module.106.conv_106.weight      True       294912     [256, 128, 3, 3]    -0.000362       0.0361
+  216                   module.106.batch_norm_106.weight     False          256                [256]        0.505        0.293
+  217                     module.106.batch_norm_106.bias     False          256                [256]            0            0
+  218                         module.107.conv_107.weight      True        32768     [128, 256, 1, 1]      0.00258        0.083
+  219                   module.107.batch_norm_107.weight     False          128                [128]         0.52        0.304
+  220                     module.107.batch_norm_107.bias     False          128                [128]            0            0
+  221                         module.108.conv_108.weight      True       294912     [256, 128, 3, 3]      0.00381       0.0254
+  222                   module.108.batch_norm_108.weight     False          256                [256]        0.498        0.283
+  223                     module.108.batch_norm_108.bias     False          256                [256]            0            0
+  224                         module.109.conv_109.weight      True        32768     [128, 256, 1, 1]      0.00276       0.0598
+  225                   module.109.batch_norm_109.weight     False          128                [128]        0.482        0.297
+  226                     module.109.batch_norm_109.bias     False          128                [128]            0            0
+  227                         module.110.conv_110.weight      True       294912     [256, 128, 3, 3]      -0.0001       0.0311
+  228                   module.110.batch_norm_110.weight     False          256                [256]        0.512        0.306
+  229                     module.110.batch_norm_110.bias     False          256                [256]            0            0
+  230                         module.111.conv_111.weight      True         6144      [24, 256, 1, 1]     0.000832         0.12
+  231                           module.111.conv_111.bias      True           24                 [24]       0.0187         2.01
+  232                         module.113.conv_113.weight      True       589824     [512, 128, 3, 3]    -3.96e-05       0.0154
+  233                           module.113.conv_113.bias      True          512                [512]    -0.000826       0.0302
+  234                            module.115.yolo_115.s_c      True            1                  [1]        -6.04          nan
+  235                            module.115.yolo_115.s_r      True            1                  [1]         -4.2          nan
+  236                           module.115.yolo_115.s_id      True            1                  [1]         1.89          nan
+  237                           module.classifier.weight      True  7.40096e+06         [14455, 512]     8.22e-06       0.0231
+  238                             module.classifier.bias      True        14455              [14455]     0.000251        0.024
+Model Summary: 239 layers, 7.30802e+07 parameters, 7.30276e+07 gradients
+
+/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/parallel/_functions.py:61: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.
+  warnings.warn('Was asked to gather along dimension 0, but all '
+2020-03-12 04:41:02 [INFO]:     1/29      0/6688      3.07     0.102      24.6    -0.306        13        10
+2020-03-12 04:41:28 [INFO]:     1/29     40/6688      1.26    0.0373      18.2     -2.94      20.5     0.362
+2020-03-12 04:41:55 [INFO]:     1/29     80/6688      0.83    0.0379      18.3     -3.18      20.4     0.363
+2020-03-12 04:42:22 [INFO]:     1/29    120/6688      1.04    0.0371      18.5     -2.77      19.6     0.349
+2020-03-12 04:42:48 [INFO]:     1/29    160/6688      0.83    0.0375      18.4     -2.86      19.4     0.348
+2020-03-12 04:43:15 [INFO]:     1/29    200/6688     0.738    0.0364      18.3     -3.03      19.5     0.364
+2020-03-12 04:43:42 [INFO]:     1/29    240/6688     0.652    0.0368      18.4     -3.17      19.9     0.328
+2020-03-12 04:44:08 [INFO]:     1/29    280/6688     0.922    0.0363      18.3     -2.18      19.8     0.362
+2020-03-12 04:44:35 [INFO]:     1/29    320/6688      1.72    0.0366      18.4    -0.837      19.8     0.382
+2020-03-12 04:45:02 [INFO]:     1/29    360/6688      2.11    0.0373      18.4    0.0151      19.7     0.352
+2020-03-12 04:45:28 [INFO]:     1/29    400/6688      2.91    0.0377      18.4     0.534        20     0.371
+2020-03-12 04:45:55 [INFO]:     1/29    440/6688      3.37    0.0382      18.5      1.07        20     0.343
+2020-03-12 04:46:21 [INFO]:     1/29    480/6688      3.39    0.0378      18.4       1.3      20.1     0.348
+2020-03-12 04:46:48 [INFO]:     1/29    520/6688      3.63     0.038      18.5      1.38      20.1      0.36
+2020-03-12 04:47:15 [INFO]:     1/29    560/6688      3.92    0.0378      18.5      1.34      20.1      0.35
+2020-03-12 04:47:41 [INFO]:     1/29    600/6688         4    0.0381      18.6      1.24        20     0.351
+2020-03-12 04:48:08 [INFO]:     1/29    640/6688      4.05    0.0379      18.6      1.09      19.9     0.356
+2020-03-12 04:48:34 [INFO]:     1/29    680/6688      4.02    0.0379      18.6     0.905        20     0.339
+2020-03-12 04:49:01 [INFO]:     1/29    720/6688      3.97    0.0377      18.5     0.676      19.9     0.345
+2020-03-12 04:49:28 [INFO]:     1/29    760/6688      3.85    0.0377      18.5     0.453      19.9     0.348
+2020-03-12 04:49:54 [INFO]:     1/29    800/6688       3.7    0.0379      18.5     0.256      19.9     0.337
+2020-03-12 04:50:21 [INFO]:     1/29    840/6688      3.54    0.0378      18.5    0.0208      19.9      0.38
+2020-03-12 04:50:48 [INFO]:     1/29    880/6688      3.41    0.0378      18.5    -0.155        20     0.332
+2020-03-12 04:51:14 [INFO]:     1/29    920/6688       3.3    0.0376      18.5    -0.323        20     0.351
+2020-03-12 04:51:41 [INFO]:     1/29    960/6688      3.17    0.0378      18.5    -0.487      20.1     0.346
+2020-03-12 04:52:07 [INFO]:     1/29   1000/6688      3.12    0.0379      18.5    -0.365      20.1     0.363
+2020-03-12 04:52:34 [INFO]:     1/29   1040/6688      3.03    0.0382      18.5    -0.223      20.1     0.357
+2020-03-12 04:53:01 [INFO]:     1/29   1080/6688      2.97    0.0381      18.5    -0.175      20.1     0.352
+2020-03-12 04:53:27 [INFO]:     1/29   1120/6688      2.87    0.0382      18.5     -0.19      20.1     0.345
+2020-03-12 04:53:54 [INFO]:     1/29   1160/6688      2.79    0.0381      18.5    -0.241      20.1     0.338
+2020-03-12 04:54:21 [INFO]:     1/29   1200/6688      2.71    0.0382      18.5    -0.324      20.2     0.355
+Traceback (most recent call last):
+  File "train.py", line 192, in <module>
+    opt=opt,
+  File "train.py", line 110, in train
+    for i, (imgs, targets, _, _, targets_len) in enumerate(dataloader):
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/utils/data/dataloader.py", line 819, in __next__
+    return self._process_data(data)
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/utils/data/dataloader.py", line 846, in _process_data
+    data.reraise()
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/_utils.py", line 369, in reraise
+    raise self.exc_type(msg)
+ValueError: Caught ValueError in DataLoader worker process 2.
+Original Traceback (most recent call last):
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/utils/data/_utils/worker.py", line 178, in _worker_loop
+    data = fetcher.fetch(index)
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/utils/data/_utils/fetch.py", line 44, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/utils/data/_utils/fetch.py", line 44, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/media/master/文档盘/kuanzi/Towards-Realtime-MOT/utils/datasets.py", line 403, in __getitem__
+    imgs, labels, img_path, (h, w) = self.get_data(img_path, label_path)
+  File "/media/master/文档盘/kuanzi/Towards-Realtime-MOT/utils/datasets.py", line 154, in get_data
+    raise ValueError('File corrupt {}'.format(img_path))
+ValueError: File corrupt /home/master/kuanzi/data/Citypersons/images/train/darmstadt/darmstadt_000028_000019_leftImg8bit.png
+

@@ -1,0 +1,87 @@
+Namespace(batch_size=16, cfg='cfg/yolov3_576x320.cfg', conf_thres=0.3, data_cfg='cfg/ccmcpe_easy.json', iou_thres=0.5, nms_thres=0.5, print_interval=1, test_emb=False, weights='/home/master/kuanzi/weights/jde_576x320_uncertainty.pt')
+
+================================================================================
+dataset summary
+OrderedDict([('caltech', 163.0)])
+total # identities: 164
+start index
+OrderedDict([('caltech', 0)])
+================================================================================
+      Image      Total          P          R        mAP
+         16        100      0.463      0.259      0.247      0.512s
+         32        100      0.462      0.246       0.23      0.194s
+         48        100      0.462      0.246       0.23      0.184s
+         64        100      0.562      0.361      0.348      0.222s
+         80        100      0.629      0.481      0.472      0.235s
+         96        100      0.475      0.366      0.359      0.223s
+        100        100      0.477      0.352      0.345     0.0708s
+      Image      Total          P          R        mAP
+AP: 0.3455
+
+
+test.test:	 [0.34549808] 	 [0.35172414] 	 [0.47701149]
+test_AP_iou
+================================================================================
+dataset summary
+OrderedDict([('caltech', 163.0)])
+total # identities: 164
+start index
+OrderedDict([('caltech', 0)])
+================================================================================
+      Image      Total          P          R        mAP
+         16        100      0.463      0.259      0.247        0.2s
+         32        100      0.462      0.246       0.23      0.205s
+         48        100      0.462      0.246       0.23      0.201s
+         64        100      0.562      0.361      0.348      0.221s
+         80        100      0.629      0.481      0.472      0.243s
+         96        100      0.475      0.366      0.359      0.239s
+        100        100      0.477      0.352      0.345      0.073s
+      Image      Total          P          R        mAP
+AP: 0.3455
+
+
+test_metrics.test_AP_iou:	 [0.34549808] 	 [0.35172414] 	 [0.47701149]
+test_AP_giou
+================================================================================
+dataset summary
+OrderedDict([('caltech', 163.0)])
+total # identities: 164
+start index
+OrderedDict([('caltech', 0)])
+================================================================================
+      Image      Total          P          R        mAP
+         16        100      0.463      0.259      0.247      0.195s
+         32        100      0.439      0.235      0.218      0.213s
+         48        100      0.439      0.235      0.218      0.196s
+         64        100      0.506       0.34      0.326      0.231s
+         80        100      0.592      0.467      0.458      0.248s
+         96        100      0.448      0.355      0.348      0.249s
+        100        100      0.434      0.337      0.331     0.0778s
+      Image      Total          P          R        mAP
+AP: 0.3311
+
+
+test_metrics.test_AP_giou:	 [0.33113027] 	 [0.33735632] 	 [0.43390805]
+================================================================================
+dataset summary
+OrderedDict([('caltech', 163.0)])
+total # identities: 164
+start index
+OrderedDict([('caltech', 0)])
+================================================================================
+Extracting pedestrain features...
+Extracting 0/7, # of instances 33, time 0.26 sec.
+Extracting 1/7, # of instances 106, time 0.28 sec.
+Extracting 2/7, # of instances 133, time 0.22 sec.
+Extracting 3/7, # of instances 168, time 0.26 sec.
+Extracting 4/7, # of instances 196, time 0.23 sec.
+Extracting 5/7, # of instances 224, time 0.23 sec.
+Extracting 6/7, # of instances 244, time 0.08 sec.
+Computing pairwise similairity...
+244 244
+TPR@FAR=0.0000010: 0.2452
+TPR@FAR=0.0000100: 0.2452
+TPR@FAR=0.0001000: 0.2760
+TPR@FAR=0.0010000: 0.3389
+TPR@FAR=0.0100000: 0.5168
+TPR@FAR=0.1000000: 0.8952
