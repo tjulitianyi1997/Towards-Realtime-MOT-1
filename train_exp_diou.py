@@ -12,8 +12,8 @@ from utils.utils import *
 from utils.log import logger
 from torchvision.transforms import transforms as T
 
-import multiprocessing
-multiprocessing.set_start_method('spawn',True)
+# import multiprocessing
+# multiprocessing.set_start_method('spawn',True)
 
 def train(
         cfg,

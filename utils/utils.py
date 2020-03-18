@@ -673,4 +673,91 @@ def plot_results():
 # plt.tight_layout()
 # plt.savefig('LR.png', dpi=300)
 
+""" sparsity: network slimming"""
+def write_cfg(cfgfile,cfg):
+    with open(cfgfile,'r') as f:
+        lines = f.read().split('\n')  # store the lines in a list
+        lines = [x for x in lines if len(x) > 0]  # get read of the empty lines
+        lines = [x for x in lines if x[0] != '#']  # get rid of comments
+        #lines = [x.rstrip().lstrip() for x in lines]  # get rid of fringe whitespaces\
 
+    block = {}
+    blocks = []
+    #D:/yolotest/cfg/yolov3.cfg
+    prunedcfg = os.path.join('\\'.join(cfgfile.split("/")[0:-1]),"prune_"+cfgfile.split("/")[-1])
+    for line in lines:
+        if line[0] == "[":  # This marks the start of a new block
+            if len(block) != 0:  # If block is not empty, implies it is storing values of previous block.
+                blocks.append(block)  # add it the blocks list
+                block = {}  # re-init the block
+            block["type"] = line[1:-1].rstrip()
+        else:
+            key, value = line.split("=")
+            block[key.rstrip()] = value.lstrip()
+    blocks.append(block)
+    x=0
+    #print(blocks[1])
+    for block in blocks:
+        if 'batch_normalize' in block:
+            block['filters']=cfg[x]
+            x= x+1
+    ##
+    with open(prunedcfg,'w') as f:
+        for block in blocks:
+            for i in block:
+                if i=="type":
+                    f.write('\n')
+                    f.write("["+block[i]+"]\n")
+                    for j in block:
+                        if j != "type":
+                            f.write(j+"="+str(block[j])+'\n')
+    print('save pruned cfg file in %s'%prunedcfg)
+    return prunedcfg
+
+
+def route_problem(model,ind):
+    ds = list(model.children())
+    dsas = list(ds[0].children())
+    # print(dsas[90])
+    sum1 = 0
+    for k in range(ind+1):
+        for i in dsas[k].named_children():
+            if "_".join(i[0].split("_")[0:-1]) == 'conv_with_bn':
+                sum1 = sum1 + 1
+    #print(sum1)
+    return sum1-1
+
+
+def scale_gama(alpha,model,scale_down = False):
+    '''放缩bn层大小，加快稀疏'''
+    alpha_ = 1 / alpha
+
+    if not scale_down:
+        # after training we want to scale back up so need to invert alpha
+        alpha_  = alpha
+        alpha   = 1 / alpha
+    nnlist = model.module_list
+    for i in range(len(nnlist)):
+        for name in nnlist[i].named_children():
+            if "_".join(name[0].split("_")[0:-1]) == 'conv_with_bn':
+                name[1].weight.data =  name[1].weight.data * alpha_
+                #print(name[0])
+            elif "_".join(name[0].split("_")[0:-1]) == 'batch_norm':
+                name[1].weight.data =  name[1].weight.data * alpha
+                #print(name[0])
+    return model
+
+
+def dontprune(model):
+
+    dontprune=[]
+    nnlist = model.module_list
+    for i in range(len(nnlist)):
+        for name in nnlist[i].named_children():
+            if name[0].split("_")[0] == 'shortcut':
+                if 'conv' in list(nnlist[name[1].froms+i].named_children())[0][0]:
+                    dontprune.append(name[1].froms+i)
+                else:
+                    dontprune.append(name[1].froms + i-1)
+                dontprune.append(i-1)
+    return dontprune

@@ -2,6 +2,7 @@ import argparse
 import json
 import time
 import sys
+import torch 
 
 # import test  
 import test_mapgiou
@@ -13,14 +14,23 @@ from utils.utils import *
 from utils.log import logger
 from torchvision.transforms import transforms as T
 
-import multiprocessing
-multiprocessing.set_start_method('spawn',True)
+# from sparse_config import *
 
-# additional subgradient descent on the sparsity-induced penalty term
-def updateBN(model):  # TODO，确认函数外是否生效
-    for m in model.modules():
+# import multiprocessing
+# multiprocessing.set_start_method('spawn',True)
+
+# # additional subgradient descent on the sparsity-induced penalty term
+# def updateBN(model):  # TODO，确认函数外是否生效
+#     for m in model.modules():
+#         if isinstance(m, nn.BatchNorm2d):
+#             m.weight.grad.data.add_(args.s*torch.sign(m.weight.data))  # L1
+
+# 只稀疏化非shortcut的层
+def updateBN(model,s,donntprune):
+    for k,m in enumerate(model.modules()):
         if isinstance(m, nn.BatchNorm2d):
-            m.weight.grad.data.add_(args.s*torch.sign(m.weight.data))  # L1
+            if k not in donntprune:
+                m.weight.grad.data.add_(s*torch.sign(m.weight.data))
 
 def train(
         cfg,
@@ -110,19 +120,18 @@ def train(
         # Set optimizer
         optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr, momentum=.9, weight_decay=1e-4)
 
-    # """ network slimming """
-    # alpha = args.alpha
-    # model = scale_gama(alpha,model,scale_down=True)
-    # #记录哪些是shortcut层
-    # donntprune = []
-    # for k, m in enumerate(model.modules()):
-    #     if isinstance(m, shortcutLayer):
-    #         x = k + m.froms - 8
-    #         donntprune.append(x)
-    #         x = k - 3
-    #         donntprune.append(x)
-    # # print(donntprune)
-
+    """ sparsity: network slimming """
+    alpha = args.alpha
+    model = scale_gama(alpha, model, scale_down=True)
+    #记录哪些是shortcut层
+    donntprune = []
+    for k, m in enumerate(model.modules()):
+        if isinstance(m, shortcutLayer):
+            x = k + m.froms - 8
+            donntprune.append(x)
+            x = k - 3
+            donntprune.append(x)
+    print(donntprune)
 
     model = torch.nn.DataParallel(model)
     # Set scheduler
@@ -210,13 +219,38 @@ def train(
                     'model': model.module.state_dict(),
                     'optimizer': optimizer.state_dict()}
             torch.save(checkpoint, epoch_chk)
+
+            """ sparsity training """
+            if args.sr:
+                model.train(False)
+                total = 0
+                for k, m in enumerate(model.modules()):
+                    if isinstance(m, nn.BatchNorm2d):
+                        if k not in donntprune:
+                            total += m.weight.data.shape[0]
+                bn = torch.zeros(total)
+                index = 0
+                for k, m in enumerate(model.modules()):
+                    if isinstance(m, nn.BatchNorm2d):
+                        if k not in donntprune:
+                            size = m.weight.data.shape[0]
+                            bn[index:(index + size)] = m.weight.data.abs().clone()
+                            index += size
+                y, i = torch.sort(bn)  # y,i是从小到大排列所有的bn，y是weight，i是序号
+                number = int(len(y)/5)  # 将总类分为5组
+                # 输出稀疏化水平
+                print("0~20%%:%f,20~40%%:%f,40~60%%:%f,60~80%%:%f,80~100%%:%f"%(y[number],y[2*number],y[3*number],y[4*number],y[-1]))
+                model.train()
+            model = scale_gama(alpha, model, scale_down=False)
+            model.save_weights("%s/yolov3_sparsity_%d.weights" % (args.checkpoint_dir, epoch))
+            model = scale_gama(alpha, model, scale_down=True)
+            print("save weights in %s/yolov3_sparsity_%d.weights" % (args.checkpoint_dir, epoch))
             # """ 训练与测试解耦，以下工作单独进行 """
             # with torch.no_grad():
             #     # mAP, R, P = test.test(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
             #     # print ("test.test:\t", mAP, "\t", R, "\t", P)
             #     test_mapgiou.test_giou(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
             #     test_mapgiou.test_emb(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
-
 
         # Call scheduler.step() after opimizer.step() with pytorch > 1.1.0 
         scheduler.step()

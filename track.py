@@ -4,6 +4,7 @@ import cv2
 import logging
 import argparse
 import motmetrics as mm
+import sys
 
 import torch
 from tracker.multitracker import JDETracker
@@ -131,14 +132,17 @@ def main(opt, data_root='/data/MOT16/train', det_root=None, seqs=('MOT16-05',), 
         namemap=mm.io.motchallenge_metric_names
     )
     print(strsummary)
+    sys.stdout.flush()
     Evaluator.save_summary(summary, os.path.join(result_root, 'summary_{}.xlsx'.format(exp_name)))
 
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='track.py')
-    parser.add_argument('--cfg', type=str, default='cfg/yolov3.cfg', help='cfg file path')
-    parser.add_argument('--weights', type=str, default='weights/latest.pt', help='path to weights file')
+    parser.add_argument('--cfg', type=str, default='cfg/yolov3_864x480.cfg', help='cfg file path')
+    # parser.add_argument('--weights', type=str, default='weights/latest.pt', help='path to weights file') #66_epoch_arcface  # 69_epoch_diou_arcface.pt
+    # parser.add_argument('--weights', type=str, default='/home/master/kuanzi/weights/66_epoch_diou_arcface.pt.final', help='path to weights file')
+    parser.add_argument('--weights', type=str, default='/home/master/kuanzi/weights/63_epoch_diou.pt', help='path to weights file')
     parser.add_argument('--iou-thres', type=float, default=0.5, help='iou threshold required to qualify as detected')
     parser.add_argument('--conf-thres', type=float, default=0.5, help='object confidence threshold')
     parser.add_argument('--nms-thres', type=float, default=0.4, help='iou threshold for non-maximum suppression')
@@ -149,6 +153,7 @@ if __name__ == '__main__':
     parser.add_argument('--save-videos', action='store_true', help='save tracking results (video)')
     opt = parser.parse_args()
     print(opt, end='\n\n')
+    sys.stdout.flush()
  
     if not opt.test_mot16:
         seqs_str = '''MOT17-02-SDP
@@ -159,7 +164,8 @@ if __name__ == '__main__':
                       MOT17-11-SDP
                       MOT17-13-SDP
                     '''
-        data_root = '/home/wangzd/datasets/MOT/MOT17/images/train'
+        # data_root = '/home/wangzd/datasets/MOT/MOT17/images/train'
+        data_root = '/home/master/JDEdata/MOT17/images/train'
     else:
         seqs_str = '''MOT16-01
                      MOT16-03
@@ -168,7 +174,8 @@ if __name__ == '__main__':
                      MOT16-08
                      MOT16-12
                      MOT16-14'''
-        data_root = '/home/wangzd/datasets/MOT/MOT16/images/test'
+        # data_root = '/home/wangzd/datasets/MOT/MOT16/images/test'
+        data_root = '/home/master/JDEdata/MOT16/images/test'
     seqs = [seq.strip() for seq in seqs_str.split()]
 
     main(opt,

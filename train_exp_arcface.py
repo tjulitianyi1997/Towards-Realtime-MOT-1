@@ -3,9 +3,11 @@ import json
 import time
 import sys
 
-import test  
-import test_metrics
-from models_diou import *
+# import test  
+import test_mapgiou
+from models_arcface import *
+# from models_diou_arcface import *
+# from models_diou import *
 # from models import *
 from utils.datasets import JointDataset, collate_fn
 from utils.utils import *
@@ -32,6 +34,8 @@ def train(
     torch.backends.cudnn.benchmark = True  # unsuitable for multiscale
 
     # Configure run
+    print("loading data")
+    sys.stdout.flush()
     f = open(data_cfg)
     data_config = json.load(f)
     trainset_paths = data_config['train']
@@ -44,44 +48,65 @@ def train(
     transforms = T.Compose([T.ToTensor()])
     dataset = JointDataset(dataset_root, trainset_paths, img_size, augment=True, transforms=transforms)
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True,
-                                             num_workers=8, pin_memory=True, drop_last=True, collate_fn=collate_fn) 
+                                             num_workers=16, pin_memory=True, drop_last=True, collate_fn=collate_fn) 
 
     # Initialize model
+    print("building model")
+    sys.stdout.flush()
     model = Darknet(cfg_dict, dataset.nID)
 
     cutoff = -1  # backbone reaches to cutoff layer
     start_epoch = 0
     if resume:
-        # pretrain = "/home/master/kuanzi/weights/jde_1088x608_uncertainty.pt"
-        pretrain = "/home/master/kuanzi/weights/jde_864x480_uncertainty.pt" #576x320
-        print("Loading finetune weight...", pretrain)
-        sys.stdout.flush()
-        checkpoint = torch.load(pretrain, map_location='cpu')
-        
-        model_dict = model.state_dict()
-        pretrained_dict = {k: v for k, v in checkpoint['model'].items() if not k.startswith("classifier")}  # 去掉全连接层
-        model_dict.update(pretrained_dict)
-        model.load_state_dict(model_dict)
-        model.cuda().train()
-        print ("model weight loaded")
-        sys.stdout.flush()
+        if opt.latest:
+            latest_resume = "/home/master/kuanzi/weights/xxx.pt"
+            print("Loading the latest weight...", latest_resume)
+            checkpoint = torch.load(latest_resume, map_location='cpu')
 
-        classifer_param_value = list(map(id, model.classifier.parameters()))
-        classifer_param = model.classifier.parameters()
-        base_params = filter(lambda p: id(p) not in classifer_param_value, model.parameters())
-        print("classifer_param\n", classifer_param)  #  [2218660649072]
-        print("classifer_param_value\n", classifer_param_value)  #  [2218660649072]
-        print("base_params\n", base_params)  # <filter object at 0x0000020493D95048>
-        sys.stdout.flush()
-        # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr * 0.1, momentum=.9)
-        optimizer = torch.optim.SGD([
-                    {'params': filter(lambda x: x.requires_grad, base_params), 'lr': opt.lr * 0.01},
-                    {'params': classifer_param, 'lr': opt.lr}], 
-                    momentum=.9)
+            # Load weights to resume from
+            model.load_state_dict(checkpoint['model'])
+            model.cuda().train()
 
-        print("chk epoch:\n", checkpoint['epoch'])
-        sys.stdout.flush()
-        start_epoch = checkpoint['epoch'] + 1
+            # Set optimizer
+            optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr, momentum=.9)
+
+            start_epoch = checkpoint['epoch'] + 1
+            if checkpoint['optimizer'] is not None:
+                optimizer.load_state_dict(checkpoint['optimizer'])
+
+            del checkpoint  # current, saved
+
+        else:
+            # pretrain = "/home/master/kuanzi/weights/jde_1088x608_uncertainty.pt"
+            pretrain = "/home/master/kuanzi/weights/jde_864x480_uncertainty.pt" #576x320
+            print("Loading jde finetune weight...", pretrain)
+            sys.stdout.flush()
+            checkpoint = torch.load(pretrain, map_location='cpu')
+            
+            model_dict = model.state_dict()
+            pretrained_dict = {k: v for k, v in checkpoint['model'].items() if not k.startswith("classifier")}  # 去掉全连接层
+            model_dict.update(pretrained_dict)
+            model.load_state_dict(model_dict)
+            model.cuda().train()
+            print ("model weight loaded")
+            sys.stdout.flush()
+
+            classifer_param_value = list(map(id, model.classifier.parameters()))
+            classifer_param = model.classifier.parameters()
+            base_params = filter(lambda p: id(p) not in classifer_param_value, model.parameters())
+            print("classifer_param\n", classifer_param)  #  [2218660649072]
+            print("classifer_param_value\n", classifer_param_value)  #  [2218660649072]
+            print("base_params\n", base_params)  # <filter object at 0x0000020493D95048>
+            sys.stdout.flush()
+            # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr * 0.1, momentum=.9)
+            optimizer = torch.optim.SGD([
+                        {'params': filter(lambda x: x.requires_grad, base_params), 'lr': opt.lr * 0.01},
+                        {'params': classifer_param, 'lr': opt.lr}], 
+                        momentum=.9)
+
+            print("chk epoch:\n", checkpoint['epoch'])
+            sys.stdout.flush()
+            start_epoch = checkpoint['epoch'] + 1
 
     else:
         # Initialize model with backbone (optional)
@@ -112,6 +137,8 @@ def train(
     model_info(model)
        
     t0 = time.time()
+    print("begin training...")
+    sys.stdout.flush()
     for epoch in range(epochs):
         epoch += start_epoch
 
@@ -166,28 +193,25 @@ def train(
             if i % opt.print_interval == 0:
                 logger.info(s)
         
-        # Save latest checkpoint
-        checkpoint = {'epoch': epoch,
-                      'model': model.module.state_dict(),
-                      'optimizer': optimizer.state_dict()}
-        torch.save(checkpoint, latest)
-
+        # # Save latest checkpoint
+        # checkpoint = {'epoch': epoch,
+        #               'model': model.module.state_dict(),
+        #               'optimizer': optimizer.state_dict()}
+        # torch.save(checkpoint, latest)
 
         # Calculate mAP
         if epoch % opt.test_interval ==0 and epoch != 0:
-            epoch_chk = osp.join(weights, str(epoch) + '_epoch.pt')
+            epoch_chk = osp.join(weights, str(epoch) + '_epoch_arcface.pt')
             checkpoint = {'epoch': epoch,
                     'model': model.module.state_dict(),
                     'optimizer': optimizer.state_dict()}
             torch.save(checkpoint, epoch_chk)
-            """ 训练与测试解耦，以下工作单独进行 """
+            # """ 训练与测试解耦，以下工作单独进行 """
             # with torch.no_grad():
-            #     mAP, R, P = test.test(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
-            #     print ("test.test:\t", mAP, "\t", R, "\t", P)
-            #     # mAP, R, P = test_metrics.test_AP_giou(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
-            #     # print ("test_metrics.test_AP_giou:\t", mAP, "\t", R, "\t", P)
-            #     test.test_emb(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
-            #     print ("test.test_emb:\t", mAP, "\t", R, "\t", P)
+            #     # mAP, R, P = test.test(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
+            #     # print ("test.test:\t", mAP, "\t", R, "\t", P)
+            #     test_mapgiou.test_giou(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
+            #     test_mapgiou.test_emb(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
 
 
         # Call scheduler.step() after opimizer.step() with pytorch > 1.1.0 
@@ -195,20 +219,24 @@ def train(
 
 if __name__ == '__main__':
     # 576x320 可以batch=8单卡
-    # 864x480 
+    # 864x480 可以batch=4单卡
     # 1088x608 可以batch=4单卡
     parser = argparse.ArgumentParser()
-    parser.add_argument('--epochs', type=int, default=50, help='number of epochs')
+    parser.add_argument('--epochs', type=int, default=30, help='number of epochs')
+    parser.add_argument('--accumulated-batches', type=int, default=1, help='number of batches before optimizer step')
+    
     # parser.add_argument('--batch-size', type=int, default=32, help='size of each image batch')
     parser.add_argument('--batch-size', type=int, default=8, help='size of each image batch')
-    parser.add_argument('--accumulated-batches', type=int, default=1, help='number of batches before optimizer step')
     # parser.add_argument('--cfg', type=str, default='cfg/yolov3_1088x608.cfg', help='cfg file path')
     parser.add_argument('--cfg', type=str, default='cfg/yolov3_864x480.cfg', help='cfg file path')  # 864x480  576x320
-    # parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe.json', help='coco.data file path')
-    parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe_easy.json', help='coco.data file path')
+    parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe.json', help='coco.data file path')
+    # parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe_easy.json', help='coco.data file path')
+    parser.add_argument('--test-interval', type=int, default=3, help='test interval')
+    # parser.add_argument('--test-interval', type=int, default=1, help='test interval')
+
     parser.add_argument('--resume', action='store_false', help='resume training flag')
+    parser.add_argument('--latest', action='store_true', help='default resume from jde') # 默认从jde模型开始训练， 如果要从上一次的权重中恢复，则加上--not-jde
     parser.add_argument('--print-interval', type=int, default=40, help='print interval')
-    parser.add_argument('--test-interval', type=int, default=9, help='test interval')
     parser.add_argument('--lr', type=float, default=1e-2, help='init lr')
     parser.add_argument('--unfreeze-bn', action='store_true', help='unfreeze bn')
     opt = parser.parse_args()

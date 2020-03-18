@@ -12,9 +12,8 @@ from utils.utils import *
 from torchvision.transforms import transforms as T
 from utils.datasets import LoadImagesAndLabels, JointDataset, collate_fn
 
-import multiprocessing
-multiprocessing.set_start_method('spawn',True)
-
+# import multiprocessing
+# multiprocessing.set_start_method('spawn',True)
 
 def test(
         cfg,
@@ -430,7 +429,7 @@ if __name__ == '__main__':
     # 1088x608 test可以batch=8单卡 train可以batch=4单卡
     parser = argparse.ArgumentParser(prog='test.py')
     # parser.add_argument('--weights', type=str, default='/home/master/kuanzi/weights/diou_65_epoch.pt', help='path to weights file')
-    parser.add_argument('--weights', type=str, default='/home/master/kuanzi/weights/60_epoch_diou_arcface.pt', help='path to weights file')
+    parser.add_argument('--weights', type=str, default='/home/master/kuanzi/weights/66_epoch_arcface.pt', help='path to weights file')
     # parser.add_argument('--batch-size', type=int, default=40, help='size of each image batch')
     parser.add_argument('--batch-size', type=int, default=8, help='size of each image batch')
     # parser.add_argument('--cfg', type=str, default='cfg/yolov3.cfg', help='cfg file path')
