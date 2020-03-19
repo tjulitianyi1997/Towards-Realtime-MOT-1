@@ -59,7 +59,7 @@ def train(
     start_epoch = 0
     if resume:
         if opt.latest:
-            latest_resume = "/home/master/kuanzi/weights/xxx.pt"
+            latest_resume = "/home/master/kuanzi/weights/72_epoch_arcface.pt"
             print("Loading the latest weight...", latest_resume)
             checkpoint = torch.load(latest_resume, map_location='cpu')
 
@@ -68,10 +68,25 @@ def train(
             model.cuda().train()
 
             # Set optimizer
-            optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr, momentum=.9)
+            classifer_param_value = list(map(id, model.classifier.parameters()))
+            classifer_param = model.classifier.parameters()
+            base_params = filter(lambda p: id(p) not in classifer_param_value, model.parameters())
+            print("classifer_param\n", classifer_param)  #  [2218660649072]
+            print("classifer_param_value\n", classifer_param_value)  #  [2218660649072]
+            print("base_params\n", base_params)  # <filter object at 0x0000020493D95048>
+            sys.stdout.flush()
+            # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr * 0.1, momentum=.9)
+            optimizer = torch.optim.SGD([
+                        {'params': filter(lambda x: x.requires_grad, base_params), 'lr': opt.lr * 0.01},
+                        {'params': classifer_param, 'lr': opt.lr}], 
+                        momentum=.9)
+            # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr, momentum=.9)
 
             start_epoch = checkpoint['epoch'] + 1
             if checkpoint['optimizer'] is not None:
+                # Anyway, if you’re “freezing” any part of your network, and your optimizer is only passed “unfrozen” model parameters 
+                # (i.e. your optimizer filters out model parameters whose requires_grad is False), 
+                # then when resuming, you’ll need to unfreeze the network again and re-instantiate the optimizer afterwards. 
                 optimizer.load_state_dict(checkpoint['optimizer'])
 
             del checkpoint  # current, saved

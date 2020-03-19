@@ -52,40 +52,76 @@ def train(
     print("building model")
     sys.stdout.flush()
     model = Darknet(cfg_dict, dataset.nID)
+    print("model ok!")
+    sys.stdout.flush()
 
     cutoff = -1  # backbone reaches to cutoff layer
     start_epoch = 0
     if resume:
-        # pretrain = "/home/master/kuanzi/weights/jde_1088x608_uncertainty.pt"
-        pretrain = "/home/master/kuanzi/weights/jde_864x480_uncertainty.pt" #576x320
-        print("Loading finetune weight...", pretrain)
-        sys.stdout.flush()
-        checkpoint = torch.load(pretrain, map_location='cpu')
-        
-        model_dict = model.state_dict()
-        pretrained_dict = {k: v for k, v in checkpoint['model'].items() if not k.startswith("classifier")}  # 去掉全连接层
-        model_dict.update(pretrained_dict)
-        model.load_state_dict(model_dict)
-        model.cuda().train()
-        print ("model weight loaded")
-        sys.stdout.flush()
+        if opt.latest:
+            latest_resume = "/home/master/kuanzi/weights/63_epoch_diou.pt"
+            print("Loading the latest weight...", latest_resume)
+            checkpoint = torch.load(latest_resume, map_location='cpu')
 
-        classifer_param_value = list(map(id, model.classifier.parameters()))
-        classifer_param = model.classifier.parameters()
-        base_params = filter(lambda p: id(p) not in classifer_param_value, model.parameters())
-        print("classifer_param\n", classifer_param)  #  [2218660649072]
-        print("classifer_param_value\n", classifer_param_value)  #  [2218660649072]
-        print("base_params\n", base_params)  # <filter object at 0x0000020493D95048>
-        sys.stdout.flush()
-        # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr * 0.1, momentum=.9)
-        optimizer = torch.optim.SGD([
-                    {'params': filter(lambda x: x.requires_grad, base_params), 'lr': opt.lr * 0.01},
-                    {'params': classifer_param, 'lr': opt.lr}], 
-                    momentum=.9)
+            # Load weights to resume from
+            model.load_state_dict(checkpoint['model'])
+            model.cuda().train()
 
-        print("chk epoch:\n", checkpoint['epoch'])
-        sys.stdout.flush()
-        start_epoch = checkpoint['epoch'] + 1
+            # Set optimizer
+            classifer_param_value = list(map(id, model.classifier.parameters()))
+            classifer_param = model.classifier.parameters()
+            base_params = filter(lambda p: id(p) not in classifer_param_value, model.parameters())
+            print("classifer_param\n", classifer_param)  #  [2218660649072]
+            print("classifer_param_value\n", classifer_param_value)  #  [2218660649072]
+            print("base_params\n", base_params)  # <filter object at 0x0000020493D95048>
+            sys.stdout.flush()
+            # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr * 0.1, momentum=.9)
+            optimizer = torch.optim.SGD([
+                        {'params': filter(lambda x: x.requires_grad, base_params), 'lr': opt.lr * 0.01},
+                        {'params': classifer_param, 'lr': opt.lr}], 
+                        momentum=.9)
+            # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr, momentum=.9)
+
+            start_epoch = checkpoint['epoch'] + 1
+            if checkpoint['optimizer'] is not None:
+                # Anyway, if you’re “freezing” any part of your network, and your optimizer is only passed “unfrozen” model parameters 
+                # (i.e. your optimizer filters out model parameters whose requires_grad is False), 
+                # then when resuming, you’ll need to unfreeze the network again and re-instantiate the optimizer afterwards. 
+                optimizer.load_state_dict(checkpoint['optimizer'])
+
+            del checkpoint  # current, saved
+
+        else:
+            # pretrain = "/home/master/kuanzi/weights/jde_1088x608_uncertainty.pt"
+            pretrain = "/home/master/kuanzi/weights/jde_864x480_uncertainty.pt" #576x320
+            print("Loading jde finetune weight...", pretrain)
+            sys.stdout.flush()
+            checkpoint = torch.load(pretrain, map_location='cpu')
+            
+            model_dict = model.state_dict()
+            pretrained_dict = {k: v for k, v in checkpoint['model'].items() if not k.startswith("classifier")}  # 去掉全连接层
+            model_dict.update(pretrained_dict)
+            model.load_state_dict(model_dict)
+            model.cuda().train()
+            print ("model weight loaded")
+            sys.stdout.flush()
+
+            classifer_param_value = list(map(id, model.classifier.parameters()))
+            classifer_param = model.classifier.parameters()
+            base_params = filter(lambda p: id(p) not in classifer_param_value, model.parameters())
+            print("classifer_param\n", classifer_param)  #  [2218660649072]
+            print("classifer_param_value\n", classifer_param_value)  #  [2218660649072]
+            print("base_params\n", base_params)  # <filter object at 0x0000020493D95048>
+            sys.stdout.flush()
+            # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr * 0.1, momentum=.9)
+            optimizer = torch.optim.SGD([
+                        {'params': filter(lambda x: x.requires_grad, base_params), 'lr': opt.lr * 0.01},
+                        {'params': classifer_param, 'lr': opt.lr}], 
+                        momentum=.9)
+
+            print("chk epoch:\n", checkpoint['epoch'])
+            sys.stdout.flush()
+            start_epoch = checkpoint['epoch'] + 1
 
     else:
         # Initialize model with backbone (optional)
@@ -213,6 +249,7 @@ if __name__ == '__main__':
     parser.add_argument('--test-interval', type=int, default=3, help='test interval')
     # parser.add_argument('--test-interval', type=int, default=1, help='test interval')
 
+    parser.add_argument('--latest', action='store_true', help='default resume from jde') # 默认从jde模型开始训练， 如果要从上一次的权重中恢复，则加上--not-jde
     parser.add_argument('--resume', action='store_false', help='resume training flag')
     parser.add_argument('--print-interval', type=int, default=40, help='print interval')
     parser.add_argument('--lr', type=float, default=1e-2, help='init lr')

@@ -52,8 +52,8 @@ def train(
     cutoff = -1  # backbone reaches to cutoff layer
     start_epoch = 0
     if resume:
-        # pretrain = "/home/master/kuanzi/weights/jde_1088x608_uncertainty.pt"
-        pretrain = "/home/master/kuanzi/weights/jde_864x480_uncertainty.pt" #576x320
+        # pretrain = "/home/master/kuanzi/weights/jde_1088x608_uncertainty.pt" # 576x320
+        pretrain = "/home/master/kuanzi/weights/jde_864x480_uncertainty.pt"
         print("Loading finetune weight...", pretrain)
         sys.stdout.flush()
         checkpoint = torch.load(pretrain, map_location='cpu')
