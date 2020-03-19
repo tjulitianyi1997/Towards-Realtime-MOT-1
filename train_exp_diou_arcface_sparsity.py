@@ -16,8 +16,8 @@ from torchvision.transforms import transforms as T
 
 # from sparse_config import *
 
-# import multiprocessing
-# multiprocessing.set_start_method('spawn',True)
+import multiprocessing
+multiprocessing.set_start_method('spawn',True)
 
 # # additional subgradient descent on the sparsity-induced penalty term
 # def updateBN(model):  # TODO，确认函数外是否生效

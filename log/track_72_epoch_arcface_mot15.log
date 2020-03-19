@@ -1,0 +1,134 @@
+Namespace(cfg='cfg/yolov3_864x480.cfg', conf_thres=0.5, iou_thres=0.5, min_box_area=200, nms_thres=0.4, save_images=False, save_videos=False, test_mot16=False, track_buffer=30, weights='/home/master/kuanzi/weights/72_epoch_arcface.pt')
+
+2020-03-18 16:00:36 [INFO]: start seq: KITTI-13
+2020-03-18 16:00:48 [INFO]: Processing frame 0 (100000.00 fps)
+2020-03-18 16:00:52 [INFO]: Processing frame 20 (5.84 fps)
+2020-03-18 16:00:54 [INFO]: Processing frame 40 (6.74 fps)
+2020-03-18 16:00:57 [INFO]: Processing frame 60 (7.02 fps)
+2020-03-18 16:01:00 [INFO]: Processing frame 80 (7.27 fps)
+2020-03-18 16:01:03 [INFO]: Processing frame 100 (7.26 fps)
+2020-03-18 16:01:06 [INFO]: Processing frame 120 (7.29 fps)
+2020-03-18 16:01:09 [INFO]: Processing frame 140 (7.36 fps)
+2020-03-18 16:01:12 [INFO]: Processing frame 160 (7.40 fps)
+2020-03-18 16:01:15 [INFO]: Processing frame 180 (7.42 fps)
+2020-03-18 16:01:18 [INFO]: Processing frame 200 (7.46 fps)
+2020-03-18 16:01:20 [INFO]: Processing frame 220 (7.51 fps)
+2020-03-18 16:01:23 [INFO]: Processing frame 240 (7.50 fps)
+2020-03-18 16:01:26 [INFO]: Processing frame 260 (7.48 fps)
+2020-03-18 16:01:29 [INFO]: Processing frame 280 (7.48 fps)
+2020-03-18 16:01:32 [INFO]: Processing frame 300 (7.48 fps)
+2020-03-18 16:01:35 [INFO]: Processing frame 320 (7.47 fps)
+2020-03-18 16:01:38 [INFO]: save results to /home/master/JDEdata/2DMOT2015/train/../results/weights/KITTI-13.txt
+2020-03-18 16:01:38 [INFO]: Evaluate seq: KITTI-13
+2020-03-18 16:01:38 [INFO]: start seq: KITTI-17
+2020-03-18 16:01:40 [INFO]: Processing frame 0 (100000.00 fps)
+2020-03-18 16:01:43 [INFO]: Processing frame 20 (8.02 fps)
+2020-03-18 16:01:46 [INFO]: Processing frame 40 (7.77 fps)
+2020-03-18 16:01:49 [INFO]: Processing frame 60 (7.63 fps)
+2020-03-18 16:01:52 [INFO]: Processing frame 80 (7.61 fps)
+2020-03-18 16:01:55 [INFO]: Processing frame 100 (7.64 fps)
+2020-03-18 16:01:58 [INFO]: Processing frame 120 (7.65 fps)
+2020-03-18 16:02:01 [INFO]: Processing frame 140 (7.70 fps)
+2020-03-18 16:02:02 [INFO]: save results to /home/master/JDEdata/2DMOT2015/train/../results/weights/KITTI-17.txt
+2020-03-18 16:02:02 [INFO]: Evaluate seq: KITTI-17
+2020-03-18 16:02:02 [INFO]: start seq: ADL-Rundle-6
+2020-03-18 16:02:04 [INFO]: Processing frame 0 (100000.00 fps)
+2020-03-18 16:02:07 [INFO]: Processing frame 20 (7.55 fps)
+2020-03-18 16:02:11 [INFO]: Processing frame 40 (7.62 fps)
+2020-03-18 16:02:14 [INFO]: Processing frame 60 (7.65 fps)
+2020-03-18 16:02:17 [INFO]: Processing frame 80 (7.75 fps)
+2020-03-18 16:02:20 [INFO]: Processing frame 100 (7.81 fps)
+2020-03-18 16:02:24 [INFO]: Processing frame 120 (7.83 fps)
+2020-03-18 16:02:27 [INFO]: Processing frame 140 (7.77 fps)
+2020-03-18 16:02:30 [INFO]: Processing frame 160 (7.78 fps)
+2020-03-18 16:02:34 [INFO]: Processing frame 180 (7.77 fps)
+2020-03-18 16:02:37 [INFO]: Processing frame 200 (7.77 fps)
+2020-03-18 16:02:40 [INFO]: Processing frame 220 (7.76 fps)
+2020-03-18 16:02:44 [INFO]: Processing frame 240 (7.74 fps)
+2020-03-18 16:02:47 [INFO]: Processing frame 260 (7.77 fps)
+2020-03-18 16:02:50 [INFO]: Processing frame 280 (7.80 fps)
+2020-03-18 16:02:54 [INFO]: Processing frame 300 (7.81 fps)
+2020-03-18 16:02:57 [INFO]: Processing frame 320 (7.81 fps)
+2020-03-18 16:03:00 [INFO]: Processing frame 340 (7.80 fps)
+2020-03-18 16:03:04 [INFO]: Processing frame 360 (7.81 fps)
+2020-03-18 16:03:07 [INFO]: Processing frame 380 (7.82 fps)
+2020-03-18 16:03:10 [INFO]: Processing frame 400 (7.81 fps)
+2020-03-18 16:03:14 [INFO]: Processing frame 420 (7.79 fps)
+2020-03-18 16:03:17 [INFO]: Processing frame 440 (7.72 fps)
+2020-03-18 16:03:21 [INFO]: Processing frame 460 (7.68 fps)
+2020-03-18 16:03:25 [INFO]: Processing frame 480 (7.65 fps)
+2020-03-18 16:03:28 [INFO]: Processing frame 500 (7.60 fps)
+2020-03-18 16:03:32 [INFO]: Processing frame 520 (7.56 fps)
+2020-03-18 16:03:33 [INFO]: save results to /home/master/JDEdata/2DMOT2015/train/../results/weights/ADL-Rundle-6.txt
+2020-03-18 16:03:33 [INFO]: Evaluate seq: ADL-Rundle-6
+2020-03-18 16:03:34 [INFO]: start seq: PETS09-S2L1
+2020-03-18 16:03:36 [INFO]: Processing frame 0 (100000.00 fps)
+2020-03-18 16:03:39 [INFO]: Processing frame 20 (6.64 fps)
+2020-03-18 16:03:43 [INFO]: Processing frame 40 (6.51 fps)
+2020-03-18 16:03:46 [INFO]: Processing frame 60 (6.59 fps)
+2020-03-18 16:03:49 [INFO]: Processing frame 80 (6.54 fps)
+2020-03-18 16:03:53 [INFO]: Processing frame 100 (6.55 fps)
+2020-03-18 16:03:56 [INFO]: Processing frame 120 (6.52 fps)
+2020-03-18 16:03:59 [INFO]: Processing frame 140 (6.50 fps)
+2020-03-18 16:04:03 [INFO]: Processing frame 160 (6.47 fps)
+2020-03-18 16:04:06 [INFO]: Processing frame 180 (6.43 fps)
+2020-03-18 16:04:09 [INFO]: Processing frame 200 (6.50 fps)
+2020-03-18 16:04:13 [INFO]: Processing frame 220 (6.53 fps)
+2020-03-18 16:04:16 [INFO]: Processing frame 240 (6.53 fps)
+2020-03-18 16:04:19 [INFO]: Processing frame 260 (6.54 fps)
+2020-03-18 16:04:23 [INFO]: Processing frame 280 (6.52 fps)
+2020-03-18 16:04:26 [INFO]: Processing frame 300 (6.53 fps)
+2020-03-18 16:04:29 [INFO]: Processing frame 320 (6.52 fps)
+2020-03-18 16:04:33 [INFO]: Processing frame 340 (6.54 fps)
+2020-03-18 16:04:36 [INFO]: Processing frame 360 (6.54 fps)
+2020-03-18 16:04:39 [INFO]: Processing frame 380 (6.58 fps)
+2020-03-18 16:04:42 [INFO]: Processing frame 400 (6.57 fps)
+2020-03-18 16:04:46 [INFO]: Processing frame 420 (6.59 fps)
+2020-03-18 16:04:49 [INFO]: Processing frame 440 (6.58 fps)
+2020-03-18 16:04:52 [INFO]: Processing frame 460 (6.59 fps)
+2020-03-18 16:04:55 [INFO]: Processing frame 480 (6.59 fps)
+2020-03-18 16:04:59 [INFO]: Processing frame 500 (6.58 fps)
+2020-03-18 16:05:02 [INFO]: Processing frame 520 (6.60 fps)
+2020-03-18 16:05:05 [INFO]: Processing frame 540 (6.60 fps)
+2020-03-18 16:05:09 [INFO]: Processing frame 560 (6.61 fps)
+2020-03-18 16:05:12 [INFO]: Processing frame 580 (6.60 fps)
+2020-03-18 16:05:15 [INFO]: Processing frame 600 (6.62 fps)
+2020-03-18 16:05:18 [INFO]: Processing frame 620 (6.61 fps)
+2020-03-18 16:05:22 [INFO]: Processing frame 640 (6.61 fps)
+2020-03-18 16:05:25 [INFO]: Processing frame 660 (6.61 fps)
+2020-03-18 16:05:28 [INFO]: Processing frame 680 (6.61 fps)
+2020-03-18 16:05:32 [INFO]: Processing frame 700 (6.62 fps)
+2020-03-18 16:05:35 [INFO]: Processing frame 720 (6.61 fps)
+2020-03-18 16:05:38 [INFO]: Processing frame 740 (6.61 fps)
+2020-03-18 16:05:42 [INFO]: Processing frame 760 (6.60 fps)
+2020-03-18 16:05:46 [INFO]: Processing frame 780 (6.60 fps)
+2020-03-18 16:05:49 [INFO]: save results to /home/master/JDEdata/2DMOT2015/train/../results/weights/PETS09-S2L1.txt
+2020-03-18 16:05:49 [INFO]: Evaluate seq: PETS09-S2L1
+2020-03-18 16:05:49 [INFO]: start seq: TUD-Campus
+2020-03-18 16:05:52 [INFO]: Processing frame 0 (100000.00 fps)
+2020-03-18 16:05:55 [INFO]: Processing frame 20 (7.25 fps)
+2020-03-18 16:05:58 [INFO]: Processing frame 40 (6.95 fps)
+2020-03-18 16:06:01 [INFO]: Processing frame 60 (6.92 fps)
+2020-03-18 16:06:03 [INFO]: save results to /home/master/JDEdata/2DMOT2015/train/../results/weights/TUD-Campus.txt
+2020-03-18 16:06:03 [INFO]: Evaluate seq: TUD-Campus
+2020-03-18 16:06:03 [INFO]: start seq: TUD-Stadtmitte
+2020-03-18 16:06:06 [INFO]: Processing frame 0 (100000.00 fps)
+2020-03-18 16:06:09 [INFO]: Processing frame 20 (7.08 fps)
+2020-03-18 16:06:12 [INFO]: Processing frame 40 (6.91 fps)
+2020-03-18 16:06:15 [INFO]: Processing frame 60 (6.90 fps)
+2020-03-18 16:06:18 [INFO]: Processing frame 80 (7.12 fps)
+2020-03-18 16:06:21 [INFO]: Processing frame 100 (6.94 fps)
+2020-03-18 16:06:24 [INFO]: Processing frame 120 (6.85 fps)
+2020-03-18 16:06:28 [INFO]: Processing frame 140 (6.81 fps)
+2020-03-18 16:06:31 [INFO]: Processing frame 160 (6.78 fps)
+2020-03-18 16:06:34 [INFO]: save results to /home/master/JDEdata/2DMOT2015/train/../results/weights/TUD-Stadtmitte.txt
+2020-03-18 16:06:34 [INFO]: Evaluate seq: TUD-Stadtmitte
+2020-03-18 16:06:34 [INFO]: Time elapsed: 290.93 seconds, FPS: 7.06
+                IDF1   IDP   IDR  Rcll  Prcn  GT MT PT ML   FP   FN IDs   FM  MOTA  MOTP IDt IDa IDm
+KITTI-13       48.4% 40.9% 59.2% 72.1% 49.9%  42 14 23  5  674  259  53   43 -6.1% 0.231   0  53   0
+KITTI-17       68.1% 64.2% 72.5% 79.4% 70.3%   9  3  6  0  262  161  14   22 44.1% 0.214   6   6   0
+ADL-Rundle-6   59.2% 64.4% 54.7% 76.0% 89.6%  24 12 12  0  443 1200 131  164 64.6% 0.221  79  32   5
+PETS09-S2L1    84.5% 85.4% 83.6% 93.0% 95.1%  19 17  2  0  224  324  41   85 87.3% 0.238   7  24   1
+TUD-Campus     69.5% 70.8% 68.2% 80.5% 83.5%   8  3  5  0   57   70  15   11 60.4% 0.213   6   5   1
+TUD-Stadtmitte 75.2% 83.1% 68.7% 82.4% 99.7%  10  7  3  0    3  203  11   14 81.2% 0.215   5   6   1
+OVERALL        69.7% 71.2% 68.2% 82.8% 86.5% 112 56 51  5 1663 2217 265  339 67.8% 0.227 103 126   8

@@ -1,0 +1,45 @@
+Namespace(batch_size=8, cfg='cfg/yolov3_864x480.cfg', conf_thres=0.3, data_cfg='cfg/ccmcpe.json', iou_thres=0.5, nms_thres=0.5, print_interval=40, weights='../weights/78_epoch_diou_arcface.pt')
+
+test giou...
+loading data...
+================================================================================
+dataset summary
+OrderedDict([('caltech', 1311.0), ('citypersons', 0)])
+total # identities: 1312
+start index
+OrderedDict([('caltech', 0), ('citypersons', 1311.0)])
+================================================================================
+building model...
+      Image      Total          P          R        mAP
+Computing mAP...
+          8      30353          0          0          0       5.61s
+GIOU:     8      30353          0          0          0       5.65s
+Traceback (most recent call last):
+  File "test_mapgiou.py", line 455, in <module>
+    opt.print_interval)
+  File "test_mapgiou.py", line 298, in test_giou
+    output = model(imgs.cuda())
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/modules/module.py", line 547, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/parallel/data_parallel.py", line 152, in forward
+    outputs = self.parallel_apply(replicas, inputs, kwargs)
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/parallel/data_parallel.py", line 162, in parallel_apply
+    return parallel_apply(replicas, inputs, kwargs, self.device_ids[:len(replicas)])
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/parallel/parallel_apply.py", line 85, in parallel_apply
+    output.reraise()
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/_utils.py", line 369, in reraise
+    raise self.exc_type(msg)
+RuntimeError: Caught RuntimeError in replica 0 on device 0.
+Original Traceback (most recent call last):
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/parallel/parallel_apply.py", line 60, in _worker
+    output = module(*input, **kwargs)
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/modules/module.py", line 547, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/media/master/文档盘/kuanzi/Towards-Realtime-MOT/models.py", line 271, in forward
+    x = module[0](x, self.img_size)
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/modules/module.py", line 547, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/media/master/文档盘/kuanzi/Towards-Realtime-MOT/models.py", line 208, in forward
+    p = torch.cat([p_box, p_conf, p_cls, p_emb], dim=-1)
+RuntimeError: CUDA out of memory. Tried to allocate 206.00 MiB (GPU 0; 10.92 GiB total capacity; 2.66 GiB already allocated; 116.50 MiB free; 602.65 MiB cached)
+

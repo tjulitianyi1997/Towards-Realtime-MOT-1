@@ -2,11 +2,12 @@ import torch
 import sys
 import test_mapgiou
 
-pretrain = "/home/master/kuanzi/weights/latest.pt" #576x320
+pretrain = "/home/master/kuanzi/weights/72_epoch_arcface.pt" #576x320
 print("Loading finetune weight...", pretrain)
 sys.stdout.flush()
 checkpoint = torch.load(pretrain, map_location='cpu')
 print("epoch:", checkpoint['epoch'])
+print("optimizer:", checkpoint['optimizer'])
 
 
 # with torch.no_grad():
