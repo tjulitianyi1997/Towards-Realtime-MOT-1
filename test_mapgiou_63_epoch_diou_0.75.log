@@ -1,0 +1,315 @@
+Namespace(batch_size=8, cfg='cfg/yolov3_864x480.cfg', conf_thres=0.3, data_cfg='cfg/ccmcpe.json', iou_thres=0.75, nms_thres=0.5, print_interval=40, weights='../weights/63_epoch_diou.pt')
+
+test giou...
+loading data...
+================================================================================
+dataset summary
+OrderedDict([('caltech', 1311.0), ('citypersons', 0)])
+total # identities: 1312
+start index
+OrderedDict([('caltech', 0), ('citypersons', 1311.0)])
+================================================================================
+building model...
+      Image      Total          P          R        mAP
+Computing mAP...
+Traceback (most recent call last):
+  File "test_mapgiou.py", line 455, in <module>
+    opt.print_interval)
+  File "test_mapgiou.py", line 298, in test_giou
+    output = model(imgs.cuda())
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/modules/module.py", line 547, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/parallel/data_parallel.py", line 150, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/modules/module.py", line 547, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/master/koi/Towards-Realtime-MOT/models.py", line 250, in forward
+    x = module(x)
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/modules/module.py", line 547, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/modules/container.py", line 92, in forward
+    input = module(input)
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/modules/module.py", line 547, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/modules/batchnorm.py", line 81, in forward
+    exponential_average_factor, self.eps)
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/functional.py", line 1656, in batch_norm
+    training, momentum, eps, torch.backends.cudnn.enabled
+RuntimeError: CUDA out of memory. Tried to allocate 52.00 MiB (GPU 0; 10.92 GiB total capacity; 2.71 GiB already allocated; 14.50 MiB free; 27.89 MiB cached)
+usage: test.py [-h] [--weights WEIGHTS] [--batch-size BATCH_SIZE] [--cfg CFG]
+               [--data-cfg DATA_CFG] [--iou-thres IOU_THRES]
+               [--conf-thres CONF_THRES] [--nms-thres NMS_THRES]
+               [--print-interval PRINT_INTERVAL]
+test.py: error: unrecognized arguments: --batch-size8
+Namespace(batch_size=8, cfg='cfg/yolov3_864x480.cfg', conf_thres=0.3, data_cfg='cfg/ccmcpe.json', iou_thres=0.75, nms_thres=0.5, print_interval=40, weights='../weights/63_epoch_diou.pt')
+
+test giou...
+loading data...
+================================================================================
+dataset summary
+OrderedDict([('caltech', 1311.0), ('citypersons', 0)])
+total # identities: 1312
+start index
+OrderedDict([('caltech', 0), ('citypersons', 1311.0)])
+================================================================================
+building model...
+      Image      Total          P          R        mAP
+Computing mAP...
+          8      30353          0          0          0      0.582s
+GIOU:     8      30353          0          0          0      0.582s
+        328      30353      0.446      0.384      0.379        0.2s
+GIOU:   328      30353      0.432      0.375      0.369      0.201s
+        648      30353      0.429      0.322      0.317       0.21s
+GIOU:   648      30353      0.418      0.315       0.31       0.21s
+        968      30353      0.456      0.342      0.337        0.2s
+GIOU:   968      30353      0.443      0.332      0.327        0.2s
+       1288      30353       0.56      0.484       0.48      0.211s
+GIOU:  1288      30353      0.544      0.471      0.466      0.211s
+       1608      30353      0.555      0.492      0.485      0.222s
+GIOU:  1608      30353      0.539      0.478       0.47      0.222s
+       1928      30353      0.526      0.473      0.464      0.228s
+GIOU:  1928      30353      0.509      0.458      0.449      0.228s
+       2248      30353      0.514      0.462      0.452      0.197s
+GIOU:  2248      30353      0.496      0.448      0.437      0.198s
+       2568      30353      0.494      0.452       0.44       0.21s
+GIOU:  2568      30353      0.477      0.436      0.423       0.21s
+       2888      30353       0.48      0.441      0.428      0.216s
+GIOU:  2888      30353      0.461      0.424       0.41      0.216s
+       3208      30353      0.465      0.431      0.417      0.197s
+GIOU:  3208      30353      0.446      0.413      0.399      0.197s
+       3528      30353      0.467      0.434      0.421       0.22s
+GIOU:  3528      30353      0.447      0.415      0.402       0.22s
+       3848      30353      0.465      0.429      0.416      0.221s
+GIOU:  3848      30353      0.446      0.411      0.399      0.221s
+       4168      30353       0.48      0.447      0.435      0.207s
+GIOU:  4168      30353      0.462      0.431      0.418      0.207s
+       4488      30353       0.49      0.461      0.447      0.191s
+GIOU:  4488      30353      0.472      0.445       0.43      0.191s
+       4808      30353      0.487      0.454      0.439      0.208s
+GIOU:  4808      30353      0.469      0.438      0.423      0.208s
+       5128      30353      0.488      0.454      0.439      0.203s
+GIOU:  5128      30353       0.47      0.438      0.423      0.203s
+       5448      30353      0.476      0.441      0.426      0.214s
+GIOU:  5448      30353      0.458      0.425       0.41      0.214s
+       5768      30353      0.475      0.436       0.42      0.246s
+GIOU:  5768      30353      0.456       0.42      0.403      0.246s
+       6088      30353       0.48      0.436       0.42       0.23s
+GIOU:  6088      30353       0.46      0.419      0.402      0.231s
+       6408      30353      0.486       0.44      0.423      0.209s
+GIOU:  6408      30353      0.467      0.423      0.405      0.209s
+       6728      30353      0.496      0.447       0.43      0.236s
+GIOU:  6728      30353      0.476      0.431      0.413      0.236s
+       7048      30353      0.504      0.456      0.439      0.218s
+GIOU:  7048      30353      0.484      0.439      0.421      0.218s
+       7368      30353      0.509      0.461      0.444       0.23s
+GIOU:  7368      30353      0.489      0.444      0.425       0.23s
+       7688      30353      0.511      0.464      0.445      0.227s
+GIOU:  7688      30353       0.49      0.447      0.427      0.227s
+       8008      30353      0.508      0.464      0.444      0.225s
+GIOU:  8008      30353      0.488      0.446      0.426      0.225s
+       8328      30353      0.507      0.466      0.446      0.233s
+GIOU:  8328      30353      0.487      0.448      0.428      0.233s
+       8648      30353      0.507      0.466      0.444      0.248s
+GIOU:  8648      30353      0.487      0.448      0.426      0.248s
+       8968      30353      0.505      0.465      0.443      0.191s
+GIOU:  8968      30353      0.484      0.446      0.424      0.191s
+       9288      30353      0.501      0.461       0.44      0.256s
+GIOU:  9288      30353      0.481      0.444      0.421      0.256s
+       9608      30353      0.498       0.46      0.438      0.195s
+GIOU:  9608      30353      0.479      0.442       0.42      0.195s
+       9928      30353      0.502      0.462       0.44      0.249s
+GIOU:  9928      30353      0.483      0.444      0.422      0.249s
+      10248      30353      0.498      0.458      0.437      0.221s
+GIOU: 10248      30353      0.478      0.441      0.419      0.221s
+      10568      30353      0.493      0.455      0.434      0.248s
+GIOU: 10568      30353      0.475      0.438      0.417      0.248s
+      10888      30353      0.489      0.454      0.432      0.254s
+GIOU: 10888      30353       0.47      0.437      0.414      0.254s
+      11208      30353      0.484      0.455      0.432      0.267s
+GIOU: 11208      30353      0.466      0.438      0.415      0.267s
+      11528      30353      0.477      0.451      0.427      0.218s
+GIOU: 11528      30353      0.459      0.434       0.41      0.218s
+      11848      30353      0.473      0.447      0.424       0.23s
+GIOU: 11848      30353      0.455      0.431      0.407       0.23s
+      12168      30353       0.47      0.444      0.421      0.224s
+GIOU: 12168      30353      0.452      0.428      0.404      0.224s
+      12488      30353      0.466      0.441      0.418      0.248s
+GIOU: 12488      30353      0.449      0.424      0.402      0.248s
+      12808      30353      0.457      0.432       0.41      0.259s
+GIOU: 12808      30353       0.44      0.416      0.394       0.26s
+      13128      30353      0.455       0.43      0.408      0.243s
+GIOU: 13128      30353      0.438      0.414      0.392      0.243s
+      13448      30353      0.457      0.431       0.41      0.224s
+GIOU: 13448      30353       0.44      0.415      0.394      0.225s
+      13768      30353       0.46      0.432      0.411      0.258s
+GIOU: 13768      30353      0.443      0.417      0.395      0.258s
+      14088      30353      0.463      0.434      0.413      0.256s
+GIOU: 14088      30353      0.446      0.418      0.397      0.256s
+      14408      30353      0.458       0.43      0.409      0.188s
+GIOU: 14408      30353      0.441      0.414      0.393      0.189s
+      14728      30353      0.459      0.431       0.41      0.261s
+GIOU: 14728      30353      0.441      0.414      0.393      0.261s
+      15048      30353       0.46      0.432      0.411      0.251s
+GIOU: 15048      30353      0.442      0.415      0.395      0.251s
+      15368      30353      0.462      0.434      0.414      0.258s
+GIOU: 15368      30353      0.444      0.417      0.397      0.258s
+      15688      30353      0.463      0.436      0.416      0.246s
+GIOU: 15688      30353      0.446      0.419      0.399      0.246s
+      16008      30353      0.465      0.438      0.418      0.282s
+GIOU: 16008      30353      0.447      0.421      0.401      0.282s
+      16328      30353       0.47      0.444      0.423       0.27s
+GIOU: 16328      30353      0.452      0.427      0.407      0.271s
+      16648      30353      0.474      0.449      0.429      0.268s
+GIOU: 16648      30353      0.457      0.432      0.412      0.268s
+      16968      30353      0.479      0.454      0.434      0.264s
+GIOU: 16968      30353      0.461      0.437      0.417      0.264s
+      17288      30353      0.481      0.457      0.437      0.195s
+GIOU: 17288      30353      0.464       0.44      0.421      0.196s
+      17608      30353      0.481      0.457      0.437      0.268s
+GIOU: 17608      30353      0.464       0.44      0.421      0.268s
+      17928      30353      0.482      0.459       0.44      0.281s
+GIOU: 17928      30353      0.465      0.443      0.424      0.281s
+      18248      30353      0.482       0.46      0.442      0.259s
+GIOU: 18248      30353      0.466      0.444      0.426      0.259s
+      18568      30353      0.484      0.462      0.444      0.216s
+GIOU: 18568      30353      0.468      0.446      0.428      0.216s
+      18888      30353      0.484      0.462      0.443      0.218s
+GIOU: 18888      30353      0.467      0.446      0.427      0.218s
+      19208      30353      0.487      0.462      0.444      0.294s
+GIOU: 19208      30353       0.47      0.447      0.428      0.294s
+      19528      30353      0.487      0.462      0.443      0.287s
+GIOU: 19528      30353      0.471      0.446      0.427      0.287s
+      19848      30353      0.485      0.459      0.441       0.26s
+GIOU: 19848      30353      0.468      0.443      0.425       0.26s
+      20168      30353      0.484      0.459       0.44      0.197s
+GIOU: 20168      30353      0.468      0.443      0.424      0.197s
+      20488      30353      0.485      0.461      0.442      0.276s
+GIOU: 20488      30353      0.468      0.445      0.426      0.276s
+      20808      30353      0.484       0.46      0.442      0.267s
+GIOU: 20808      30353      0.467      0.445      0.426      0.267s
+      21128      30353      0.482      0.459      0.441      0.278s
+GIOU: 21128      30353      0.466      0.444      0.426      0.278s
+      21448      30353      0.483       0.46      0.442      0.225s
+GIOU: 21448      30353      0.467      0.445      0.427      0.225s
+      21768      30353      0.481      0.459      0.441       0.28s
+GIOU: 21768      30353      0.465      0.444      0.426       0.28s
+      22088      30353       0.48      0.458       0.44        0.2s
+GIOU: 22088      30353      0.464      0.442      0.425        0.2s
+      22408      30353       0.48      0.458      0.441      0.269s
+GIOU: 22408      30353      0.464      0.443      0.426       0.27s
+      22728      30353      0.481       0.46      0.442      0.234s
+GIOU: 22728      30353      0.465      0.445      0.427      0.234s
+      23048      30353      0.482      0.461      0.443      0.186s
+GIOU: 23048      30353      0.466      0.446      0.428      0.186s
+      23368      30353       0.48      0.459      0.441      0.258s
+GIOU: 23368      30353      0.464      0.444      0.426      0.258s
+      23688      30353       0.48      0.459      0.441      0.213s
+GIOU: 23688      30353      0.464      0.443      0.426      0.213s
+      24008      30353      0.482       0.46      0.442       0.29s
+GIOU: 24008      30353      0.465      0.444      0.427      0.291s
+      24328      30353      0.481      0.459      0.442      0.216s
+GIOU: 24328      30353      0.465      0.443      0.426      0.216s
+      24648      30353       0.48      0.458      0.441      0.321s
+GIOU: 24648      30353      0.463      0.442      0.425      0.321s
+      24968      30353      0.477      0.456      0.439      0.309s
+GIOU: 24968      30353       0.46       0.44      0.423      0.309s
+      25288      30353      0.473      0.453      0.436      0.248s
+GIOU: 25288      30353      0.457      0.437       0.42      0.248s
+      25608      30353      0.475      0.455      0.438      0.296s
+GIOU: 25608      30353      0.459      0.439      0.422      0.296s
+      25928      30353      0.477      0.457      0.441      0.274s
+GIOU: 25928      30353      0.461      0.441      0.425      0.274s
+      26248      30353      0.477      0.458      0.441       0.29s
+GIOU: 26248      30353      0.461      0.442      0.425       0.29s
+      26568      30353      0.478      0.458      0.441      0.307s
+GIOU: 26568      30353      0.461      0.442      0.426      0.307s
+      26888      30353      0.478      0.457      0.441      0.201s
+GIOU: 26888      30353      0.462      0.441      0.425      0.201s
+      27208      30353       0.48      0.458      0.442      0.305s
+GIOU: 27208      30353      0.463      0.442      0.426      0.305s
+      27528      30353      0.479      0.456       0.44      0.272s
+GIOU: 27528      30353      0.462      0.441      0.425      0.273s
+      27848      30353      0.478      0.455      0.439      0.186s
+GIOU: 27848      30353      0.462       0.44      0.424      0.186s
+      28168      30353      0.478      0.454      0.438      0.191s
+GIOU: 28168      30353      0.461      0.438      0.422      0.191s
+      28488      30353      0.478      0.455      0.439      0.292s
+GIOU: 28488      30353      0.461      0.439      0.423      0.292s
+      28808      30353      0.479      0.456       0.44      0.326s
+GIOU: 28808      30353      0.463      0.441      0.424      0.326s
+      29128      30353      0.481      0.458       0.44      0.316s
+GIOU: 29128      30353      0.465      0.442      0.425      0.316s
+      29448      30353      0.482      0.458      0.441      0.319s
+GIOU: 29448      30353      0.466      0.443      0.426      0.319s
+      29768      30353      0.482      0.457       0.44      0.298s
+GIOU: 29768      30353      0.465      0.442      0.424      0.298s
+      30088      30353      0.481      0.455      0.438      0.336s
+GIOU: 30088      30353      0.465       0.44      0.423      0.336s
+      Image      Total          P          R        mAP
+AP: 0.4376
+
+
+giou_AP: 0.4224
+
+
+test.test:	 [0.43755121] 	 [0.4550939] 	 [0.48223567]
+================================================================================
+dataset summary
+OrderedDict([('caltech', 393.0), ('cuhksysu', 11934.0), ('prw', 934.0)])
+total # identities: 13262
+start index
+OrderedDict([('caltech', 0), ('cuhksysu', 393.0), ('prw', 12327.0)])
+================================================================================
+Extracting pedestrain features...
+Extracting 0/1750, # of instances 16, time 0.30 sec.
+Extracting 40/1750, # of instances 740, time 0.21 sec.
+Extracting 80/1750, # of instances 1562, time 0.23 sec.
+Extracting 120/1750, # of instances 2167, time 0.23 sec.
+Extracting 160/1750, # of instances 2625, time 0.22 sec.
+Extracting 200/1750, # of instances 3070, time 0.27 sec.
+Extracting 240/1750, # of instances 3512, time 0.21 sec.
+Extracting 280/1750, # of instances 4168, time 0.22 sec.
+Extracting 320/1750, # of instances 4917, time 0.23 sec.
+Extracting 360/1750, # of instances 5656, time 0.22 sec.
+Extracting 400/1750, # of instances 6192, time 0.23 sec.
+Extracting 440/1750, # of instances 6821, time 0.23 sec.
+Extracting 480/1750, # of instances 7532, time 0.22 sec.
+Extracting 520/1750, # of instances 8106, time 0.22 sec.
+Extracting 560/1750, # of instances 8705, time 0.23 sec.
+Extracting 600/1750, # of instances 9311, time 0.22 sec.
+Extracting 640/1750, # of instances 9821, time 0.26 sec.
+Extracting 680/1750, # of instances 10564, time 0.23 sec.
+Extracting 720/1750, # of instances 11389, time 0.23 sec.
+Extracting 760/1750, # of instances 12637, time 0.24 sec.
+Extracting 800/1750, # of instances 13697, time 0.21 sec.
+Extracting 840/1750, # of instances 14336, time 0.26 sec.
+Extracting 880/1750, # of instances 14954, time 0.22 sec.
+Extracting 920/1750, # of instances 15780, time 0.21 sec.
+Extracting 960/1750, # of instances 16666, time 0.21 sec.
+Extracting 1000/1750, # of instances 17354, time 0.23 sec.
+Extracting 1040/1750, # of instances 18131, time 0.23 sec.
+Extracting 1080/1750, # of instances 18969, time 0.23 sec.
+Extracting 1120/1750, # of instances 19634, time 0.20 sec.
+Extracting 1160/1750, # of instances 20204, time 0.22 sec.
+Extracting 1200/1750, # of instances 20794, time 0.21 sec.
+Extracting 1240/1750, # of instances 21232, time 0.22 sec.
+Extracting 1280/1750, # of instances 21920, time 0.24 sec.
+Extracting 1320/1750, # of instances 22726, time 0.29 sec.
+Extracting 1360/1750, # of instances 23513, time 0.22 sec.
+Extracting 1400/1750, # of instances 24322, time 0.24 sec.
+Extracting 1440/1750, # of instances 25162, time 0.22 sec.
+Extracting 1480/1750, # of instances 25946, time 0.22 sec.
+Extracting 1520/1750, # of instances 26804, time 0.23 sec.
+Extracting 1560/1750, # of instances 27687, time 0.23 sec.
+Extracting 1600/1750, # of instances 28893, time 0.25 sec.
+Extracting 1640/1750, # of instances 30190, time 0.23 sec.
+Extracting 1680/1750, # of instances 31378, time 0.23 sec.
+Extracting 1720/1750, # of instances 32483, time 0.23 sec.
+Computing pairwise similairity...
+33305 33305
+TPR@FAR=0.0000010: 0.0218
+TPR@FAR=0.0000100: 0.0488
+TPR@FAR=0.0001000: 0.1019
+TPR@FAR=0.0010000: 0.2148
+TPR@FAR=0.0100000: 0.4770
+TPR@FAR=0.1000000: 0.8382

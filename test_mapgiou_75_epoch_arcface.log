@@ -1,0 +1,46 @@
+Namespace(batch_size=8, cfg='cfg/yolov3_864x480.cfg', conf_thres=0.3, data_cfg='cfg/ccmcpe.json', iou_thres=0.5, nms_thres=0.5, print_interval=40, weights='/home/master/koi/weights/75_epoch_arcface.pt')
+
+test giou...
+loading data...
+================================================================================
+dataset summary
+OrderedDict([('caltech', 1311.0), ('citypersons', 0)])
+total # identities: 1312
+start index
+OrderedDict([('caltech', 0), ('citypersons', 1311.0)])
+================================================================================
+building model...
+      Image      Total          P          R        mAP
+Computing mAP...
+Traceback (most recent call last):
+  File "test_mapgiou.py", line 455, in <module>
+    opt.print_interval)
+  File "test_mapgiou.py", line 298, in test_giou
+    output = model(imgs.cuda())
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/modules/module.py", line 547, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/parallel/data_parallel.py", line 150, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/modules/module.py", line 547, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/master/koi/Towards-Realtime-MOT/models.py", line 271, in forward
+    x = module[0](x, self.img_size)
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/modules/module.py", line 547, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/home/master/koi/Towards-Realtime-MOT/models.py", line 204, in forward
+    p_emb = F.normalize(p_emb.unsqueeze(1).repeat(1,self.nA,1,1,1).contiguous(), dim=-1)
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/functional.py", line 2927, in normalize
+    ret = input / denom
+RuntimeError: CUDA out of memory. Tried to allocate 406.00 MiB (GPU 0; 10.92 GiB total capacity; 5.13 GiB already allocated; 366.50 MiB free; 54.57 MiB cached)
+Namespace(batch_size=4, cfg='cfg/yolov3_864x480.cfg', conf_thres=0.3, data_cfg='cfg/ccmcpe.json', iou_thres=0.5, nms_thres=0.5, print_interval=40, weights='/home/master/koi/weights/75_epoch_arcface.pt')
+
+test giou...
+loading data...
+================================================================================
+dataset summary
+OrderedDict([('caltech', 1311.0), ('citypersons', 0)])
+total # identities: 1312
+start index
+OrderedDict([('caltech', 0), ('citypersons', 1311.0)])
+================================================================================
+building model...

@@ -5,7 +5,9 @@ import sys
 
 # import test  
 import test_mapgiou
-from models_arcface import *
+from models_arcface_sphere import *
+# from models_arcface_arc_margin import *
+# from models_arcface import *
 # from models_diou_arcface import *
 # from models_diou import *
 # from models import *
@@ -48,7 +50,7 @@ def train(
     transforms = T.Compose([T.ToTensor()])
     dataset = JointDataset(dataset_root, trainset_paths, img_size, augment=True, transforms=transforms)
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True,
-                                             num_workers=8, pin_memory=False, drop_last=True, collate_fn=collate_fn) 
+                                             num_workers=16, pin_memory=False, drop_last=True, collate_fn=collate_fn) 
 
     # Initialize model
     print("building model")

@@ -44,7 +44,7 @@ def train(
     transforms = T.Compose([T.ToTensor()])
     dataset = JointDataset(dataset_root, trainset_paths, img_size, augment=True, transforms=transforms)
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True,
-                                             num_workers=8, pin_memory=True, drop_last=True, collate_fn=collate_fn) 
+                                             num_workers=8, pin_memory=False, drop_last=True, collate_fn=collate_fn) 
 
     # Initialize model
     model = Darknet(cfg_dict, dataset.nID)

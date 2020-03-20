@@ -5,7 +5,8 @@ import sys
 
 # import test  
 import test_mapgiou
-from models_arcface import *
+from models_arcface_arc_margin import *
+# from models_arcface import *
 # from models_diou_arcface import *
 # from models_diou import *
 # from models import *
