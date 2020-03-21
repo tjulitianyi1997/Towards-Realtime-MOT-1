@@ -218,7 +218,7 @@ def train(
 
         # Calculate mAP
         if epoch % opt.test_interval ==0 and epoch != 0:
-            epoch_chk = osp.join(weights, str(epoch) + '_epoch_arcface.pt')
+            epoch_chk = osp.join(weights, str(epoch) + '_epoch_sphere.pt')
             checkpoint = {'epoch': epoch,
                     'model': model.module.state_dict(),
                     'optimizer': optimizer.state_dict()}

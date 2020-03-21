@@ -2,21 +2,36 @@ import argparse
 import json
 import time
 import sys
+import torch 
 
 # import test  
 import test_mapgiou
-from models_arcface_arc_margin import *
-# from models_arcface import *
 # from models_diou_arcface import *
 # from models_diou import *
+from models_slim import *
 # from models import *
 from utils.datasets import JointDataset, collate_fn
 from utils.utils import *
 from utils.log import logger
 from torchvision.transforms import transforms as T
 
-# import multiprocessing
-# multiprocessing.set_start_method('spawn',True)
+# from sparse_config import *
+
+import multiprocessing
+multiprocessing.set_start_method('spawn',True)
+
+# # additional subgradient descent on the sparsity-induced penalty term
+# def updateBN(model):  # TODO，确认函数外是否生效（https://github.com/foolwood/pytorch-slimming/blob/master/main.py）
+#     for m in model.modules():
+#         if isinstance(m, nn.BatchNorm2d):
+#             m.weight.grad.data.add_(args.s*torch.sign(m.weight.data))  # L1
+
+# 只稀疏化非shortcut的层 https://github.com/talebolano/yolov3-network-slimming/blob/master/sparsity_train.py
+def updateBN(model,s,donntprune):
+    for k,m in enumerate(model.modules()):
+        if isinstance(m, nn.BatchNorm2d):
+            if k not in donntprune:
+                m.weight.grad.data.add_(s*torch.sign(m.weight.data))
 
 def train(
         cfg,
@@ -59,70 +74,36 @@ def train(
     cutoff = -1  # backbone reaches to cutoff layer
     start_epoch = 0
     if resume:
-        if opt.latest:
-            latest_resume = "/home/master/kuanzi/weights/72_epoch_arcface.pt"
-            print("Loading the latest weight...", latest_resume)
-            checkpoint = torch.load(latest_resume, map_location='cpu')
+        # pretrain = "/home/master/kuanzi/weights/jde_1088x608_uncertainty.pt"
+        pretrain = "/home/master/kuanzi/weights/jde_864x480_uncertainty.pt" #576x320
+        print("Loading finetune weight...", pretrain)
+        sys.stdout.flush()
+        checkpoint = torch.load(pretrain, map_location='cpu')
+        
+        model_dict = model.state_dict()
+        pretrained_dict = {k: v for k, v in checkpoint['model'].items() if not k.startswith("classifier")}  # 去掉全连接层
+        model_dict.update(pretrained_dict)
+        model.load_state_dict(model_dict)
+        model.cuda().train()
+        print ("model weight loaded")
+        sys.stdout.flush()
 
-            # Load weights to resume from
-            model.load_state_dict(checkpoint['model'])
-            model.cuda().train()
+        classifer_param_value = list(map(id, model.classifier.parameters()))
+        classifer_param = model.classifier.parameters()
+        base_params = filter(lambda p: id(p) not in classifer_param_value, model.parameters())
+        print("classifer_param\n", classifer_param)  #  [2218660649072]
+        print("classifer_param_value\n", classifer_param_value)  #  [2218660649072]
+        print("base_params\n", base_params)  # <filter object at 0x0000020493D95048>
+        sys.stdout.flush()
+        # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr * 0.1, momentum=.9)
+        optimizer = torch.optim.SGD([
+                    {'params': filter(lambda x: x.requires_grad, base_params), 'lr': opt.lr * 0.01},
+                    {'params': classifer_param, 'lr': opt.lr}], 
+                    momentum=.9)
 
-            # Set optimizer
-            classifer_param_value = list(map(id, model.classifier.parameters()))
-            classifer_param = model.classifier.parameters()
-            base_params = filter(lambda p: id(p) not in classifer_param_value, model.parameters())
-            print("classifer_param\n", classifer_param)  #  [2218660649072]
-            print("classifer_param_value\n", classifer_param_value)  #  [2218660649072]
-            print("base_params\n", base_params)  # <filter object at 0x0000020493D95048>
-            sys.stdout.flush()
-            # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr * 0.1, momentum=.9)
-            optimizer = torch.optim.SGD([
-                        {'params': filter(lambda x: x.requires_grad, base_params), 'lr': opt.lr * 0.01},
-                        {'params': classifer_param, 'lr': opt.lr}], 
-                        momentum=.9)
-            # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr, momentum=.9)
-
-            start_epoch = checkpoint['epoch'] + 1
-            if checkpoint['optimizer'] is not None:
-                # Anyway, if you’re “freezing” any part of your network, and your optimizer is only passed “unfrozen” model parameters 
-                # (i.e. your optimizer filters out model parameters whose requires_grad is False), 
-                # then when resuming, you’ll need to unfreeze the network again and re-instantiate the optimizer afterwards. 
-                optimizer.load_state_dict(checkpoint['optimizer'])
-
-            del checkpoint  # current, saved
-
-        else:
-            # pretrain = "/home/master/kuanzi/weights/jde_1088x608_uncertainty.pt"
-            pretrain = "/home/master/kuanzi/weights/jde_864x480_uncertainty.pt" #576x320
-            print("Loading jde finetune weight...", pretrain)
-            sys.stdout.flush()
-            checkpoint = torch.load(pretrain, map_location='cpu')
-            
-            model_dict = model.state_dict()
-            pretrained_dict = {k: v for k, v in checkpoint['model'].items() if not k.startswith("classifier")}  # 去掉全连接层
-            model_dict.update(pretrained_dict)
-            model.load_state_dict(model_dict)
-            model.cuda().train()
-            print ("model weight loaded")
-            sys.stdout.flush()
-
-            classifer_param_value = list(map(id, model.classifier.parameters()))
-            classifer_param = model.classifier.parameters()
-            base_params = filter(lambda p: id(p) not in classifer_param_value, model.parameters())
-            print("classifer_param\n", classifer_param)  #  [2218660649072]
-            print("classifer_param_value\n", classifer_param_value)  #  [2218660649072]
-            print("base_params\n", base_params)  # <filter object at 0x0000020493D95048>
-            sys.stdout.flush()
-            # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr * 0.1, momentum=.9)
-            optimizer = torch.optim.SGD([
-                        {'params': filter(lambda x: x.requires_grad, base_params), 'lr': opt.lr * 0.01},
-                        {'params': classifer_param, 'lr': opt.lr}], 
-                        momentum=.9)
-
-            print("chk epoch:\n", checkpoint['epoch'])
-            sys.stdout.flush()
-            start_epoch = checkpoint['epoch'] + 1
+        print("chk epoch:\n", checkpoint['epoch'])
+        sys.stdout.flush()
+        start_epoch = checkpoint['epoch'] + 1
 
     else:
         # Initialize model with backbone (optional)
@@ -139,6 +120,23 @@ def train(
 
         # Set optimizer
         optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr, momentum=.9, weight_decay=1e-4)
+
+    """ sparsity: network slimming """
+    # alpha = opt.alpha
+    # parser.add_argument("--alpha",type=float,default=1.,help="bn层放缩系数")
+    alpha = 1
+    model = scale_gama(alpha, model, scale_down=True)
+    #记录哪些是shortcut层
+    donntprune = []
+    for k, m in enumerate(model.modules()):
+        if isinstance(m, shortcutLayer):  # EmptyLayer
+        # if isinstance(m, EmptyLayer):  # TODO,
+            x = k + m.froms - 8
+            donntprune.append(x)
+            x = k - 3
+            donntprune.append(x)
+    print(donntprune)
+
 
     model = torch.nn.DataParallel(model)
     # Set scheduler
@@ -187,7 +185,12 @@ def train(
 
             loss = torch.mean(loss)
             loss.backward()
-
+            
+            """ TODO, sparsity training """
+            if opt.sr:
+                # def updateBN(model,s,donntprune)
+                updateBN(model, opt.s, donntprune)
+                
             # accumulate gradient for x batches before optimizing
             if ((i + 1) % accumulated_batches == 0) or (i == len(dataloader) - 1):
                 optimizer.step()
@@ -209,19 +212,50 @@ def train(
             if i % opt.print_interval == 0:
                 logger.info(s)
         
-        # # Save latest checkpoint
-        # checkpoint = {'epoch': epoch,
-        #               'model': model.module.state_dict(),
-        #               'optimizer': optimizer.state_dict()}
-        # torch.save(checkpoint, latest)
+        # Save latest checkpoint
+        checkpoint = {'epoch': epoch,
+                      'model': model.module.state_dict(),
+                      'optimizer': optimizer.state_dict()}
+        torch.save(checkpoint, latest)
+        scheduler.step()
 
         # Calculate mAP
         if epoch % opt.test_interval ==0 and epoch != 0:
-            epoch_chk = osp.join(weights, str(epoch) + '_epoch_arc_margin.pt')
+            epoch_chk = osp.join(weights, str(epoch) + '_epoch_diou_arcface_sparsity.pt')
             checkpoint = {'epoch': epoch,
                     'model': model.module.state_dict(),
                     'optimizer': optimizer.state_dict()}
             torch.save(checkpoint, epoch_chk)
+
+            """ sparsity training """
+            # https://github.com/foolwood/pytorch-slimming/blob/7d13c090720a2e614bf638f0a1e66aa97bffee0b/prune.py#L43
+            if opt.sr:
+                model.train(False)
+                total = 0
+                for k, m in enumerate(model.modules()):
+                    if isinstance(m, nn.BatchNorm2d):
+                        if k not in donntprune:
+                            total += m.weight.data.shape[0]
+                bn = torch.zeros(total)
+                index = 0
+                for k, m in enumerate(model.modules()):
+                    if isinstance(m, nn.BatchNorm2d):
+                        if k not in donntprune:
+                            size = m.weight.data.shape[0]
+                            bn[index:(index + size)] = m.weight.data.abs().clone()
+                            index += size
+                y, i = torch.sort(bn)  # y,i是从小到大排列所有的bn，y是weight，i是序号
+                number = int(len(y)/5)  # 将总类分为5组.将参数量分为5分，这样容易控制百分比
+                # 输出稀疏化水平
+                print("0~20%%:%f,20~40%%:%f,40~60%%:%f,60~80%%:%f,80~100%%:%f"%(y[number],y[2*number],y[3*number],y[4*number],y[-1]))
+                model.train()
+            model = scale_gama(alpha, model, scale_down=False)
+            if isinstance(model,torch.nn.DataParallel):
+                model.module.save_weights("%s/yolov3_sparsity_%d.weights" % (weights, epoch))
+            else:
+                model.save_weights("%s/yolov3_sparsity_%d.weights" % (weights, epoch))
+            model = scale_gama(alpha, model, scale_down=True)
+            print("save weights in %s/yolov3_sparsity_%d.weights" % (weights, epoch))
             # """ 训练与测试解耦，以下工作单独进行 """
             # with torch.no_grad():
             #     # mAP, R, P = test.test(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
@@ -229,29 +263,30 @@ def train(
             #     test_mapgiou.test_giou(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
             #     test_mapgiou.test_emb(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
 
-
         # Call scheduler.step() after opimizer.step() with pytorch > 1.1.0 
-        scheduler.step()
+        
 
 if __name__ == '__main__':
     # 576x320 可以batch=8单卡
     # 864x480 可以batch=4单卡
     # 1088x608 可以batch=4单卡
     parser = argparse.ArgumentParser()
-    parser.add_argument('--epochs', type=int, default=30, help='number of epochs')
+    parser.add_argument('--epochs', type=int, default=50, help='number of epochs')
     parser.add_argument('--accumulated-batches', type=int, default=1, help='number of batches before optimizer step')
     
-    # parser.add_argument('--batch-size', type=int, default=32, help='size of each image batch')
+    # parser.add_argument('--batch-size', type=int, default=8, help='size of each image batch')
     parser.add_argument('--batch-size', type=int, default=8, help='size of each image batch')
     # parser.add_argument('--cfg', type=str, default='cfg/yolov3_1088x608.cfg', help='cfg file path')
     parser.add_argument('--cfg', type=str, default='cfg/yolov3_864x480.cfg', help='cfg file path')  # 864x480  576x320
     parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe.json', help='coco.data file path')
     # parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe_easy.json', help='coco.data file path')
-    parser.add_argument('--test-interval', type=int, default=3, help='test interval')
-    # parser.add_argument('--test-interval', type=int, default=1, help='test interval')
+    # parser.add_argument('--test-interval', type=int, default=9, help='test interval')
+    parser.add_argument('--test-interval', type=int, default=1, help='test interval')
 
     parser.add_argument('--resume', action='store_false', help='resume training flag')
-    parser.add_argument('--latest', action='store_true', help='default resume from jde') # 默认从jde模型开始训练， 如果要从上一次的权重中恢复，则加上--not-jde
+    parser.add_argument("--sr", dest='sr', action='store_true', help='train with channel sparsity regularization')
+    parser.add_argument("--ratio",  type=int, default=0.001, help='train with channel sparsity regularization')
+
     parser.add_argument('--print-interval', type=int, default=40, help='print interval')
     parser.add_argument('--lr', type=float, default=1e-2, help='init lr')
     parser.add_argument('--unfreeze-bn', action='store_true', help='unfreeze bn')

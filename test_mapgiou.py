@@ -431,7 +431,7 @@ if __name__ == '__main__':
     # parser.add_argument('--weights', type=str, default='/home/master/kuanzi/weights/diou_65_epoch.pt', help='path to weights file')
     parser.add_argument('--weights', type=str, default='/home/master/kuanzi/weights/72_epoch_arcface.pt', help='path to weights file')
     # parser.add_argument('--batch-size', type=int, default=40, help='size of each image batch')
-    parser.add_argument('--batch-size', type=int, default=8, help='size of each image batch')
+    parser.add_argument('--batch-size', type=int, default=4, help='size of each image batch')
     # parser.add_argument('--cfg', type=str, default='cfg/yolov3.cfg', help='cfg file path')
     parser.add_argument('--cfg', type=str, default='cfg/yolov3_864x480.cfg', help='cfg file path')
     parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe.json', help='data config')

@@ -1,0 +1,6 @@
+--2020-03-20 12:46:18--  https://pjreddie.com/media/files/66_epoch_arcface_sphere
+正在解析主机 pjreddie.com (pjreddie.com)... 128.208.4.108
+正在连接 pjreddie.com (pjreddie.com)|128.208.4.108|:443... 已连接。
+已发出 HTTP 请求，正在等待回应... 404 Not Found
+2020-03-20 12:46:21 错误 404：Not Found。
+

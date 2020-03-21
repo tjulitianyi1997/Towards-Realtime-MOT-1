@@ -4,6 +4,7 @@ import cv2
 import logging
 import argparse
 import motmetrics as mm
+import sys
 
 import torch
 # from tracker.multitracker import JDETracker
@@ -47,6 +48,7 @@ def eval_seq(opt, dataloader, data_type, result_filename, save_dir=None, show_im
     results = []
     frame_id = 0
     for path, img, img0 in dataloader:
+        print("img_path: ", path)
         if frame_id % 20 == 0:
             logger.info('Processing frame {} ({:.2f} fps)'.format(frame_id, 1./max(1e-5, timer.average_time)))
 
@@ -132,6 +134,7 @@ def main(opt, data_root='/data/MOT16/train', det_root=None, seqs=('MOT16-05',), 
         namemap=mm.io.motchallenge_metric_names
     )
     print(strsummary)
+    sys.stdout.flush()
     Evaluator.save_summary(summary, os.path.join(result_root, 'summary_{}.xlsx'.format(exp_name)))
 
 
@@ -139,19 +142,34 @@ def main(opt, data_root='/data/MOT16/train', det_root=None, seqs=('MOT16-05',), 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='track.py')
     parser.add_argument('--cfg', type=str, default='cfg/yolov3_864x480.cfg', help='cfg file path')
-    parser.add_argument('--weights', type=str, default='/content/drive/My Drive/ColabCode/data/jde.864x480.uncertainty.pt', help='path to weights file')
+    # parser.add_argument('--weights', type=str, default='/content/drive/My Drive/ColabCode/data/jde.864x480.uncertainty.pt', help='path to weights file')
+    parser.add_argument('--weights', type=str, default='/home/master/kuanzi/weights/jde_864x480_uncertainty.pt', help='path to weights file')
     parser.add_argument('--iou-thres', type=float, default=0.5, help='iou threshold required to qualify as detected')
     parser.add_argument('--conf-thres', type=float, default=0.5, help='object confidence threshold')
     parser.add_argument('--nms-thres', type=float, default=0.4, help='iou threshold for non-maximum suppression')
     parser.add_argument('--min-box-area', type=float, default=200, help='filter out tiny boxes')
     parser.add_argument('--track-buffer', type=int, default=30, help='tracking buffer')
+    parser.add_argument('--test-mot15', action='store_true', help='tracking buffer')
     parser.add_argument('--test-mot16', action='store_true', help='tracking buffer')
+    parser.add_argument('--test-mot17', action='store_true', help='tracking buffer')
     parser.add_argument('--save-images', action='store_true', help='save tracking results (image)')
     parser.add_argument('--save-videos', action='store_true', help='save tracking results (video)')
     opt = parser.parse_args()
     print(opt, end='\n\n')
+    sys.stdout.flush()
  
-    if not opt.test_mot16:
+    if opt.test_mot16:
+        seqs_str = '''MOT16-01
+                     MOT16-03
+                     MOT16-06
+                     MOT16-07
+                     MOT16-08
+                     MOT16-12
+                     MOT16-14'''
+        # data_root = '/home/wangzd/datasets/MOT/MOT16/images/test'
+        data_root = '/home/master/JDEdata/MOT16/test'
+    
+    if opt.test_mot17:        
         seqs_str = '''MOT17-02-SDP
                       MOT17-04-SDP
                       MOT17-05-SDP
@@ -161,17 +179,22 @@ if __name__ == '__main__':
                       MOT17-13-SDP
                     '''
         # data_root = '/home/wangzd/datasets/MOT/MOT17/images/train'
-        # data_root = 'D:\\BaiduNetdiskDownload\\JDEData\\6.MOT-17\\MOT17\\images\\train'
-        data_root = '/content/drive/My Drive/ColabCode/data/MOT17-train/images/train'
-    else:
-        seqs_str = '''MOT16-01
-                     MOT16-03
-                     MOT16-06
-                     MOT16-07
-                     MOT16-08
-                     MOT16-12
-                     MOT16-14'''
-        data_root = '/content/drive/My Drive/ColabCode/data/MOT16-test/images/test'
+        data_root = '/home/master/JDEdata/MOT17/images/train'
+
+    if opt.test_mot15:
+        seqs_str = '''KITTI-13
+                      KITTI-17
+                      ADL-Rundle-6
+                      PETS09-S2L1
+                      TUD-Campus
+                      TUD-Stadtmitte'''
+        # data_root = '/home/wangzd/datasets/MOT/MOT15/train'
+        data_root = '/home/master/JDEdata/2DMOT2015/train'
+        # seqs_str = '''CVPR19-01
+        #               CVPR19-02
+        #               CVPR19-03
+        #               CVPR19-05'''    
+         
     seqs = [seq.strip() for seq in seqs_str.split()]
 
     main(opt,

@@ -20,12 +20,12 @@ import multiprocessing
 multiprocessing.set_start_method('spawn',True)
 
 # # additional subgradient descent on the sparsity-induced penalty term
-# def updateBN(model):  # TODO，确认函数外是否生效
+# def updateBN(model):  # TODO，确认函数外是否生效（https://github.com/foolwood/pytorch-slimming/blob/master/main.py）
 #     for m in model.modules():
 #         if isinstance(m, nn.BatchNorm2d):
 #             m.weight.grad.data.add_(args.s*torch.sign(m.weight.data))  # L1
 
-# 只稀疏化非shortcut的层
+# 只稀疏化非shortcut的层 https://github.com/talebolano/yolov3-network-slimming/blob/master/sparsity_train.py
 def updateBN(model,s,donntprune):
     for k,m in enumerate(model.modules()):
         if isinstance(m, nn.BatchNorm2d):
@@ -121,17 +121,21 @@ def train(
         optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr, momentum=.9, weight_decay=1e-4)
 
     """ sparsity: network slimming """
-    alpha = args.alpha
+    # alpha = opt.alpha
+    # parser.add_argument("--alpha",type=float,default=1.,help="bn层放缩系数")
+    alpha = 1
     model = scale_gama(alpha, model, scale_down=True)
     #记录哪些是shortcut层
     donntprune = []
     for k, m in enumerate(model.modules()):
-        if isinstance(m, shortcutLayer):
+        # if isinstance(m, shortcutLayer):EmptyLayer
+        if isinstance(m, EmptyLayer):  # TODO,
             x = k + m.froms - 8
             donntprune.append(x)
             x = k - 3
             donntprune.append(x)
     print(donntprune)
+
 
     model = torch.nn.DataParallel(model)
     # Set scheduler
@@ -181,10 +185,11 @@ def train(
             loss = torch.mean(loss)
             loss.backward()
             
-            """ sparsity training """
+            """ TODO, sparsity training """
             if opt.sr:
-                updateBN(model)
-
+                # def updateBN(model,s,donntprune)
+                updateBN(model, opt.s, donntprune)
+                
             # accumulate gradient for x batches before optimizing
             if ((i + 1) % accumulated_batches == 0) or (i == len(dataloader) - 1):
                 optimizer.step()
@@ -211,17 +216,19 @@ def train(
                       'model': model.module.state_dict(),
                       'optimizer': optimizer.state_dict()}
         torch.save(checkpoint, latest)
+        scheduler.step()
 
         # Calculate mAP
         if epoch % opt.test_interval ==0 and epoch != 0:
-            epoch_chk = osp.join(weights, str(epoch) + '_epoch_diou_arcface.pt')
+            epoch_chk = osp.join(weights, str(epoch) + '_epoch_diou_arcface_sparsity.pt')
             checkpoint = {'epoch': epoch,
                     'model': model.module.state_dict(),
                     'optimizer': optimizer.state_dict()}
             torch.save(checkpoint, epoch_chk)
 
             """ sparsity training """
-            if args.sr:
+            # https://github.com/foolwood/pytorch-slimming/blob/7d13c090720a2e614bf638f0a1e66aa97bffee0b/prune.py#L43
+            if opt.sr:
                 model.train(False)
                 total = 0
                 for k, m in enumerate(model.modules()):
@@ -237,14 +244,14 @@ def train(
                             bn[index:(index + size)] = m.weight.data.abs().clone()
                             index += size
                 y, i = torch.sort(bn)  # y,i是从小到大排列所有的bn，y是weight，i是序号
-                number = int(len(y)/5)  # 将总类分为5组
+                number = int(len(y)/5)  # 将总类分为5组.将参数量分为5分，这样容易控制百分比
                 # 输出稀疏化水平
                 print("0~20%%:%f,20~40%%:%f,40~60%%:%f,60~80%%:%f,80~100%%:%f"%(y[number],y[2*number],y[3*number],y[4*number],y[-1]))
                 model.train()
             model = scale_gama(alpha, model, scale_down=False)
-            model.save_weights("%s/yolov3_sparsity_%d.weights" % (args.checkpoint_dir, epoch))
+            model.save_weights("%s/yolov3_sparsity_%d.weights" % (weights, epoch))
             model = scale_gama(alpha, model, scale_down=True)
-            print("save weights in %s/yolov3_sparsity_%d.weights" % (args.checkpoint_dir, epoch))
+            print("save weights in %s/yolov3_sparsity_%d.weights" % (weights, epoch))
             # """ 训练与测试解耦，以下工作单独进行 """
             # with torch.no_grad():
             #     # mAP, R, P = test.test(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
@@ -253,7 +260,7 @@ def train(
             #     test_mapgiou.test_emb(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
 
         # Call scheduler.step() after opimizer.step() with pytorch > 1.1.0 
-        scheduler.step()
+        
 
 if __name__ == '__main__':
     # 576x320 可以batch=8单卡
@@ -270,10 +277,11 @@ if __name__ == '__main__':
     # parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe.json', help='coco.data file path')
     parser.add_argument('--data-cfg', type=str, default='cfg/ccmcpe_easy.json', help='coco.data file path')
     # parser.add_argument('--test-interval', type=int, default=9, help='test interval')
-    parser.add_argument('--test-interval', type=int, default=5, help='test interval')
+    parser.add_argument('--test-interval', type=int, default=1, help='test interval')
 
     parser.add_argument('--resume', action='store_false', help='resume training flag')
-    parser.add_argument("-sr", dest='sr', action='store_false', help='train with channel sparsity regularization')
+    parser.add_argument("--sr", dest='sr', action='store_true', help='train with channel sparsity regularization')
+    parser.add_argument("--ratio",  type=int, default=0.001, help='train with channel sparsity regularization')
 
     parser.add_argument('--print-interval', type=int, default=40, help='print interval')
     parser.add_argument('--lr', type=float, default=1e-2, help='init lr')

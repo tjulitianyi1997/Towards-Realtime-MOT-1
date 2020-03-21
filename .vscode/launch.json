@@ -1,0 +1,33 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "env":{"CUDA_VISIBLE_DEVICES": "3"},
+            "args": [
+                // ==== test =====
+                // "--weights", "/home/master/kuanzi/weights/diou_65_epoch.pt",
+                // // "--weights", "/home/master/kuanzi/weights/jde_864x480_uncertainty.pt",
+                // "--data-cfg", "cfg/ccmcpe_easy.json",
+                // "--batch-size", "4",
+                // "--print-interval", "1"
+
+                // ==== train ====
+                // "--data-cfg", "cfg/ccmcpe_easy2.json",
+                // // "--batch-size", "4",
+                // "--batch-size", "1",
+                // "--print-interval", "1"
+
+                // === track === 
+                "--test-mot16" 
+            ]
+        }
+    ]
+}

@@ -100,10 +100,8 @@ def main(opt, data_root='/data/MOT16/train', det_root=None, seqs=('MOT16-05',), 
         logger.info('start seq: {}'.format(seq))
         dataloader = datasets.LoadImages(osp.join(data_root, seq, 'img1'), opt.img_size)
         result_filename = os.path.join(result_root, '{}.txt'.format(seq))
-        # TODO,
         meta_info = open(os.path.join(data_root, seq, 'seqinfo.ini')).read() 
         frame_rate = int(meta_info[meta_info.find('frameRate')+10:meta_info.find('\nseqLength')])
-        # frame_rate = 30 
         nf, ta, tc = eval_seq(opt, dataloader, data_type, result_filename,
                               save_dir=output_dir, show_image=show_image, frame_rate=frame_rate)
         n_frame += nf
@@ -195,7 +193,6 @@ if __name__ == '__main__':
         #               CVPR19-02
         #               CVPR19-03
         #               CVPR19-05'''
-
 
     seqs = [seq.strip() for seq in seqs_str.split()]
 

@@ -5,9 +5,7 @@ import sys
 
 # import test  
 import test_mapgiou
-from models_arcface_arc_margin import *
-# from models_arcface import *
-# from models_diou_arcface import *
+from models_diou_arcface import *
 # from models_diou import *
 # from models import *
 from utils.datasets import JointDataset, collate_fn
@@ -60,7 +58,7 @@ def train(
     start_epoch = 0
     if resume:
         if opt.latest:
-            latest_resume = "/home/master/kuanzi/weights/72_epoch_arcface.pt"
+            latest_resume = "/home/master/kuanzi/weights/66_epoch_diou_arcface.pt"
             print("Loading the latest weight...", latest_resume)
             checkpoint = torch.load(latest_resume, map_location='cpu')
 
@@ -76,25 +74,24 @@ def train(
             print("classifer_param_value\n", classifer_param_value)  #  [2218660649072]
             print("base_params\n", base_params)  # <filter object at 0x0000020493D95048>
             sys.stdout.flush()
-            # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr * 0.1, momentum=.9)
-            optimizer = torch.optim.SGD([
-                        {'params': filter(lambda x: x.requires_grad, base_params), 'lr': opt.lr * 0.01},
-                        {'params': classifer_param, 'lr': opt.lr}], 
-                        momentum=.9)
+            # optimizer = torch.optim.SGD([
+            #             {'params': filter(lambda x: x.requires_grad, base_params), 'lr': opt.lr * 0.01},
+            #             {'params': classifer_param, 'lr': opt.lr}], 
+            #             momentum=.9)
             # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr, momentum=.9)
+            optimizer = torch.optim.Adam(model.parameters())
 
             start_epoch = checkpoint['epoch'] + 1
-            if checkpoint['optimizer'] is not None:
-                # Anyway, if you’re “freezing” any part of your network, and your optimizer is only passed “unfrozen” model parameters 
-                # (i.e. your optimizer filters out model parameters whose requires_grad is False), 
-                # then when resuming, you’ll need to unfreeze the network again and re-instantiate the optimizer afterwards. 
-                optimizer.load_state_dict(checkpoint['optimizer'])
+            # if checkpoint['optimizer'] is not None:
+            #     # Anyway, if you’re “freezing” any part of your network, and your optimizer is only passed “unfrozen” model parameters 
+            #     # (i.e. your optimizer filters out model parameters whose requires_grad is False), 
+            #     # then when resuming, you’ll need to unfreeze the network again and re-instantiate the optimizer afterwards. 
+            #     optimizer.load_state_dict(checkpoint['optimizer'])
 
             del checkpoint  # current, saved
 
         else:
-            # pretrain = "/home/master/kuanzi/weights/jde_1088x608_uncertainty.pt"
-            pretrain = "/home/master/kuanzi/weights/jde_864x480_uncertainty.pt" #576x320
+            pretrain = "/home/master/kuanzi/weights/jde_864x480_uncertainty.pt" #576x320  #1088x608
             print("Loading jde finetune weight...", pretrain)
             sys.stdout.flush()
             checkpoint = torch.load(pretrain, map_location='cpu')
@@ -115,10 +112,11 @@ def train(
             print("base_params\n", base_params)  # <filter object at 0x0000020493D95048>
             sys.stdout.flush()
             # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr * 0.1, momentum=.9)
-            optimizer = torch.optim.SGD([
-                        {'params': filter(lambda x: x.requires_grad, base_params), 'lr': opt.lr * 0.01},
-                        {'params': classifer_param, 'lr': opt.lr}], 
-                        momentum=.9)
+            # optimizer = torch.optim.SGD([
+            #             {'params': filter(lambda x: x.requires_grad, base_params), 'lr': opt.lr * 0.01},
+            #             {'params': classifer_param, 'lr': opt.lr}], 
+            #             momentum=.9)
+            optimizer = torch.optim.Adam(model.parameters(), lr=opt.lr*0.1)
 
             print("chk epoch:\n", checkpoint['epoch'])
             sys.stdout.flush()
@@ -138,12 +136,16 @@ def train(
         model.cuda().train()
 
         # Set optimizer
-        optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr, momentum=.9, weight_decay=1e-4)
+        # optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr, momentum=.9, weight_decay=1e-4)
+        optimizer = torch.optim.Adam(model.parameters())
 
     model = torch.nn.DataParallel(model)
-    # Set scheduler
-    scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, 
-            milestones=[int(0.5*opt.epochs), int(0.75*opt.epochs)], gamma=0.1)
+    # # Set scheduler
+    # scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, 
+    #         milestones=[int(0.5*opt.epochs), int(0.75*opt.epochs)], gamma=0.1)
+    # https://pytorch.org/docs/stable/optim.html
+    # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.2, patience=2,
+    #                                                        verbose=True, min_lr=1e-6)
     
     # An important trick for detection: freeze bn during fine-tuning 
     if not opt.unfreeze_bn:
@@ -217,7 +219,7 @@ def train(
 
         # Calculate mAP
         if epoch % opt.test_interval ==0 and epoch != 0:
-            epoch_chk = osp.join(weights, str(epoch) + '_epoch_arc_margin.pt')
+            epoch_chk = osp.join(weights, str(epoch) + '_epoch_diou_arcface_adam.pt')
             checkpoint = {'epoch': epoch,
                     'model': model.module.state_dict(),
                     'optimizer': optimizer.state_dict()}
@@ -230,13 +232,14 @@ def train(
             #     test_mapgiou.test_emb(cfg, data_cfg, weights=latest, batch_size=batch_size, print_interval=40)
 
 
-        # Call scheduler.step() after opimizer.step() with pytorch > 1.1.0 
-        scheduler.step()
+        # Call scheduler.step() after optimizer.step() with pytorch > 1.1.0 
+        # scheduler.step()
 
 if __name__ == '__main__':
     # 576x320 可以batch=8单卡
     # 864x480 可以batch=4单卡
     # 1088x608 可以batch=4单卡
+    # CUDA_VISIBLE_DEVICES=0,1 python train_exp_diou_arcface.py --data-cfg cfg/ccmcpe.json --batch-size 8 > train_exp_diou_arcface_dataall.log 2>&1 &
     parser = argparse.ArgumentParser()
     parser.add_argument('--epochs', type=int, default=30, help='number of epochs')
     parser.add_argument('--accumulated-batches', type=int, default=1, help='number of batches before optimizer step')

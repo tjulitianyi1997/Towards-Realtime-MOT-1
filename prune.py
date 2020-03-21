@@ -2,20 +2,34 @@ from __future__ import division
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
-from util import *
+# from util import *
 import argparse
 import os
-from yolomodel import Darknet
-from yolomodel import shortcutLayer
+# from yolomodel import Darknet
+# from yolomodel import shortcutLayer
+
+
+# import test  
+import test_mapgiou
+# from models_diou_arcface import *
+# from models_diou import *
+from models_slim import *
+# from models import *
+from utils.datasets import JointDataset, collate_fn
+from utils.utils import *
+from utils.log import logger
+from torchvision.transforms import transforms as T
 
 
 def arg_parse():
     parser = argparse.ArgumentParser(description="YOLO v3 Prune")
     parser.add_argument("--cfg",dest="cfgfile",help="网络模型",
-                        default=r"D:/yolotest/cfg/yolov3.cfg",type=str)
+                        default=r"cfg/yolov3_864x480_pruned.cfg",type=str)
     parser.add_argument("--weights",dest="weightsfile",help="权重文件",
-                        default=r"D:/yolotest/yolov3.weights",type=str)
+                        default=r"/home/master/koi/weights/yolov3_sparsity_60.weights",type=str)
     parser.add_argument('--percent', type=float, default=0.3,help='剪枝的比例')
+    parser.add_argument('--realcfg', type=str, default='cfg/yolov3_864x480.cfg', help='cfg file path')  # 864x480  576x320
+
     return parser.parse_args()
 
 
@@ -23,10 +37,18 @@ args = arg_parse()
 start = 0
 CUDA = torch.cuda.is_available()
 print("load network")
-model = Darknet(args.cfgfile)
+# model = Darknet(args.cfgfile)
+nID = 14455
+# f = open(args.data_cfg)
+# data_config = json.load(f)
+# trainset_paths = data_config['train']
+# dataset_root = data_config['root']
+# f.close()
+cfg_dict = parse_model_cfg(args.realcfg) 
+model = Darknet(cfg_dict, nID)
 print("done!")
 print("load weightsfile")
-model.load_weights(args.weightsfile)
+model.load_darknet_weights(args.weightsfile)
 if CUDA:
     model.cuda()
 
@@ -90,11 +112,12 @@ for k, m in enumerate(model.modules()):
 pruned_ratio = pruned/total
 print('Pre-processing Successful!')
 print('--'*30)
-print(cfg)
+print("new cfg:", cfg)
 
 # 写出被减枝的cfg文件
 prunecfg = write_cfg(args.cfgfile, cfg)
-newmodel = Darknet(prunecfg)
+# newmodel = Darknet(prunecfg)
+newmodel = Darknet(prunecfg, nID)
 newmodel.header_info = model.header_info
 if CUDA:
     newmodel.cuda()

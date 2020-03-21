@@ -1,0 +1,1479 @@
+opt
+ Namespace(accumulated_batches=1, batch_size=8, cfg='cfg/yolov3_864x480.cfg', data_cfg='cfg/ccmcpe.json', epochs=30, latest=True, lr=0.01, print_interval=40, resume=True, test_interval=3, unfreeze_bn=False)
+loading data
+================================================================================
+dataset summary
+OrderedDict([('mot17', 547.0), ('caltech', 1043.0), ('citypersons', 0), ('cuhksysu', 11931.0), ('prw', 933.0), ('eth', 0)])
+total # identities: 14455
+start index
+OrderedDict([('mot17', 0), ('caltech', 547.0), ('citypersons', 1590.0), ('cuhksysu', 1590.0), ('prw', 13521.0), ('eth', 14454.0)])
+================================================================================
+building model
+Loading the latest weight... /home/master/kuanzi/weights/66_epoch_diou.pt
+Traceback (most recent call last):
+  File "train_exp_diou_arcface_resume.py", line 269, in <module>
+    opt=opt,
+  File "train_exp_diou_arcface_resume.py", line 66, in train
+    model.load_state_dict(checkpoint['model'])
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/modules/module.py", line 845, in load_state_dict
+    self.__class__.__name__, "\n\t".join(error_msgs)))
+RuntimeError: Error(s) in loading state_dict for Darknet:
+	Unexpected key(s) in state_dict: "classifier.bias". 
+opt
+ Namespace(accumulated_batches=1, batch_size=8, cfg='cfg/yolov3_864x480.cfg', data_cfg='cfg/ccmcpe.json', epochs=30, latest=True, lr=0.01, print_interval=40, resume=True, test_interval=3, unfreeze_bn=False)
+loading data
+================================================================================
+dataset summary
+OrderedDict([('mot17', 547.0), ('caltech', 1043.0), ('citypersons', 0), ('cuhksysu', 11931.0), ('prw', 933.0), ('eth', 0)])
+total # identities: 14455
+start index
+OrderedDict([('mot17', 0), ('caltech', 547.0), ('citypersons', 1590.0), ('cuhksysu', 1590.0), ('prw', 13521.0), ('eth', 14454.0)])
+================================================================================
+building model
+Loading the latest weight... /home/master/kuanzi/weights/66_epoch_diou.pt
+Traceback (most recent call last):
+  File "train_exp_diou_arcface_resume.py", line 269, in <module>
+    opt=opt,
+  File "train_exp_diou_arcface_resume.py", line 66, in train
+    model.load_state_dict(checkpoint['model'])
+  File "/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/modules/module.py", line 845, in load_state_dict
+    self.__class__.__name__, "\n\t".join(error_msgs)))
+RuntimeError: Error(s) in loading state_dict for Darknet:
+	Unexpected key(s) in state_dict: "classifier.bias". 
+opt
+ Namespace(accumulated_batches=1, batch_size=8, cfg='cfg/yolov3_864x480.cfg', data_cfg='cfg/ccmcpe.json', epochs=30, latest=False, lr=0.01, print_interval=40, resume=True, test_interval=3, unfreeze_bn=False)
+loading data
+================================================================================
+dataset summary
+OrderedDict([('mot17', 547.0), ('caltech', 1043.0), ('citypersons', 0), ('cuhksysu', 11931.0), ('prw', 933.0), ('eth', 0)])
+total # identities: 14455
+start index
+OrderedDict([('mot17', 0), ('caltech', 547.0), ('citypersons', 1590.0), ('cuhksysu', 1590.0), ('prw', 13521.0), ('eth', 14454.0)])
+================================================================================
+building model
+Loading jde finetune weight... /home/master/kuanzi/weights/jde_864x480_uncertainty.pt
+model weight loaded
+classifer_param
+ <generator object Module.parameters at 0x7fb1b1e18a40>
+classifer_param_value
+ [140401254814704]
+base_params
+ <filter object at 0x7fb1b59fc080>
+chk epoch:
+ 59
+
+layer                                               name  gradient   parameters                shape           mu        sigma
+    0                             module.0.conv_0.weight      True          864        [32, 3, 3, 3]     -0.00309        0.372
+    1                       module.0.batch_norm_0.weight     False           32                 [32]        0.436        0.286
+    2                         module.0.batch_norm_0.bias     False           32                 [32]            0            0
+    3                             module.1.conv_1.weight      True        18432       [64, 32, 3, 3]     -0.00908       0.0849
+    4                       module.1.batch_norm_1.weight     False           64                 [64]         0.47        0.266
+    5                         module.1.batch_norm_1.bias     False           64                 [64]            0            0
+    6                             module.2.conv_2.weight      True         2048       [32, 64, 1, 1]      -0.0189        0.169
+    7                       module.2.batch_norm_2.weight     False           32                 [32]        0.446        0.284
+    8                         module.2.batch_norm_2.bias     False           32                 [32]            0            0
+    9                             module.3.conv_3.weight      True        18432       [64, 32, 3, 3]     -0.00355       0.0832
+   10                       module.3.batch_norm_3.weight     False           64                 [64]        0.514        0.308
+   11                         module.3.batch_norm_3.bias     False           64                 [64]            0            0
+   12                             module.5.conv_5.weight      True        73728      [128, 64, 3, 3]     -0.00278       0.0546
+   13                       module.5.batch_norm_5.weight     False          128                [128]        0.499        0.293
+   14                         module.5.batch_norm_5.bias     False          128                [128]            0            0
+   15                             module.6.conv_6.weight      True         8192      [64, 128, 1, 1]     -0.00546       0.0857
+   16                       module.6.batch_norm_6.weight     False           64                 [64]        0.546         0.31
+   17                         module.6.batch_norm_6.bias     False           64                 [64]            0            0
+   18                             module.7.conv_7.weight      True        73728      [128, 64, 3, 3]     -0.00373       0.0469
+   19                       module.7.batch_norm_7.weight     False          128                [128]        0.492        0.311
+   20                         module.7.batch_norm_7.bias     False          128                [128]            0            0
+   21                             module.9.conv_9.weight      True         8192      [64, 128, 1, 1]     -0.00703       0.0962
+   22                       module.9.batch_norm_9.weight     False           64                 [64]        0.469          0.3
+   23                         module.9.batch_norm_9.bias     False           64                 [64]            0            0
+   24                           module.10.conv_10.weight      True        73728      [128, 64, 3, 3]     -0.00286       0.0439
+   25                     module.10.batch_norm_10.weight     False          128                [128]        0.463        0.306
+   26                       module.10.batch_norm_10.bias     False          128                [128]            0            0
+   27                           module.12.conv_12.weight      True       294912     [256, 128, 3, 3]     2.84e-05       0.0344
+   28                     module.12.batch_norm_12.weight     False          256                [256]        0.495        0.277
+   29                       module.12.batch_norm_12.bias     False          256                [256]            0            0
+   30                           module.13.conv_13.weight      True        32768     [128, 256, 1, 1]     -0.00114       0.0484
+   31                     module.13.batch_norm_13.weight     False          128                [128]        0.465        0.283
+   32                       module.13.batch_norm_13.bias     False          128                [128]            0            0
+   33                           module.14.conv_14.weight      True       294912     [256, 128, 3, 3]     -0.00178       0.0278
+   34                     module.14.batch_norm_14.weight     False          256                [256]        0.515        0.281
+   35                       module.14.batch_norm_14.bias     False          256                [256]            0            0
+   36                           module.16.conv_16.weight      True        32768     [128, 256, 1, 1]      -0.0024       0.0537
+   37                     module.16.batch_norm_16.weight     False          128                [128]        0.474        0.289
+   38                       module.16.batch_norm_16.bias     False          128                [128]            0            0
+   39                           module.17.conv_17.weight      True       294912     [256, 128, 3, 3]     -0.00166       0.0283
+   40                     module.17.batch_norm_17.weight     False          256                [256]        0.513        0.279
+   41                       module.17.batch_norm_17.bias     False          256                [256]            0            0
+   42                           module.19.conv_19.weight      True        32768     [128, 256, 1, 1]     -0.00286       0.0535
+   43                     module.19.batch_norm_19.weight     False          128                [128]        0.478        0.283
+   44                       module.19.batch_norm_19.bias     False          128                [128]            0            0
+   45                           module.20.conv_20.weight      True       294912     [256, 128, 3, 3]     -0.00175       0.0269
+   46                     module.20.batch_norm_20.weight     False          256                [256]        0.491        0.298
+   47                       module.20.batch_norm_20.bias     False          256                [256]            0            0
+   48                           module.22.conv_22.weight      True        32768     [128, 256, 1, 1]     -0.00367       0.0549
+   49                     module.22.batch_norm_22.weight     False          128                [128]          0.5        0.268
+   50                       module.22.batch_norm_22.bias     False          128                [128]            0            0
+   51                           module.23.conv_23.weight      True       294912     [256, 128, 3, 3]     -0.00165       0.0271
+   52                     module.23.batch_norm_23.weight     False          256                [256]        0.502        0.285
+   53                       module.23.batch_norm_23.bias     False          256                [256]            0            0
+   54                           module.25.conv_25.weight      True        32768     [128, 256, 1, 1]     -0.00279       0.0544
+   55                     module.25.batch_norm_25.weight     False          128                [128]         0.47        0.279
+   56                       module.25.batch_norm_25.bias     False          128                [128]            0            0
+   57                           module.26.conv_26.weight      True       294912     [256, 128, 3, 3]     -0.00163       0.0264
+   58                     module.26.batch_norm_26.weight     False          256                [256]        0.518        0.284
+   59                       module.26.batch_norm_26.bias     False          256                [256]            0            0
+   60                           module.28.conv_28.weight      True        32768     [128, 256, 1, 1]     -0.00333       0.0535
+   61                     module.28.batch_norm_28.weight     False          128                [128]        0.483         0.27
+   62                       module.28.batch_norm_28.bias     False          128                [128]            0            0
+   63                           module.29.conv_29.weight      True       294912     [256, 128, 3, 3]     -0.00158       0.0253
+   64                     module.29.batch_norm_29.weight     False          256                [256]        0.486        0.292
+   65                       module.29.batch_norm_29.bias     False          256                [256]            0            0
+   66                           module.31.conv_31.weight      True        32768     [128, 256, 1, 1]     -0.00343       0.0531
+   67                     module.31.batch_norm_31.weight     False          128                [128]         0.49        0.299
+   68                       module.31.batch_norm_31.bias     False          128                [128]            0            0
+   69                           module.32.conv_32.weight      True       294912     [256, 128, 3, 3]     -0.00146       0.0242
+   70                     module.32.batch_norm_32.weight     False          256                [256]        0.511        0.301
+   71                       module.32.batch_norm_32.bias     False          256                [256]            0            0
+   72                           module.34.conv_34.weight      True        32768     [128, 256, 1, 1]      -0.0023       0.0515
+   73                     module.34.batch_norm_34.weight     False          128                [128]        0.542        0.288
+   74                       module.34.batch_norm_34.bias     False          128                [128]            0            0
+   75                           module.35.conv_35.weight      True       294912     [256, 128, 3, 3]     -0.00128       0.0235
+   76                     module.35.batch_norm_35.weight     False          256                [256]        0.494        0.289
+   77                       module.35.batch_norm_35.bias     False          256                [256]            0            0
+   78                           module.37.conv_37.weight      True  1.17965e+06     [512, 256, 3, 3]     0.000212       0.0202
+   79                     module.37.batch_norm_37.weight     False          512                [512]        0.481        0.291
+   80                       module.37.batch_norm_37.bias     False          512                [512]            0            0
+   81                           module.38.conv_38.weight      True       131072     [256, 512, 1, 1]    -0.000479       0.0287
+   82                     module.38.batch_norm_38.weight     False          256                [256]        0.495        0.291
+   83                       module.38.batch_norm_38.bias     False          256                [256]            0            0
+   84                           module.39.conv_39.weight      True  1.17965e+06     [512, 256, 3, 3]     -0.00095       0.0158
+   85                     module.39.batch_norm_39.weight     False          512                [512]        0.498        0.285
+   86                       module.39.batch_norm_39.bias     False          512                [512]            0            0
+   87                           module.41.conv_41.weight      True       131072     [256, 512, 1, 1]    -0.000741        0.029
+   88                     module.41.batch_norm_41.weight     False          256                [256]        0.475        0.292
+   89                       module.41.batch_norm_41.bias     False          256                [256]            0            0
+   90                           module.42.conv_42.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000852       0.0151
+   91                     module.42.batch_norm_42.weight     False          512                [512]        0.497        0.287
+   92                       module.42.batch_norm_42.bias     False          512                [512]            0            0
+   93                           module.44.conv_44.weight      True       131072     [256, 512, 1, 1]     -0.00127       0.0309
+   94                     module.44.batch_norm_44.weight     False          256                [256]        0.483        0.279
+   95                       module.44.batch_norm_44.bias     False          256                [256]            0            0
+   96                           module.45.conv_45.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000867       0.0156
+   97                     module.45.batch_norm_45.weight     False          512                [512]        0.505        0.289
+   98                       module.45.batch_norm_45.bias     False          512                [512]            0            0
+   99                           module.47.conv_47.weight      True       131072     [256, 512, 1, 1]     -0.00123       0.0316
+  100                     module.47.batch_norm_47.weight     False          256                [256]        0.505        0.292
+  101                       module.47.batch_norm_47.bias     False          256                [256]            0            0
+  102                           module.48.conv_48.weight      True  1.17965e+06     [512, 256, 3, 3]     -0.00086       0.0157
+  103                     module.48.batch_norm_48.weight     False          512                [512]        0.508        0.286
+  104                       module.48.batch_norm_48.bias     False          512                [512]            0            0
+  105                           module.50.conv_50.weight      True       131072     [256, 512, 1, 1]     -0.00104       0.0315
+  106                     module.50.batch_norm_50.weight     False          256                [256]        0.488        0.298
+  107                       module.50.batch_norm_50.bias     False          256                [256]            0            0
+  108                           module.51.conv_51.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000892       0.0151
+  109                     module.51.batch_norm_51.weight     False          512                [512]        0.487         0.28
+  110                       module.51.batch_norm_51.bias     False          512                [512]            0            0
+  111                           module.53.conv_53.weight      True       131072     [256, 512, 1, 1]     -0.00108       0.0315
+  112                     module.53.batch_norm_53.weight     False          256                [256]        0.514        0.291
+  113                       module.53.batch_norm_53.bias     False          256                [256]            0            0
+  114                           module.54.conv_54.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000778        0.015
+  115                     module.54.batch_norm_54.weight     False          512                [512]        0.503        0.297
+  116                       module.54.batch_norm_54.bias     False          512                [512]            0            0
+  117                           module.56.conv_56.weight      True       131072     [256, 512, 1, 1]    -0.000711        0.032
+  118                     module.56.batch_norm_56.weight     False          256                [256]        0.527        0.292
+  119                       module.56.batch_norm_56.bias     False          256                [256]            0            0
+  120                           module.57.conv_57.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000773       0.0149
+  121                     module.57.batch_norm_57.weight     False          512                [512]        0.494        0.287
+  122                       module.57.batch_norm_57.bias     False          512                [512]            0            0
+  123                           module.59.conv_59.weight      True       131072     [256, 512, 1, 1]     -0.00149        0.032
+  124                     module.59.batch_norm_59.weight     False          256                [256]        0.486        0.298
+  125                       module.59.batch_norm_59.bias     False          256                [256]            0            0
+  126                           module.60.conv_60.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000639       0.0147
+  127                     module.60.batch_norm_60.weight     False          512                [512]        0.515        0.291
+  128                       module.60.batch_norm_60.bias     False          512                [512]            0            0
+  129                           module.62.conv_62.weight      True  4.71859e+06    [1024, 512, 3, 3]    -0.000135      0.00976
+  130                     module.62.batch_norm_62.weight     False         1024               [1024]        0.512        0.287
+  131                       module.62.batch_norm_62.bias     False         1024               [1024]            0            0
+  132                           module.63.conv_63.weight      True       524288    [512, 1024, 1, 1]    -0.000282       0.0158
+  133                     module.63.batch_norm_63.weight     False          512                [512]        0.522        0.286
+  134                       module.63.batch_norm_63.bias     False          512                [512]            0            0
+  135                           module.64.conv_64.weight      True  4.71859e+06    [1024, 512, 3, 3]    -0.000399      0.00801
+  136                     module.64.batch_norm_64.weight     False         1024               [1024]         0.51        0.286
+  137                       module.64.batch_norm_64.bias     False         1024               [1024]            0            0
+  138                           module.66.conv_66.weight      True       524288    [512, 1024, 1, 1]    -0.000318       0.0156
+  139                     module.66.batch_norm_66.weight     False          512                [512]        0.495        0.284
+  140                       module.66.batch_norm_66.bias     False          512                [512]            0            0
+  141                           module.67.conv_67.weight      True  4.71859e+06    [1024, 512, 3, 3]    -0.000345      0.00758
+  142                     module.67.batch_norm_67.weight     False         1024               [1024]        0.508        0.285
+  143                       module.67.batch_norm_67.bias     False         1024               [1024]            0            0
+  144                           module.69.conv_69.weight      True       524288    [512, 1024, 1, 1]    -0.000524       0.0157
+  145                     module.69.batch_norm_69.weight     False          512                [512]        0.497        0.282
+  146                       module.69.batch_norm_69.bias     False          512                [512]            0            0
+  147                           module.70.conv_70.weight      True  4.71859e+06    [1024, 512, 3, 3]    -0.000277      0.00744
+  148                     module.70.batch_norm_70.weight     False         1024               [1024]          0.5        0.284
+  149                       module.70.batch_norm_70.bias     False         1024               [1024]            0            0
+  150                           module.72.conv_72.weight      True       524288    [512, 1024, 1, 1]     -0.00025       0.0158
+  151                     module.72.batch_norm_72.weight     False          512                [512]        0.523        0.298
+  152                       module.72.batch_norm_72.bias     False          512                [512]            0            0
+  153                           module.73.conv_73.weight      True  4.71859e+06    [1024, 512, 3, 3]    -0.000305      0.00734
+  154                     module.73.batch_norm_73.weight     False         1024               [1024]          0.5        0.291
+  155                       module.73.batch_norm_73.bias     False         1024               [1024]            0            0
+  156                           module.75.conv_75.weight      True       524288    [512, 1024, 1, 1]     -0.00115       0.0215
+  157                     module.75.batch_norm_75.weight     False          512                [512]        0.496        0.293
+  158                       module.75.batch_norm_75.bias     False          512                [512]            0            0
+  159                           module.76.conv_76.weight      True  4.71859e+06    [1024, 512, 3, 3]    -0.000175      0.00903
+  160                     module.76.batch_norm_76.weight     False         1024               [1024]        0.488        0.289
+  161                       module.76.batch_norm_76.bias     False         1024               [1024]            0            0
+  162                           module.77.conv_77.weight      True       524288    [512, 1024, 1, 1]     -0.00042       0.0199
+  163                     module.77.batch_norm_77.weight     False          512                [512]        0.489         0.29
+  164                       module.77.batch_norm_77.bias     False          512                [512]            0            0
+  165                           module.78.conv_78.weight      True  4.71859e+06    [1024, 512, 3, 3]    -0.000261      0.00924
+  166                     module.78.batch_norm_78.weight     False         1024               [1024]        0.498        0.288
+  167                       module.78.batch_norm_78.bias     False         1024               [1024]            0            0
+  168                           module.79.conv_79.weight      True       524288    [512, 1024, 1, 1]    -0.000943        0.023
+  169                     module.79.batch_norm_79.weight     False          512                [512]        0.482         0.29
+  170                       module.79.batch_norm_79.bias     False          512                [512]            0            0
+  171                           module.80.conv_80.weight      True  4.71859e+06    [1024, 512, 3, 3]    -0.000633      0.00958
+  172                     module.80.batch_norm_80.weight     False         1024               [1024]        0.507        0.286
+  173                       module.80.batch_norm_80.bias     False         1024               [1024]            0            0
+  174                           module.81.conv_81.weight      True        24576     [24, 1024, 1, 1]    -0.000501        0.124
+  175                             module.81.conv_81.bias      True           24                 [24]      -0.0588         1.19
+  176                           module.83.conv_83.weight      True   2.3593e+06     [512, 512, 3, 3]      6.4e-06      0.00735
+  177                             module.83.conv_83.bias      True          512                [512]     -0.00129        0.015
+  178                              module.85.yolo_85.s_c      True            1                  [1]        -7.65          nan
+  179                              module.85.yolo_85.s_r      True            1                  [1]        -7.45          nan
+  180                             module.85.yolo_85.s_id      True            1                  [1]         0.54          nan
+  181                           module.87.conv_87.weight      True       131072     [256, 512, 1, 1]     -0.00108       0.0226
+  182                     module.87.batch_norm_87.weight     False          256                [256]        0.514        0.283
+  183                       module.87.batch_norm_87.bias     False          256                [256]            0            0
+  184                           module.90.conv_90.weight      True       196608     [256, 768, 1, 1]     -0.00169       0.0393
+  185                     module.90.batch_norm_90.weight     False          256                [256]        0.495        0.306
+  186                       module.90.batch_norm_90.bias     False          256                [256]            0            0
+  187                           module.91.conv_91.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000812       0.0194
+  188                     module.91.batch_norm_91.weight     False          512                [512]         0.51        0.294
+  189                       module.91.batch_norm_91.bias     False          512                [512]            0            0
+  190                           module.92.conv_92.weight      True       131072     [256, 512, 1, 1]     -0.00166       0.0412
+  191                     module.92.batch_norm_92.weight     False          256                [256]        0.506        0.267
+  192                       module.92.batch_norm_92.bias     False          256                [256]            0            0
+  193                           module.93.conv_93.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000816       0.0176
+  194                     module.93.batch_norm_93.weight     False          512                [512]        0.501        0.287
+  195                       module.93.batch_norm_93.bias     False          512                [512]            0            0
+  196                           module.94.conv_94.weight      True       131072     [256, 512, 1, 1]     -0.00196       0.0401
+  197                     module.94.batch_norm_94.weight     False          256                [256]        0.496        0.291
+  198                       module.94.batch_norm_94.bias     False          256                [256]            0            0
+  199                           module.95.conv_95.weight      True  1.17965e+06     [512, 256, 3, 3]     -0.00138       0.0148
+  200                     module.95.batch_norm_95.weight     False          512                [512]        0.495        0.291
+  201                       module.95.batch_norm_95.bias     False          512                [512]            0            0
+  202                           module.96.conv_96.weight      True        12288      [24, 512, 1, 1]    -0.000944        0.147
+  203                             module.96.conv_96.bias      True           24                 [24]     -0.00664        0.592
+  204                           module.98.conv_98.weight      True  1.17965e+06     [512, 256, 3, 3]     3.29e-06      0.00984
+  205                             module.98.conv_98.bias      True          512                [512]     -0.00029       0.0113
+  206                            module.100.yolo_100.s_c      True            1                  [1]        -6.99          nan
+  207                            module.100.yolo_100.s_r      True            1                  [1]        -6.39          nan
+  208                           module.100.yolo_100.s_id      True            1                  [1]        0.957          nan
+  209                         module.102.conv_102.weight      True        32768     [128, 256, 1, 1]    -0.000564       0.0433
+  210                   module.102.batch_norm_102.weight     False          128                [128]        0.517        0.274
+  211                     module.102.batch_norm_102.bias     False          128                [128]            0            0
+  212                         module.105.conv_105.weight      True        49152     [128, 384, 1, 1]      -0.0022       0.0617
+  213                   module.105.batch_norm_105.weight     False          128                [128]        0.497        0.279
+  214                     module.105.batch_norm_105.bias     False          128                [128]            0            0
+  215                         module.106.conv_106.weight      True       294912     [256, 128, 3, 3]     -0.00161       0.0304
+  216                   module.106.batch_norm_106.weight     False          256                [256]        0.515        0.269
+  217                     module.106.batch_norm_106.bias     False          256                [256]            0            0
+  218                         module.107.conv_107.weight      True        32768     [128, 256, 1, 1]      -0.0012       0.0638
+  219                   module.107.batch_norm_107.weight     False          128                [128]        0.505        0.275
+  220                     module.107.batch_norm_107.bias     False          128                [128]            0            0
+  221                         module.108.conv_108.weight      True       294912     [256, 128, 3, 3]     -0.00101       0.0281
+  222                   module.108.batch_norm_108.weight     False          256                [256]        0.509        0.285
+  223                     module.108.batch_norm_108.bias     False          256                [256]            0            0
+  224                         module.109.conv_109.weight      True        32768     [128, 256, 1, 1]     -0.00259        0.066
+  225                   module.109.batch_norm_109.weight     False          128                [128]        0.494        0.303
+  226                     module.109.batch_norm_109.bias     False          128                [128]            0            0
+  227                         module.110.conv_110.weight      True       294912     [256, 128, 3, 3]     -0.00195       0.0235
+  228                   module.110.batch_norm_110.weight     False          256                [256]        0.468        0.287
+  229                     module.110.batch_norm_110.bias     False          256                [256]            0            0
+  230                         module.111.conv_111.weight      True         6144      [24, 256, 1, 1]      -0.0019        0.164
+  231                           module.111.conv_111.bias      True           24                 [24]       0.0282         1.07
+  232                         module.113.conv_113.weight      True       589824     [512, 128, 3, 3]     2.45e-05       0.0165
+  233                           module.113.conv_113.bias      True          512                [512]     4.99e-05       0.0179
+  234                            module.115.yolo_115.s_c      True            1                  [1]         -8.1          nan
+  235                            module.115.yolo_115.s_r      True            1                  [1]        -5.92          nan
+  236                           module.115.yolo_115.s_id      True            1                  [1]       -0.459          nan
+  237                           module.classifier.weight      True  7.40096e+06         [14455, 512]      4.2e-06       0.0116
+Model Summary: 238 layers, 7.30658e+07 parameters, 7.30132e+07 gradients
+
+begin training...
+2020-03-20 14:12:24 [INFO]:    Epoch       Batch       box      conf        id     total  nTargets      time
+/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/parallel/_functions.py:61: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.
+  warnings.warn('Was asked to gather along dimension 0, but all '
+2020-03-20 14:12:36 [INFO]:    60/29      0/6688      1.72  0.000769      41.3       413        36      12.3
+2020-03-20 14:12:58 [INFO]:    60/29     40/6688      1.81   0.00258        51       206      18.8     0.282
+2020-03-20 14:13:20 [INFO]:    60/29     80/6688      1.79   0.00245      47.9       120        20     0.286
+2020-03-20 14:13:41 [INFO]:    60/29    120/6688      1.81   0.00253      46.8      87.3      19.8     0.314
+2020-03-20 14:14:03 [INFO]:    60/29    160/6688      1.82   0.00238      45.3        69      20.3     0.305
+2020-03-20 14:14:25 [INFO]:    60/29    200/6688      1.82   0.00239      45.4      57.4      19.8      0.31
+2020-03-20 14:14:46 [INFO]:    60/29    240/6688      1.82    0.0023      44.8        49      19.8     0.299
+2020-03-20 14:15:08 [INFO]:    60/29    280/6688      1.82   0.00236        44      42.8      19.6       0.3
+2020-03-20 14:15:30 [INFO]:    60/29    320/6688      1.81   0.00231      43.1      37.9      19.4     0.307
+2020-03-20 14:15:51 [INFO]:    60/29    360/6688       1.8   0.00224      42.1      33.8      19.3     0.297
+2020-03-20 14:16:13 [INFO]:    60/29    400/6688      1.81   0.00225      41.5      30.6      19.3     0.315
+2020-03-20 14:16:35 [INFO]:    60/29    440/6688       1.8   0.00222      40.6      27.8      19.3     0.284
+2020-03-20 14:16:57 [INFO]:    60/29    480/6688       1.8    0.0022        40      25.4      19.5     0.301
+2020-03-20 14:17:19 [INFO]:    60/29    520/6688       1.8   0.00215      39.3      23.4      19.4     0.284
+2020-03-20 14:17:41 [INFO]:    60/29    560/6688       1.8   0.00218        39      21.7      19.4     0.318
+2020-03-20 14:18:02 [INFO]:    60/29    600/6688      1.79   0.00219      38.8      20.2      19.4     0.317
+2020-03-20 14:18:24 [INFO]:    60/29    640/6688      1.79   0.00221      38.4      18.9      19.5      0.31
+2020-03-20 14:18:46 [INFO]:    60/29    680/6688      1.79   0.00218      38.1      17.7      19.6     0.307
+2020-03-20 14:19:08 [INFO]:    60/29    720/6688      1.79   0.00218      37.8      16.6      19.6     0.318
+2020-03-20 14:19:30 [INFO]:    60/29    760/6688      1.79   0.00216      37.6      15.6      19.7     0.306
+2020-03-20 14:19:52 [INFO]:    60/29    800/6688      1.79   0.00218      37.4      14.7      19.7     0.313
+2020-03-20 14:20:14 [INFO]:    60/29    840/6688      1.78   0.00217      37.2      13.9      19.5     0.307
+2020-03-20 14:20:35 [INFO]:    60/29    880/6688      1.78    0.0022      37.1      13.2      19.5     0.295
+2020-03-20 14:20:57 [INFO]:    60/29    920/6688      1.78   0.00219      36.9      12.5      19.5      0.28
+2020-03-20 14:21:19 [INFO]:    60/29    960/6688      1.78   0.00217      36.6      11.8      19.5     0.288
+2020-03-20 14:21:41 [INFO]:    60/29   1000/6688      1.78   0.00216      36.5      11.2      19.5     0.306
+2020-03-20 14:22:02 [INFO]:    60/29   1040/6688      1.78   0.00216      36.3      10.7      19.5     0.309
+2020-03-20 14:22:24 [INFO]:    60/29   1080/6688      1.78   0.00216      36.1      10.2      19.4     0.296
+2020-03-20 14:22:46 [INFO]:    60/29   1120/6688      1.78   0.00217      35.9      9.72      19.5     0.288
+2020-03-20 14:23:08 [INFO]:    60/29   1160/6688      1.78   0.00216      35.6      9.26      19.7       0.3
+2020-03-20 14:23:30 [INFO]:    60/29   1200/6688      1.78   0.00217      35.3      8.85      19.7     0.279
+2020-03-20 14:23:52 [INFO]:    60/29   1240/6688      1.78   0.00216      35.1      8.44      19.7     0.302
+2020-03-20 14:24:14 [INFO]:    60/29   1280/6688      1.78   0.00216        35      8.07      19.8      0.32
+2020-03-20 14:24:36 [INFO]:    60/29   1320/6688      1.78   0.00215      34.9      7.72      19.8     0.302
+2020-03-20 14:24:58 [INFO]:    60/29   1360/6688      1.78   0.00216      34.8       7.4      19.8     0.308
+2020-03-20 14:25:20 [INFO]:    60/29   1400/6688      1.78   0.00216      34.6      7.08      19.9     0.301
+2020-03-20 14:25:43 [INFO]:    60/29   1440/6688      1.78   0.00216      34.5      6.79      19.9     0.313
+2020-03-20 14:26:05 [INFO]:    60/29   1480/6688      1.78   0.00217      34.5      6.52      19.9     0.313
+2020-03-20 14:26:27 [INFO]:    60/29   1520/6688      1.78   0.00217      34.3      6.25      19.9     0.312
+2020-03-20 14:26:49 [INFO]:    60/29   1560/6688      1.78   0.00217      34.2         6      19.9     0.304
+2020-03-20 14:27:11 [INFO]:    60/29   1600/6688      1.78   0.00218      34.1      5.77      19.9     0.287
+2020-03-20 14:27:33 [INFO]:    60/29   1640/6688      1.78   0.00218      33.9      5.53      19.8     0.292
+2020-03-20 14:27:55 [INFO]:    60/29   1680/6688      1.78   0.00217      33.9       5.3      19.8     0.308
+2020-03-20 14:28:18 [INFO]:    60/29   1720/6688      1.78   0.00218      33.8       5.1      19.9     0.309
+2020-03-20 14:28:40 [INFO]:    60/29   1760/6688      1.78   0.00217      33.7      4.89      19.9     0.315
+2020-03-20 14:29:02 [INFO]:    60/29   1800/6688      1.78   0.00216      33.6      4.69      19.8     0.309
+2020-03-20 14:29:25 [INFO]:    60/29   1840/6688      1.78   0.00217      33.5      4.51      19.9     0.277
+2020-03-20 14:29:47 [INFO]:    60/29   1880/6688      1.78   0.00216      33.5      4.33      19.9     0.339
+2020-03-20 14:30:09 [INFO]:    60/29   1920/6688      1.78   0.00215      33.3      4.15      19.9     0.299
+2020-03-20 14:30:31 [INFO]:    60/29   1960/6688      1.78   0.00214      33.2      3.97      19.9     0.317
+2020-03-20 14:30:53 [INFO]:    60/29   2000/6688      1.78   0.00213      33.1      3.81      19.9     0.307
+2020-03-20 14:31:15 [INFO]:    60/29   2040/6688      1.78   0.00213        33      3.65      19.9     0.318
+2020-03-20 14:31:38 [INFO]:    60/29   2080/6688      1.78   0.00212      32.9       3.5      19.9      0.32
+2020-03-20 14:32:00 [INFO]:    60/29   2120/6688      1.78   0.00212      32.8      3.35        20     0.315
+2020-03-20 14:32:22 [INFO]:    60/29   2160/6688      1.78   0.00212      32.7      3.21        20     0.299
+2020-03-20 14:32:44 [INFO]:    60/29   2200/6688      1.78   0.00212      32.7      3.09      19.9     0.319
+2020-03-20 14:33:07 [INFO]:    60/29   2240/6688      1.78   0.00212      32.6      2.96        20     0.293
+2020-03-20 14:33:29 [INFO]:    60/29   2280/6688      1.78   0.00211      32.5      2.83        20     0.286
+2020-03-20 14:33:51 [INFO]:    60/29   2320/6688      1.78   0.00212      32.4      2.71      20.1     0.328
+2020-03-20 14:34:14 [INFO]:    60/29   2360/6688      1.78   0.00212      32.3       2.6      20.1     0.289
+2020-03-20 14:34:36 [INFO]:    60/29   2400/6688      1.78   0.00213      32.3      2.49      20.1     0.315
+2020-03-20 14:34:57 [INFO]:    60/29   2440/6688      1.78   0.00213      32.2      2.39      20.1      0.31
+2020-03-20 14:35:20 [INFO]:    60/29   2480/6688      1.78   0.00212      32.2      2.28        20     0.297
+2020-03-20 14:35:42 [INFO]:    60/29   2520/6688      1.78   0.00213        32      2.17      20.1     0.281
+2020-03-20 14:36:04 [INFO]:    60/29   2560/6688      1.78   0.00213      31.9      2.08      20.1     0.308
+2020-03-20 14:36:27 [INFO]:    60/29   2600/6688      1.78   0.00213      31.9      1.98      20.1     0.305
+2020-03-20 14:36:49 [INFO]:    60/29   2640/6688      1.78   0.00213      31.8      1.89      20.1     0.311
+2020-03-20 14:37:11 [INFO]:    60/29   2680/6688      1.78   0.00213      31.8      1.79      20.1      0.32
+2020-03-20 14:37:33 [INFO]:    60/29   2720/6688      1.78   0.00213      31.7      1.71      20.1     0.309
+2020-03-20 14:37:55 [INFO]:    60/29   2760/6688      1.78   0.00213      31.6      1.62        20     0.334
+2020-03-20 14:38:18 [INFO]:    60/29   2800/6688      1.78   0.00212      31.5      1.53        20     0.315
+2020-03-20 14:38:40 [INFO]:    60/29   2840/6688      1.78   0.00212      31.5      1.45        20     0.286
+2020-03-20 14:39:02 [INFO]:    60/29   2880/6688      1.78   0.00212      31.4      1.37        20      0.31
+2020-03-20 14:39:25 [INFO]:    60/29   2920/6688      1.78   0.00211      31.4      1.29      20.1     0.304
+2020-03-20 14:39:47 [INFO]:    60/29   2960/6688      1.78   0.00211      31.3      1.21        20     0.308
+2020-03-20 14:40:09 [INFO]:    60/29   3000/6688      1.78   0.00211      31.3      1.14      20.1     0.319
+2020-03-20 14:40:32 [INFO]:    60/29   3040/6688      1.78   0.00212      31.2      1.07      20.1     0.315
+2020-03-20 14:40:54 [INFO]:    60/29   3080/6688      1.78   0.00212      31.2         1      20.2     0.332
+2020-03-20 14:41:16 [INFO]:    60/29   3120/6688      1.78   0.00212      31.1      0.94      20.2     0.284
+2020-03-20 14:41:39 [INFO]:    60/29   3160/6688      1.78   0.00211        31     0.867      20.2     0.315
+2020-03-20 14:42:01 [INFO]:    60/29   3200/6688      1.78   0.00211        31     0.801      20.1     0.315
+2020-03-20 14:42:23 [INFO]:    60/29   3240/6688      1.78    0.0021      30.9      0.73      20.1     0.324
+2020-03-20 14:42:45 [INFO]:    60/29   3280/6688      1.78   0.00211      30.9     0.668      20.1     0.318
+2020-03-20 14:43:08 [INFO]:    60/29   3320/6688      1.78    0.0021      30.8     0.607      20.1     0.331
+2020-03-20 14:43:30 [INFO]:    60/29   3360/6688      1.78    0.0021      30.7      0.54      20.1     0.297
+2020-03-20 14:43:52 [INFO]:    60/29   3400/6688      1.78   0.00209      30.7     0.475      20.1      0.32
+2020-03-20 14:44:15 [INFO]:    60/29   3440/6688      1.77   0.00209      30.6     0.416      20.1     0.321
+2020-03-20 14:44:37 [INFO]:    60/29   3480/6688      1.78   0.00209      30.5     0.359        20      0.32
+2020-03-20 14:44:59 [INFO]:    60/29   3520/6688      1.77   0.00209      30.4       0.3      20.1     0.301
+2020-03-20 14:45:21 [INFO]:    60/29   3560/6688      1.77   0.00209      30.4     0.247        20     0.321
+2020-03-20 14:45:44 [INFO]:    60/29   3600/6688      1.78   0.00209      30.4     0.199      20.1     0.321
+2020-03-20 14:46:06 [INFO]:    60/29   3640/6688      1.77   0.00209      30.3     0.147      20.1     0.324
+2020-03-20 14:46:28 [INFO]:    60/29   3680/6688      1.77   0.00209      30.3    0.0973      20.1     0.331
+2020-03-20 14:46:51 [INFO]:    60/29   3720/6688      1.77   0.00208      30.2    0.0456      20.1     0.296
+2020-03-20 14:47:13 [INFO]:    60/29   3760/6688      1.77   0.00208      30.1  -0.00525      20.1     0.325
+2020-03-20 14:47:35 [INFO]:    60/29   3800/6688      1.77   0.00208      30.1   -0.0483      20.1     0.306
+2020-03-20 14:47:58 [INFO]:    60/29   3840/6688      1.77   0.00208      30.1   -0.0911        20     0.327
+2020-03-20 14:48:20 [INFO]:    60/29   3880/6688      1.77   0.00208        30    -0.139        20     0.323
+2020-03-20 14:48:42 [INFO]:    60/29   3920/6688      1.77   0.00208        30    -0.179        20     0.294
+2020-03-20 14:49:05 [INFO]:    60/29   3960/6688      1.77   0.00208        30    -0.223        20     0.306
+2020-03-20 14:49:27 [INFO]:    60/29   4000/6688      1.77   0.00208      29.9    -0.268        20     0.323
+2020-03-20 14:49:49 [INFO]:    60/29   4040/6688      1.77   0.00208      29.9    -0.304      20.1      0.32
+2020-03-20 14:50:11 [INFO]:    60/29   4080/6688      1.77   0.00208      29.9    -0.346      20.1     0.309
+2020-03-20 14:50:34 [INFO]:    60/29   4120/6688      1.77   0.00208      29.8    -0.386      20.1     0.319
+2020-03-20 14:50:56 [INFO]:    60/29   4160/6688      1.77   0.00208      29.8    -0.422      20.1     0.308
+2020-03-20 14:51:18 [INFO]:    60/29   4200/6688      1.77   0.00208      29.7    -0.459      20.1      0.32
+2020-03-20 14:51:41 [INFO]:    60/29   4240/6688      1.77   0.00208      29.7    -0.496      20.1     0.327
+2020-03-20 14:52:03 [INFO]:    60/29   4280/6688      1.77   0.00208      29.6    -0.535      20.1     0.319
+2020-03-20 14:52:25 [INFO]:    60/29   4320/6688      1.77   0.00208      29.6    -0.572      20.1     0.293
+2020-03-20 14:52:47 [INFO]:    60/29   4360/6688      1.77   0.00208      29.6    -0.608        20     0.328
+2020-03-20 14:53:10 [INFO]:    60/29   4400/6688      1.77   0.00208      29.5    -0.644        20     0.319
+2020-03-20 14:53:32 [INFO]:    60/29   4440/6688      1.77   0.00208      29.5     -0.68      20.1     0.294
+2020-03-20 14:53:54 [INFO]:    60/29   4480/6688      1.77   0.00207      29.5    -0.717      20.1     0.319
+2020-03-20 14:54:16 [INFO]:    60/29   4520/6688      1.77   0.00208      29.4     -0.75      20.1     0.305
+2020-03-20 14:54:38 [INFO]:    60/29   4560/6688      1.77   0.00207      29.4    -0.783        20     0.314
+2020-03-20 14:55:01 [INFO]:    60/29   4600/6688      1.77   0.00207      29.3    -0.817        20     0.299
+2020-03-20 14:55:23 [INFO]:    60/29   4640/6688      1.77   0.00207      29.3    -0.849        20     0.314
+2020-03-20 14:55:45 [INFO]:    60/29   4680/6688      1.77   0.00207      29.3    -0.884        20     0.316
+2020-03-20 14:56:07 [INFO]:    60/29   4720/6688      1.77   0.00207      29.2    -0.915        20      0.31
+2020-03-20 14:56:30 [INFO]:    60/29   4760/6688      1.77   0.00207      29.2    -0.941        20     0.318
+2020-03-20 14:56:51 [INFO]:    60/29   4800/6688      1.77   0.00207      29.2    -0.975        20     0.289
+2020-03-20 14:57:13 [INFO]:    60/29   4840/6688      1.77   0.00207      29.1        -1        20     0.306
+2020-03-20 14:57:36 [INFO]:    60/29   4880/6688      1.77   0.00207      29.1     -1.03        20     0.318
+2020-03-20 14:57:58 [INFO]:    60/29   4920/6688      1.77   0.00207      29.1     -1.06        20      0.32
+2020-03-20 14:58:20 [INFO]:    60/29   4960/6688      1.77   0.00207        29     -1.09      20.1     0.288
+2020-03-20 14:58:42 [INFO]:    60/29   5000/6688      1.77   0.00207        29     -1.12        20     0.315
+2020-03-20 14:59:04 [INFO]:    60/29   5040/6688      1.77   0.00207        29     -1.14      20.1     0.316
+2020-03-20 14:59:27 [INFO]:    60/29   5080/6688      1.77   0.00206      28.9     -1.17      20.1     0.311
+2020-03-20 14:59:49 [INFO]:    60/29   5120/6688      1.77   0.00207      28.9      -1.2      20.1      0.32
+2020-03-20 15:00:11 [INFO]:    60/29   5160/6688      1.77   0.00207      28.9     -1.22      20.1     0.316
+2020-03-20 15:00:33 [INFO]:    60/29   5200/6688      1.77   0.00206      28.9     -1.25      20.1     0.295
+2020-03-20 15:00:55 [INFO]:    60/29   5240/6688      1.77   0.00206      28.8     -1.28      20.1     0.295
+2020-03-20 15:01:17 [INFO]:    60/29   5280/6688      1.77   0.00206      28.8      -1.3      20.1     0.313
+2020-03-20 15:01:39 [INFO]:    60/29   5320/6688      1.77   0.00206      28.7     -1.33      20.1     0.317
+2020-03-20 15:02:02 [INFO]:    60/29   5360/6688      1.77   0.00206      28.7     -1.35      20.1     0.323
+2020-03-20 15:02:24 [INFO]:    60/29   5400/6688      1.77   0.00206      28.7     -1.38      20.1     0.326
+2020-03-20 15:02:46 [INFO]:    60/29   5440/6688      1.77   0.00206      28.7      -1.4      20.1     0.315
+2020-03-20 15:03:09 [INFO]:    60/29   5480/6688      1.77   0.00206      28.7     -1.42      20.1     0.313
+2020-03-20 15:03:31 [INFO]:    60/29   5520/6688      1.77   0.00206      28.6     -1.44      20.1     0.315
+2020-03-20 15:03:53 [INFO]:    60/29   5560/6688      1.77   0.00206      28.6     -1.47      20.1     0.326
+2020-03-20 15:04:15 [INFO]:    60/29   5600/6688      1.77   0.00206      28.6     -1.49      20.1     0.305
+2020-03-20 15:04:37 [INFO]:    60/29   5640/6688      1.77   0.00206      28.6     -1.51      20.1     0.325
+2020-03-20 15:04:59 [INFO]:    60/29   5680/6688      1.77   0.00205      28.5     -1.53        20     0.325
+2020-03-20 15:05:22 [INFO]:    60/29   5720/6688      1.77   0.00205      28.5     -1.55        20     0.317
+2020-03-20 15:05:44 [INFO]:    60/29   5760/6688      1.77   0.00205      28.5     -1.57      20.1      0.34
+2020-03-20 15:06:06 [INFO]:    60/29   5800/6688      1.77   0.00206      28.5     -1.59      20.1      0.32
+2020-03-20 15:06:28 [INFO]:    60/29   5840/6688      1.77   0.00205      28.4     -1.61        20     0.317
+2020-03-20 15:06:50 [INFO]:    60/29   5880/6688      1.77   0.00205      28.4     -1.63      20.1     0.314
+2020-03-20 15:07:13 [INFO]:    60/29   5920/6688      1.77   0.00205      28.4     -1.65        20     0.316
+2020-03-20 15:07:35 [INFO]:    60/29   5960/6688      1.77   0.00205      28.4     -1.67        20     0.301
+2020-03-20 15:07:57 [INFO]:    60/29   6000/6688      1.77   0.00205      28.3     -1.69        20     0.306
+2020-03-20 15:08:19 [INFO]:    60/29   6040/6688      1.77   0.00205      28.3     -1.71        20     0.315
+2020-03-20 15:08:41 [INFO]:    60/29   6080/6688      1.77   0.00205      28.3     -1.72      20.1     0.313
+2020-03-20 15:09:03 [INFO]:    60/29   6120/6688      1.77   0.00205      28.3     -1.74      20.1     0.306
+2020-03-20 15:09:26 [INFO]:    60/29   6160/6688      1.77   0.00205      28.2     -1.76      20.1     0.329
+2020-03-20 15:09:48 [INFO]:    60/29   6200/6688      1.77   0.00205      28.2     -1.78        20      0.31
+2020-03-20 15:10:11 [INFO]:    60/29   6240/6688      1.77   0.00205      28.2      -1.8      20.1     0.324
+2020-03-20 15:10:33 [INFO]:    60/29   6280/6688      1.77   0.00205      28.2     -1.82        20     0.315
+2020-03-20 15:10:55 [INFO]:    60/29   6320/6688      1.77   0.00205      28.2     -1.83        20      0.33
+2020-03-20 15:11:17 [INFO]:    60/29   6360/6688      1.77   0.00205      28.2     -1.85        20     0.298
+2020-03-20 15:11:39 [INFO]:    60/29   6400/6688      1.77   0.00205      28.1     -1.87        20     0.292
+2020-03-20 15:12:02 [INFO]:    60/29   6440/6688      1.77   0.00205      28.1     -1.88        20     0.303
+2020-03-20 15:12:24 [INFO]:    60/29   6480/6688      1.77   0.00205      28.1      -1.9        20     0.322
+2020-03-20 15:12:46 [INFO]:    60/29   6520/6688      1.77   0.00205      28.1     -1.92        20     0.307
+2020-03-20 15:13:08 [INFO]:    60/29   6560/6688      1.77   0.00205        28     -1.93        20     0.306
+2020-03-20 15:13:30 [INFO]:    60/29   6600/6688      1.77   0.00205        28     -1.95        20     0.318
+2020-03-20 15:13:52 [INFO]:    60/29   6640/6688      1.77   0.00205        28     -1.96        20     0.311
+2020-03-20 15:14:15 [INFO]:    60/29   6680/6688      1.77   0.00205        28     -1.98        20     0.278
+2020-03-20 15:14:23 [INFO]:    Epoch       Batch       box      conf        id     total  nTargets      time
+2020-03-20 15:14:25 [INFO]:    61/29      0/6688      1.96   0.00649      18.3     -1.77        17      6.08
+2020-03-20 15:14:48 [INFO]:    61/29     40/6688      1.78   0.00191      20.9     -4.85      19.8     0.323
+2020-03-20 15:15:10 [INFO]:    61/29     80/6688      1.77   0.00206      21.3     -4.77      20.3     0.327
+2020-03-20 15:15:33 [INFO]:    61/29    120/6688      1.78   0.00219      21.1     -4.66      21.1     0.332
+2020-03-20 15:15:56 [INFO]:    61/29    160/6688      1.78    0.0022      20.8     -4.65      21.7     0.328
+2020-03-20 15:16:18 [INFO]:    61/29    200/6688      1.79   0.00219      21.3     -4.61      21.5     0.332
+2020-03-20 15:16:40 [INFO]:    61/29    240/6688      1.79   0.00215      21.5     -4.63      21.5     0.316
+2020-03-20 15:17:03 [INFO]:    61/29    280/6688      1.79    0.0021      21.4     -4.66      21.5      0.32
+2020-03-20 15:17:25 [INFO]:    61/29    320/6688      1.79   0.00208      21.6     -4.66      21.5     0.333
+2020-03-20 15:17:48 [INFO]:    61/29    360/6688      1.78   0.00213      21.3     -4.66      21.2     0.314
+2020-03-20 15:18:10 [INFO]:    61/29    400/6688      1.78    0.0021      21.5     -4.68      21.1     0.309
+2020-03-20 15:18:33 [INFO]:    61/29    440/6688      1.77   0.00209      21.4     -4.71        21     0.318
+2020-03-20 15:18:55 [INFO]:    61/29    480/6688      1.77   0.00209      21.4     -4.71      20.8     0.346
+2020-03-20 15:19:17 [INFO]:    61/29    520/6688      1.77   0.00206      21.5     -4.73      20.8     0.336
+2020-03-20 15:19:40 [INFO]:    61/29    560/6688      1.77    0.0021      21.6     -4.69        21     0.326
+2020-03-20 15:20:02 [INFO]:    61/29    600/6688      1.78   0.00211      21.6     -4.68        21     0.325
+2020-03-20 15:20:24 [INFO]:    61/29    640/6688      1.77   0.00209      21.4     -4.71      20.8     0.289
+2020-03-20 15:20:46 [INFO]:    61/29    680/6688      1.76   0.00206      21.5     -4.73      20.6     0.314
+2020-03-20 15:21:09 [INFO]:    61/29    720/6688      1.76   0.00205      21.5     -4.74      20.4     0.313
+2020-03-20 15:21:31 [INFO]:    61/29    760/6688      1.76   0.00203      21.5     -4.76      20.3     0.331
+2020-03-20 15:21:53 [INFO]:    61/29    800/6688      1.76   0.00202      21.5     -4.76      20.3     0.325
+2020-03-20 15:22:16 [INFO]:    61/29    840/6688      1.76   0.00204      21.5     -4.75      20.4     0.296
+2020-03-20 15:22:38 [INFO]:    61/29    880/6688      1.76   0.00202      21.6     -4.76      20.4     0.318
+2020-03-20 15:23:00 [INFO]:    61/29    920/6688      1.76   0.00202      21.4     -4.77      20.4     0.301
+2020-03-20 15:23:22 [INFO]:    61/29    960/6688      1.76     0.002      21.4     -4.78      20.3     0.319
+2020-03-20 15:23:44 [INFO]:    61/29   1000/6688      1.76   0.00201      21.5     -4.79      20.3     0.324
+2020-03-20 15:24:07 [INFO]:    61/29   1040/6688      1.76   0.00199      21.5      -4.8      20.3     0.345
+2020-03-20 15:24:29 [INFO]:    61/29   1080/6688      1.76     0.002      21.4      -4.8      20.2     0.327
+2020-03-20 15:24:52 [INFO]:    61/29   1120/6688      1.76     0.002      21.4      -4.8      20.1     0.318
+2020-03-20 15:25:14 [INFO]:    61/29   1160/6688      1.76   0.00202      21.5     -4.78      20.1     0.322
+2020-03-20 15:25:36 [INFO]:    61/29   1200/6688      1.76   0.00201      21.4     -4.79      20.2     0.331
+2020-03-20 15:25:59 [INFO]:    61/29   1240/6688      1.76     0.002      21.5      -4.8      20.1     0.284
+2020-03-20 15:26:21 [INFO]:    61/29   1280/6688      1.76   0.00201      21.4     -4.79      20.1     0.296
+2020-03-20 15:26:44 [INFO]:    61/29   1320/6688      1.76   0.00199      21.4     -4.81      20.1     0.321
+2020-03-20 15:27:06 [INFO]:    61/29   1360/6688      1.76   0.00198      21.4     -4.82      20.1     0.314
+2020-03-20 15:27:28 [INFO]:    61/29   1400/6688      1.76   0.00199      21.5     -4.81      20.1     0.326
+2020-03-20 15:27:50 [INFO]:    61/29   1440/6688      1.76     0.002      21.4      -4.8      20.1      0.32
+2020-03-20 15:28:12 [INFO]:    61/29   1480/6688      1.76   0.00199      21.4     -4.81        20     0.323
+2020-03-20 15:28:35 [INFO]:    61/29   1520/6688      1.75   0.00198      21.4     -4.82        20     0.327
+2020-03-20 15:28:57 [INFO]:    61/29   1560/6688      1.75   0.00197      21.3     -4.83        20     0.366
+2020-03-20 15:29:19 [INFO]:    61/29   1600/6688      1.75   0.00196      21.3     -4.84      19.9     0.322
+2020-03-20 15:29:41 [INFO]:    61/29   1640/6688      1.75   0.00197      21.3     -4.84      19.9     0.326
+2020-03-20 15:30:04 [INFO]:    61/29   1680/6688      1.75   0.00197      21.3     -4.84      19.9     0.322
+2020-03-20 15:30:26 [INFO]:    61/29   1720/6688      1.75   0.00197      21.3     -4.83        20     0.306
+2020-03-20 15:30:48 [INFO]:    61/29   1760/6688      1.75   0.00196      21.3     -4.84        20     0.301
+2020-03-20 15:31:10 [INFO]:    61/29   1800/6688      1.75   0.00197      21.3     -4.84        20     0.313
+2020-03-20 15:31:32 [INFO]:    61/29   1840/6688      1.75   0.00196      21.3     -4.84        20       0.3
+2020-03-20 15:31:55 [INFO]:    61/29   1880/6688      1.75   0.00197      21.3     -4.83        20     0.316
+2020-03-20 15:32:17 [INFO]:    61/29   1920/6688      1.76   0.00197      21.3     -4.83        20     0.333
+2020-03-20 15:32:40 [INFO]:    61/29   1960/6688      1.76   0.00196      21.3     -4.84        20     0.325
+2020-03-20 15:33:02 [INFO]:    61/29   2000/6688      1.76   0.00196      21.3     -4.84        20     0.315
+2020-03-20 15:33:24 [INFO]:    61/29   2040/6688      1.75   0.00194      21.3     -4.85      19.9     0.313
+2020-03-20 15:33:47 [INFO]:    61/29   2080/6688      1.75   0.00194      21.3     -4.85      19.9     0.322
+2020-03-20 15:34:09 [INFO]:    61/29   2120/6688      1.76   0.00194      21.4     -4.84        20     0.348
+2020-03-20 15:34:31 [INFO]:    61/29   2160/6688      1.75   0.00194      21.4     -4.84        20     0.311
+2020-03-20 15:34:54 [INFO]:    61/29   2200/6688      1.76   0.00195      21.4     -4.83        20      0.32
+2020-03-20 15:35:16 [INFO]:    61/29   2240/6688      1.76   0.00195      21.4     -4.83        20     0.325
+2020-03-20 15:35:38 [INFO]:    61/29   2280/6688      1.76   0.00194      21.5     -4.83        20     0.317
+2020-03-20 15:36:00 [INFO]:    61/29   2320/6688      1.76   0.00194      21.4     -4.83        20     0.319
+2020-03-20 15:36:23 [INFO]:    61/29   2360/6688      1.76   0.00194      21.5     -4.84        20     0.318
+2020-03-20 15:36:45 [INFO]:    61/29   2400/6688      1.76   0.00194      21.5     -4.83        20     0.305
+2020-03-20 15:37:07 [INFO]:    61/29   2440/6688      1.76   0.00194      21.4     -4.84        20     0.301
+2020-03-20 15:37:29 [INFO]:    61/29   2480/6688      1.76   0.00193      21.5     -4.84        20     0.281
+2020-03-20 15:37:52 [INFO]:    61/29   2520/6688      1.76   0.00193      21.5     -4.85        20     0.289
+2020-03-20 15:38:14 [INFO]:    61/29   2560/6688      1.76   0.00193      21.5     -4.84        20     0.302
+2020-03-20 15:38:36 [INFO]:    61/29   2600/6688      1.76   0.00193      21.5     -4.84        20     0.322
+2020-03-20 15:38:59 [INFO]:    61/29   2640/6688      1.76   0.00193      21.5     -4.84        20     0.367
+2020-03-20 15:39:21 [INFO]:    61/29   2680/6688      1.76   0.00193      21.5     -4.85        20     0.299
+2020-03-20 15:39:44 [INFO]:    61/29   2720/6688      1.76   0.00193      21.5     -4.85        20     0.326
+2020-03-20 15:40:06 [INFO]:    61/29   2760/6688      1.76   0.00193      21.5     -4.84        20     0.327
+opt
+ Namespace(accumulated_batches=1, batch_size=8, cfg='cfg/yolov3_864x480.cfg', data_cfg='cfg/ccmcpe.json', epochs=30, latest=False, lr=0.01, print_interval=40, resume=True, test_interval=3, unfreeze_bn=False)
+loading data
+================================================================================
+dataset summary
+OrderedDict([('mot17', 547.0), ('caltech', 1043.0), ('citypersons', 0), ('cuhksysu', 11931.0), ('prw', 933.0), ('eth', 0)])
+total # identities: 14455
+start index
+OrderedDict([('mot17', 0), ('caltech', 547.0), ('citypersons', 1590.0), ('cuhksysu', 1590.0), ('prw', 13521.0), ('eth', 14454.0)])
+================================================================================
+building model
+Loading jde finetune weight... /home/master/kuanzi/weights/66_epoch_diou_arcface.pt
+model weight loaded
+classifer_param
+ <generator object Module.parameters at 0x7fba763cfa40>
+classifer_param_value
+ [140438908892000]
+base_params
+ <filter object at 0x7fba79fb4080>
+chk epoch:
+ 66
+
+layer                                               name  gradient   parameters                shape           mu        sigma
+    0                             module.0.conv_0.weight      True          864        [32, 3, 3, 3]     -0.00218        0.373
+    1                       module.0.batch_norm_0.weight     False           32                 [32]        0.436        0.286
+    2                         module.0.batch_norm_0.bias     False           32                 [32]            0            0
+    3                             module.1.conv_1.weight      True        18432       [64, 32, 3, 3]     -0.00887        0.085
+    4                       module.1.batch_norm_1.weight     False           64                 [64]         0.47        0.266
+    5                         module.1.batch_norm_1.bias     False           64                 [64]            0            0
+    6                             module.2.conv_2.weight      True         2048       [32, 64, 1, 1]      -0.0185        0.169
+    7                       module.2.batch_norm_2.weight     False           32                 [32]        0.446        0.284
+    8                         module.2.batch_norm_2.bias     False           32                 [32]            0            0
+    9                             module.3.conv_3.weight      True        18432       [64, 32, 3, 3]      -0.0037       0.0833
+   10                       module.3.batch_norm_3.weight     False           64                 [64]        0.514        0.308
+   11                         module.3.batch_norm_3.bias     False           64                 [64]            0            0
+   12                             module.5.conv_5.weight      True        73728      [128, 64, 3, 3]     -0.00293       0.0547
+   13                       module.5.batch_norm_5.weight     False          128                [128]        0.499        0.293
+   14                         module.5.batch_norm_5.bias     False          128                [128]            0            0
+   15                             module.6.conv_6.weight      True         8192      [64, 128, 1, 1]     -0.00549       0.0858
+   16                       module.6.batch_norm_6.weight     False           64                 [64]        0.546         0.31
+   17                         module.6.batch_norm_6.bias     False           64                 [64]            0            0
+   18                             module.7.conv_7.weight      True        73728      [128, 64, 3, 3]     -0.00375       0.0469
+   19                       module.7.batch_norm_7.weight     False          128                [128]        0.492        0.311
+   20                         module.7.batch_norm_7.bias     False          128                [128]            0            0
+   21                             module.9.conv_9.weight      True         8192      [64, 128, 1, 1]     -0.00706       0.0963
+   22                       module.9.batch_norm_9.weight     False           64                 [64]        0.469          0.3
+   23                         module.9.batch_norm_9.bias     False           64                 [64]            0            0
+   24                           module.10.conv_10.weight      True        73728      [128, 64, 3, 3]     -0.00302        0.044
+   25                     module.10.batch_norm_10.weight     False          128                [128]        0.463        0.306
+   26                       module.10.batch_norm_10.bias     False          128                [128]            0            0
+   27                           module.12.conv_12.weight      True       294912     [256, 128, 3, 3]     1.06e-05       0.0344
+   28                     module.12.batch_norm_12.weight     False          256                [256]        0.495        0.277
+   29                       module.12.batch_norm_12.bias     False          256                [256]            0            0
+   30                           module.13.conv_13.weight      True        32768     [128, 256, 1, 1]      -0.0013       0.0484
+   31                     module.13.batch_norm_13.weight     False          128                [128]        0.465        0.283
+   32                       module.13.batch_norm_13.bias     False          128                [128]            0            0
+   33                           module.14.conv_14.weight      True       294912     [256, 128, 3, 3]     -0.00181       0.0279
+   34                     module.14.batch_norm_14.weight     False          256                [256]        0.515        0.281
+   35                       module.14.batch_norm_14.bias     False          256                [256]            0            0
+   36                           module.16.conv_16.weight      True        32768     [128, 256, 1, 1]     -0.00239       0.0538
+   37                     module.16.batch_norm_16.weight     False          128                [128]        0.474        0.289
+   38                       module.16.batch_norm_16.bias     False          128                [128]            0            0
+   39                           module.17.conv_17.weight      True       294912     [256, 128, 3, 3]     -0.00171       0.0283
+   40                     module.17.batch_norm_17.weight     False          256                [256]        0.513        0.279
+   41                       module.17.batch_norm_17.bias     False          256                [256]            0            0
+   42                           module.19.conv_19.weight      True        32768     [128, 256, 1, 1]     -0.00281       0.0536
+   43                     module.19.batch_norm_19.weight     False          128                [128]        0.478        0.283
+   44                       module.19.batch_norm_19.bias     False          128                [128]            0            0
+   45                           module.20.conv_20.weight      True       294912     [256, 128, 3, 3]     -0.00176       0.0269
+   46                     module.20.batch_norm_20.weight     False          256                [256]        0.491        0.298
+   47                       module.20.batch_norm_20.bias     False          256                [256]            0            0
+   48                           module.22.conv_22.weight      True        32768     [128, 256, 1, 1]     -0.00369        0.055
+   49                     module.22.batch_norm_22.weight     False          128                [128]          0.5        0.268
+   50                       module.22.batch_norm_22.bias     False          128                [128]            0            0
+   51                           module.23.conv_23.weight      True       294912     [256, 128, 3, 3]     -0.00167       0.0272
+   52                     module.23.batch_norm_23.weight     False          256                [256]        0.502        0.285
+   53                       module.23.batch_norm_23.bias     False          256                [256]            0            0
+   54                           module.25.conv_25.weight      True        32768     [128, 256, 1, 1]     -0.00275       0.0544
+   55                     module.25.batch_norm_25.weight     False          128                [128]         0.47        0.279
+   56                       module.25.batch_norm_25.bias     False          128                [128]            0            0
+   57                           module.26.conv_26.weight      True       294912     [256, 128, 3, 3]     -0.00165       0.0265
+   58                     module.26.batch_norm_26.weight     False          256                [256]        0.518        0.284
+   59                       module.26.batch_norm_26.bias     False          256                [256]            0            0
+   60                           module.28.conv_28.weight      True        32768     [128, 256, 1, 1]     -0.00334       0.0536
+   61                     module.28.batch_norm_28.weight     False          128                [128]        0.483         0.27
+   62                       module.28.batch_norm_28.bias     False          128                [128]            0            0
+   63                           module.29.conv_29.weight      True       294912     [256, 128, 3, 3]     -0.00159       0.0253
+   64                     module.29.batch_norm_29.weight     False          256                [256]        0.486        0.292
+   65                       module.29.batch_norm_29.bias     False          256                [256]            0            0
+   66                           module.31.conv_31.weight      True        32768     [128, 256, 1, 1]      -0.0034       0.0532
+   67                     module.31.batch_norm_31.weight     False          128                [128]         0.49        0.299
+   68                       module.31.batch_norm_31.bias     False          128                [128]            0            0
+   69                           module.32.conv_32.weight      True       294912     [256, 128, 3, 3]     -0.00148       0.0242
+   70                     module.32.batch_norm_32.weight     False          256                [256]        0.511        0.301
+   71                       module.32.batch_norm_32.bias     False          256                [256]            0            0
+   72                           module.34.conv_34.weight      True        32768     [128, 256, 1, 1]     -0.00229       0.0516
+   73                     module.34.batch_norm_34.weight     False          128                [128]        0.542        0.288
+   74                       module.34.batch_norm_34.bias     False          128                [128]            0            0
+   75                           module.35.conv_35.weight      True       294912     [256, 128, 3, 3]     -0.00129       0.0235
+   76                     module.35.batch_norm_35.weight     False          256                [256]        0.494        0.289
+   77                       module.35.batch_norm_35.bias     False          256                [256]            0            0
+   78                           module.37.conv_37.weight      True  1.17965e+06     [512, 256, 3, 3]      0.00019       0.0202
+   79                     module.37.batch_norm_37.weight     False          512                [512]        0.481        0.291
+   80                       module.37.batch_norm_37.bias     False          512                [512]            0            0
+   81                           module.38.conv_38.weight      True       131072     [256, 512, 1, 1]    -0.000503       0.0287
+   82                     module.38.batch_norm_38.weight     False          256                [256]        0.495        0.291
+   83                       module.38.batch_norm_38.bias     False          256                [256]            0            0
+   84                           module.39.conv_39.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000955       0.0158
+   85                     module.39.batch_norm_39.weight     False          512                [512]        0.498        0.285
+   86                       module.39.batch_norm_39.bias     False          512                [512]            0            0
+   87                           module.41.conv_41.weight      True       131072     [256, 512, 1, 1]    -0.000728       0.0291
+   88                     module.41.batch_norm_41.weight     False          256                [256]        0.475        0.292
+   89                       module.41.batch_norm_41.bias     False          256                [256]            0            0
+   90                           module.42.conv_42.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000852       0.0151
+   91                     module.42.batch_norm_42.weight     False          512                [512]        0.497        0.287
+   92                       module.42.batch_norm_42.bias     False          512                [512]            0            0
+   93                           module.44.conv_44.weight      True       131072     [256, 512, 1, 1]     -0.00125       0.0309
+   94                     module.44.batch_norm_44.weight     False          256                [256]        0.483        0.279
+   95                       module.44.batch_norm_44.bias     False          256                [256]            0            0
+   96                           module.45.conv_45.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000869       0.0156
+   97                     module.45.batch_norm_45.weight     False          512                [512]        0.505        0.289
+   98                       module.45.batch_norm_45.bias     False          512                [512]            0            0
+   99                           module.47.conv_47.weight      True       131072     [256, 512, 1, 1]     -0.00123       0.0316
+  100                     module.47.batch_norm_47.weight     False          256                [256]        0.505        0.292
+  101                       module.47.batch_norm_47.bias     False          256                [256]            0            0
+  102                           module.48.conv_48.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000854       0.0157
+  103                     module.48.batch_norm_48.weight     False          512                [512]        0.508        0.286
+  104                       module.48.batch_norm_48.bias     False          512                [512]            0            0
+  105                           module.50.conv_50.weight      True       131072     [256, 512, 1, 1]     -0.00103       0.0316
+  106                     module.50.batch_norm_50.weight     False          256                [256]        0.488        0.298
+  107                       module.50.batch_norm_50.bias     False          256                [256]            0            0
+  108                           module.51.conv_51.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000897       0.0151
+  109                     module.51.batch_norm_51.weight     False          512                [512]        0.487         0.28
+  110                       module.51.batch_norm_51.bias     False          512                [512]            0            0
+  111                           module.53.conv_53.weight      True       131072     [256, 512, 1, 1]      -0.0011       0.0315
+  112                     module.53.batch_norm_53.weight     False          256                [256]        0.514        0.291
+  113                       module.53.batch_norm_53.bias     False          256                [256]            0            0
+  114                           module.54.conv_54.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000778       0.0151
+  115                     module.54.batch_norm_54.weight     False          512                [512]        0.503        0.297
+  116                       module.54.batch_norm_54.bias     False          512                [512]            0            0
+  117                           module.56.conv_56.weight      True       131072     [256, 512, 1, 1]    -0.000741       0.0321
+  118                     module.56.batch_norm_56.weight     False          256                [256]        0.527        0.292
+  119                       module.56.batch_norm_56.bias     False          256                [256]            0            0
+  120                           module.57.conv_57.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000768       0.0149
+  121                     module.57.batch_norm_57.weight     False          512                [512]        0.494        0.287
+  122                       module.57.batch_norm_57.bias     False          512                [512]            0            0
+  123                           module.59.conv_59.weight      True       131072     [256, 512, 1, 1]     -0.00148       0.0321
+  124                     module.59.batch_norm_59.weight     False          256                [256]        0.486        0.298
+  125                       module.59.batch_norm_59.bias     False          256                [256]            0            0
+  126                           module.60.conv_60.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000643       0.0147
+  127                     module.60.batch_norm_60.weight     False          512                [512]        0.515        0.291
+  128                       module.60.batch_norm_60.bias     False          512                [512]            0            0
+  129                           module.62.conv_62.weight      True  4.71859e+06    [1024, 512, 3, 3]    -0.000139      0.00978
+  130                     module.62.batch_norm_62.weight     False         1024               [1024]        0.512        0.287
+  131                       module.62.batch_norm_62.bias     False         1024               [1024]            0            0
+  132                           module.63.conv_63.weight      True       524288    [512, 1024, 1, 1]    -0.000287       0.0158
+  133                     module.63.batch_norm_63.weight     False          512                [512]        0.522        0.286
+  134                       module.63.batch_norm_63.bias     False          512                [512]            0            0
+  135                           module.64.conv_64.weight      True  4.71859e+06    [1024, 512, 3, 3]      -0.0004      0.00802
+  136                     module.64.batch_norm_64.weight     False         1024               [1024]         0.51        0.286
+  137                       module.64.batch_norm_64.bias     False         1024               [1024]            0            0
+  138                           module.66.conv_66.weight      True       524288    [512, 1024, 1, 1]    -0.000297       0.0156
+  139                     module.66.batch_norm_66.weight     False          512                [512]        0.495        0.284
+  140                       module.66.batch_norm_66.bias     False          512                [512]            0            0
+  141                           module.67.conv_67.weight      True  4.71859e+06    [1024, 512, 3, 3]    -0.000349      0.00759
+  142                     module.67.batch_norm_67.weight     False         1024               [1024]        0.508        0.285
+  143                       module.67.batch_norm_67.bias     False         1024               [1024]            0            0
+  144                           module.69.conv_69.weight      True       524288    [512, 1024, 1, 1]     -0.00051       0.0157
+  145                     module.69.batch_norm_69.weight     False          512                [512]        0.497        0.282
+  146                       module.69.batch_norm_69.bias     False          512                [512]            0            0
+  147                           module.70.conv_70.weight      True  4.71859e+06    [1024, 512, 3, 3]    -0.000273      0.00745
+  148                     module.70.batch_norm_70.weight     False         1024               [1024]          0.5        0.284
+  149                       module.70.batch_norm_70.bias     False         1024               [1024]            0            0
+  150                           module.72.conv_72.weight      True       524288    [512, 1024, 1, 1]    -0.000268       0.0158
+  151                     module.72.batch_norm_72.weight     False          512                [512]        0.523        0.298
+  152                       module.72.batch_norm_72.bias     False          512                [512]            0            0
+  153                           module.73.conv_73.weight      True  4.71859e+06    [1024, 512, 3, 3]      -0.0003      0.00735
+  154                     module.73.batch_norm_73.weight     False         1024               [1024]          0.5        0.291
+  155                       module.73.batch_norm_73.bias     False         1024               [1024]            0            0
+  156                           module.75.conv_75.weight      True       524288    [512, 1024, 1, 1]     -0.00113       0.0215
+  157                     module.75.batch_norm_75.weight     False          512                [512]        0.496        0.293
+  158                       module.75.batch_norm_75.bias     False          512                [512]            0            0
+  159                           module.76.conv_76.weight      True  4.71859e+06    [1024, 512, 3, 3]    -0.000169      0.00904
+  160                     module.76.batch_norm_76.weight     False         1024               [1024]        0.488        0.289
+  161                       module.76.batch_norm_76.bias     False         1024               [1024]            0            0
+  162                           module.77.conv_77.weight      True       524288    [512, 1024, 1, 1]    -0.000412       0.0199
+  163                     module.77.batch_norm_77.weight     False          512                [512]        0.489         0.29
+  164                       module.77.batch_norm_77.bias     False          512                [512]            0            0
+  165                           module.78.conv_78.weight      True  4.71859e+06    [1024, 512, 3, 3]    -0.000261      0.00925
+  166                     module.78.batch_norm_78.weight     False         1024               [1024]        0.498        0.288
+  167                       module.78.batch_norm_78.bias     False         1024               [1024]            0            0
+  168                           module.79.conv_79.weight      True       524288    [512, 1024, 1, 1]     -0.00094        0.023
+  169                     module.79.batch_norm_79.weight     False          512                [512]        0.482         0.29
+  170                       module.79.batch_norm_79.bias     False          512                [512]            0            0
+  171                           module.80.conv_80.weight      True  4.71859e+06    [1024, 512, 3, 3]    -0.000619      0.00959
+  172                     module.80.batch_norm_80.weight     False         1024               [1024]        0.507        0.286
+  173                       module.80.batch_norm_80.bias     False         1024               [1024]            0            0
+  174                           module.81.conv_81.weight      True        24576     [24, 1024, 1, 1]    -0.000484        0.125
+  175                             module.81.conv_81.bias      True           24                 [24]      -0.0566          1.2
+  176                           module.83.conv_83.weight      True   2.3593e+06     [512, 512, 3, 3]     1.27e-05      0.00735
+  177                             module.83.conv_83.bias      True          512                [512]     -0.00121       0.0148
+  178                              module.85.yolo_85.s_c      True            1                  [1]         -7.4          nan
+  179                              module.85.yolo_85.s_r      True            1                  [1]        -1.56          nan
+  180                             module.85.yolo_85.s_id      True            1                  [1]         1.66          nan
+  181                           module.87.conv_87.weight      True       131072     [256, 512, 1, 1]     -0.00107       0.0227
+  182                     module.87.batch_norm_87.weight     False          256                [256]        0.514        0.283
+  183                       module.87.batch_norm_87.bias     False          256                [256]            0            0
+  184                           module.90.conv_90.weight      True       196608     [256, 768, 1, 1]      -0.0017       0.0393
+  185                     module.90.batch_norm_90.weight     False          256                [256]        0.495        0.306
+  186                       module.90.batch_norm_90.bias     False          256                [256]            0            0
+  187                           module.91.conv_91.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000813       0.0194
+  188                     module.91.batch_norm_91.weight     False          512                [512]         0.51        0.294
+  189                       module.91.batch_norm_91.bias     False          512                [512]            0            0
+  190                           module.92.conv_92.weight      True       131072     [256, 512, 1, 1]     -0.00164       0.0412
+  191                     module.92.batch_norm_92.weight     False          256                [256]        0.506        0.267
+  192                       module.92.batch_norm_92.bias     False          256                [256]            0            0
+  193                           module.93.conv_93.weight      True  1.17965e+06     [512, 256, 3, 3]    -0.000801       0.0176
+  194                     module.93.batch_norm_93.weight     False          512                [512]        0.501        0.287
+  195                       module.93.batch_norm_93.bias     False          512                [512]            0            0
+  196                           module.94.conv_94.weight      True       131072     [256, 512, 1, 1]      -0.0019       0.0401
+  197                     module.94.batch_norm_94.weight     False          256                [256]        0.496        0.291
+  198                       module.94.batch_norm_94.bias     False          256                [256]            0            0
+  199                           module.95.conv_95.weight      True  1.17965e+06     [512, 256, 3, 3]     -0.00136       0.0148
+  200                     module.95.batch_norm_95.weight     False          512                [512]        0.495        0.291
+  201                       module.95.batch_norm_95.bias     False          512                [512]            0            0
+  202                           module.96.conv_96.weight      True        12288      [24, 512, 1, 1]    -0.000896        0.147
+  203                             module.96.conv_96.bias      True           24                 [24]      -0.0026        0.594
+  204                           module.98.conv_98.weight      True  1.17965e+06     [512, 256, 3, 3]     6.08e-06      0.00984
+  205                             module.98.conv_98.bias      True          512                [512]    -0.000263       0.0113
+  206                            module.100.yolo_100.s_c      True            1                  [1]        -6.93          nan
+  207                            module.100.yolo_100.s_r      True            1                  [1]       -0.296          nan
+  208                           module.100.yolo_100.s_id      True            1                  [1]         2.17          nan
+  209                         module.102.conv_102.weight      True        32768     [128, 256, 1, 1]    -0.000437       0.0433
+  210                   module.102.batch_norm_102.weight     False          128                [128]        0.517        0.274
+  211                     module.102.batch_norm_102.bias     False          128                [128]            0            0
+  212                         module.105.conv_105.weight      True        49152     [128, 384, 1, 1]     -0.00223       0.0617
+  213                   module.105.batch_norm_105.weight     False          128                [128]        0.497        0.279
+  214                     module.105.batch_norm_105.bias     False          128                [128]            0            0
+  215                         module.106.conv_106.weight      True       294912     [256, 128, 3, 3]     -0.00162       0.0304
+  216                   module.106.batch_norm_106.weight     False          256                [256]        0.515        0.269
+  217                     module.106.batch_norm_106.bias     False          256                [256]            0            0
+  218                         module.107.conv_107.weight      True        32768     [128, 256, 1, 1]     -0.00123       0.0638
+  219                   module.107.batch_norm_107.weight     False          128                [128]        0.505        0.275
+  220                     module.107.batch_norm_107.bias     False          128                [128]            0            0
+  221                         module.108.conv_108.weight      True       294912     [256, 128, 3, 3]     -0.00101       0.0281
+  222                   module.108.batch_norm_108.weight     False          256                [256]        0.509        0.285
+  223                     module.108.batch_norm_108.bias     False          256                [256]            0            0
+  224                         module.109.conv_109.weight      True        32768     [128, 256, 1, 1]     -0.00249        0.066
+  225                   module.109.batch_norm_109.weight     False          128                [128]        0.494        0.303
+  226                     module.109.batch_norm_109.bias     False          128                [128]            0            0
+  227                         module.110.conv_110.weight      True       294912     [256, 128, 3, 3]     -0.00193       0.0235
+  228                   module.110.batch_norm_110.weight     False          256                [256]        0.468        0.287
+  229                     module.110.batch_norm_110.bias     False          256                [256]            0            0
+  230                         module.111.conv_111.weight      True         6144      [24, 256, 1, 1]     -0.00185        0.164
+  231                           module.111.conv_111.bias      True           24                 [24]       0.0326         1.07
+  232                         module.113.conv_113.weight      True       589824     [512, 128, 3, 3]     2.33e-05       0.0165
+  233                           module.113.conv_113.bias      True          512                [512]    -9.25e-06       0.0179
+  234                            module.115.yolo_115.s_c      True            1                  [1]        -8.05          nan
+  235                            module.115.yolo_115.s_r      True            1                  [1]        -0.22          nan
+  236                           module.115.yolo_115.s_id      True            1                  [1]          1.4          nan
+  237                           module.classifier.weight      True  7.40096e+06         [14455, 512]      4.2e-06       0.0116
+Model Summary: 238 layers, 7.30658e+07 parameters, 7.30132e+07 gradients
+
+begin training...
+2020-03-20 15:41:12 [INFO]:    Epoch       Batch       box      conf        id     total  nTargets      time
+/home/master/.conda/envs/mot/lib/python3.6/site-packages/torch/nn/parallel/_functions.py:61: UserWarning: Was asked to gather along dimension 0, but all input tensors were scalars; will instead unsqueeze and return a vector.
+  warnings.warn('Was asked to gather along dimension 0, but all '
+2020-03-20 15:41:24 [INFO]:    67/29      0/6688      1.72  0.000723      41.1     -4.06        36      12.4
+2020-03-20 15:41:45 [INFO]:    67/29     40/6688      1.73   0.00154      47.7     -2.68      18.8     0.278
+2020-03-20 15:42:06 [INFO]:    67/29     80/6688      1.72   0.00158      44.3     -3.01        20     0.293
+2020-03-20 15:42:26 [INFO]:    67/29    120/6688      1.75   0.00174        43     -2.97      19.8     0.314
+2020-03-20 15:42:47 [INFO]:    67/29    160/6688      1.77   0.00172      41.6     -3.13      20.3     0.338
+2020-03-20 15:43:08 [INFO]:    67/29    200/6688      1.78   0.00178      41.4     -3.13      19.8     0.309
+2020-03-20 15:43:29 [INFO]:    67/29    240/6688      1.78   0.00174      40.8     -3.22      19.8     0.313
+2020-03-20 15:43:50 [INFO]:    67/29    280/6688      1.78   0.00178      40.1     -3.26      19.6     0.325
+2020-03-20 15:44:11 [INFO]:    67/29    320/6688      1.78   0.00175      39.2     -3.39      19.4     0.317
+2020-03-20 15:44:32 [INFO]:    67/29    360/6688      1.77   0.00172      38.3     -3.52      19.3     0.318
+2020-03-20 15:44:53 [INFO]:    67/29    400/6688      1.78   0.00173      37.7     -3.57      19.3     0.304
+2020-03-20 15:45:14 [INFO]:    67/29    440/6688      1.77   0.00174      36.7     -3.66      19.3     0.298
+2020-03-20 15:45:35 [INFO]:    67/29    480/6688      1.77   0.00174      36.2     -3.72      19.5     0.312
+2020-03-20 15:45:56 [INFO]:    67/29    520/6688      1.77   0.00172      35.5      -3.8      19.4      0.31
+2020-03-20 15:46:17 [INFO]:    67/29    560/6688      1.77   0.00176      35.2     -3.79      19.4     0.306
+2020-03-20 15:46:38 [INFO]:    67/29    600/6688      1.77   0.00178        35     -3.81      19.4     0.319
+2020-03-20 15:46:58 [INFO]:    67/29    640/6688      1.77    0.0018      34.6     -3.83      19.5     0.327
+2020-03-20 15:47:20 [INFO]:    67/29    680/6688      1.77   0.00179      34.3     -3.86      19.6      0.31
+2020-03-20 15:47:41 [INFO]:    67/29    720/6688      1.77    0.0018        34     -3.89      19.6     0.327
+2020-03-20 15:48:02 [INFO]:    67/29    760/6688      1.77   0.00178      33.8     -3.93      19.7      0.31
+2020-03-20 15:48:22 [INFO]:    67/29    800/6688      1.77   0.00181      33.7     -3.92      19.7     0.318
+2020-03-20 15:48:43 [INFO]:    67/29    840/6688      1.76   0.00181      33.4     -3.95      19.5     0.307
+2020-03-20 15:49:04 [INFO]:    67/29    880/6688      1.76   0.00183      33.4     -3.93      19.5     0.317
+2020-03-20 15:49:25 [INFO]:    67/29    920/6688      1.76   0.00182      33.2     -3.96      19.5     0.306
+2020-03-20 15:49:46 [INFO]:    67/29    960/6688      1.76   0.00181      32.9        -4      19.5     0.297
+2020-03-20 15:50:07 [INFO]:    67/29   1000/6688      1.76   0.00181      32.8     -4.02      19.5     0.313
+2020-03-20 15:50:28 [INFO]:    67/29   1040/6688      1.76   0.00181      32.6     -4.03      19.5     0.317
+2020-03-20 15:50:49 [INFO]:    67/29   1080/6688      1.76   0.00182      32.4     -4.05      19.4     0.287
+2020-03-20 15:51:10 [INFO]:    67/29   1120/6688      1.76   0.00183      32.3     -4.05      19.5     0.289
+2020-03-20 15:51:31 [INFO]:    67/29   1160/6688      1.76   0.00183        32     -4.07      19.7     0.302
+2020-03-20 15:51:52 [INFO]:    67/29   1200/6688      1.76   0.00183      31.8     -4.09      19.7     0.291
+2020-03-20 15:52:13 [INFO]:    67/29   1240/6688      1.76   0.00183      31.6     -4.11      19.7     0.314
+2020-03-20 15:52:34 [INFO]:    67/29   1280/6688      1.76   0.00183      31.5     -4.12      19.8     0.305
+2020-03-20 15:52:55 [INFO]:    67/29   1320/6688      1.76   0.00183      31.4     -4.13      19.8     0.308
+2020-03-20 15:53:16 [INFO]:    67/29   1360/6688      1.77   0.00184      31.3     -4.13      19.8     0.319
+2020-03-20 15:53:37 [INFO]:    67/29   1400/6688      1.77   0.00183      31.1     -4.15      19.9     0.309
+2020-03-20 15:53:58 [INFO]:    67/29   1440/6688      1.77   0.00184        31     -4.16      19.9     0.319
+2020-03-20 15:54:19 [INFO]:    67/29   1480/6688      1.77   0.00185        31     -4.15      19.9     0.315
+2020-03-20 15:54:40 [INFO]:    67/29   1520/6688      1.77   0.00185      30.8     -4.17      19.9     0.315
+2020-03-20 15:55:01 [INFO]:    67/29   1560/6688      1.77   0.00185      30.7     -4.17      19.9     0.319
+2020-03-20 15:55:22 [INFO]:    67/29   1600/6688      1.77   0.00186      30.6     -4.17      19.9      0.31
+2020-03-20 15:55:43 [INFO]:    67/29   1640/6688      1.77   0.00186      30.5     -4.19      19.8     0.297
+2020-03-20 15:56:04 [INFO]:    67/29   1680/6688      1.77   0.00185      30.4      -4.2      19.8     0.322
+2020-03-20 15:56:25 [INFO]:    67/29   1720/6688      1.77   0.00186      30.3      -4.2      19.9      0.31
+2020-03-20 15:56:46 [INFO]:    67/29   1760/6688      1.77   0.00185      30.3     -4.22      19.9     0.306
+2020-03-20 15:57:07 [INFO]:    67/29   1800/6688      1.77   0.00185      30.2     -4.23      19.8     0.319
+2020-03-20 15:57:28 [INFO]:    67/29   1840/6688      1.77   0.00186      30.1     -4.23      19.9     0.312
+2020-03-20 15:57:49 [INFO]:    67/29   1880/6688      1.77   0.00185      30.1     -4.23      19.9     0.315
+2020-03-20 15:58:10 [INFO]:    67/29   1920/6688      1.77   0.00185        30     -4.24      19.9     0.326
+2020-03-20 15:58:31 [INFO]:    67/29   1960/6688      1.77   0.00184      29.8     -4.26      19.9     0.322
+2020-03-20 15:58:51 [INFO]:    67/29   2000/6688      1.77   0.00184      29.8     -4.27      19.9     0.316
+2020-03-20 15:59:12 [INFO]:    67/29   2040/6688      1.77   0.00184      29.7     -4.28      19.9     0.321
+2020-03-20 15:59:33 [INFO]:    67/29   2080/6688      1.77   0.00183      29.6     -4.29      19.9     0.316
+2020-03-20 15:59:54 [INFO]:    67/29   2120/6688      1.77   0.00183      29.5      -4.3        20     0.308
+2020-03-20 16:00:15 [INFO]:    67/29   2160/6688      1.77   0.00183      29.4      -4.3        20     0.328
+2020-03-20 16:00:36 [INFO]:    67/29   2200/6688      1.77   0.00183      29.4      -4.3      19.9     0.321
+2020-03-20 16:00:57 [INFO]:    67/29   2240/6688      1.77   0.00183      29.4      -4.3        20       0.3
+2020-03-20 16:01:18 [INFO]:    67/29   2280/6688      1.77   0.00183      29.2     -4.31        20     0.292
+2020-03-20 16:01:39 [INFO]:    67/29   2320/6688      1.77   0.00184      29.1     -4.32      20.1     0.305
+2020-03-20 16:02:01 [INFO]:    67/29   2360/6688      1.77   0.00184      29.1     -4.31      20.1     0.293
+2020-03-20 16:02:22 [INFO]:    67/29   2400/6688      1.77   0.00185        29     -4.32      20.1     0.326
+2020-03-20 16:02:43 [INFO]:    67/29   2440/6688      1.77   0.00185        29     -4.32      20.1     0.309
+2020-03-20 16:03:03 [INFO]:    67/29   2480/6688      1.77   0.00185        29     -4.33        20     0.323
+2020-03-20 16:03:24 [INFO]:    67/29   2520/6688      1.77   0.00185      28.8     -4.33      20.1     0.292
+2020-03-20 16:03:45 [INFO]:    67/29   2560/6688      1.77   0.00186      28.8     -4.33      20.1     0.303
+2020-03-20 16:04:07 [INFO]:    67/29   2600/6688      1.77   0.00186      28.7     -4.34      20.1     0.324
+2020-03-20 16:04:28 [INFO]:    67/29   2640/6688      1.77   0.00186      28.7     -4.34      20.1     0.325
+2020-03-20 16:04:49 [INFO]:    67/29   2680/6688      1.77   0.00185      28.6     -4.35      20.1     0.322
+2020-03-20 16:05:10 [INFO]:    67/29   2720/6688      1.77   0.00186      28.6     -4.35      20.1     0.302
+2020-03-20 16:05:31 [INFO]:    67/29   2760/6688      1.77   0.00186      28.5     -4.35        20     0.319
+2020-03-20 16:05:52 [INFO]:    67/29   2800/6688      1.77   0.00185      28.4     -4.36        20     0.316
+2020-03-20 16:06:13 [INFO]:    67/29   2840/6688      1.77   0.00186      28.4     -4.36        20     0.298
+2020-03-20 16:06:34 [INFO]:    67/29   2880/6688      1.77   0.00185      28.3     -4.37        20     0.319
+2020-03-20 16:06:55 [INFO]:    67/29   2920/6688      1.77   0.00185      28.3     -4.37      20.1     0.316
+2020-03-20 16:07:16 [INFO]:    67/29   2960/6688      1.77   0.00185      28.2     -4.38        20     0.337
+2020-03-20 16:07:37 [INFO]:    67/29   3000/6688      1.77   0.00186      28.2     -4.38      20.1     0.318
+2020-03-20 16:08:00 [INFO]:    67/29   3040/6688      1.77   0.00186      28.2     -4.38      20.1     0.334
+2020-03-20 16:08:22 [INFO]:    67/29   3080/6688      1.77   0.00186      28.1     -4.38      20.2     0.328
+2020-03-20 16:08:43 [INFO]:    67/29   3120/6688      1.77   0.00186      28.1     -4.38      20.2     0.307
+2020-03-20 16:09:04 [INFO]:    67/29   3160/6688      1.77   0.00186        28     -4.39      20.2     0.324
+2020-03-20 16:09:26 [INFO]:    67/29   3200/6688      1.77   0.00186        28     -4.39      20.1      0.31
+2020-03-20 16:09:47 [INFO]:    67/29   3240/6688      1.77   0.00185      27.9      -4.4      20.1     0.318
+2020-03-20 16:10:08 [INFO]:    67/29   3280/6688      1.77   0.00186      27.9     -4.41      20.1     0.312
+2020-03-20 16:10:29 [INFO]:    67/29   3320/6688      1.77   0.00186      27.8     -4.41      20.1     0.314
+2020-03-20 16:10:50 [INFO]:    67/29   3360/6688      1.77   0.00185      27.8     -4.42      20.1     0.289
+2020-03-20 16:11:11 [INFO]:    67/29   3400/6688      1.77   0.00185      27.7     -4.43      20.1     0.316
+2020-03-20 16:11:32 [INFO]:    67/29   3440/6688      1.77   0.00185      27.6     -4.44      20.1     0.324
+2020-03-20 16:11:53 [INFO]:    67/29   3480/6688      1.77   0.00184      27.6     -4.44        20     0.319
+2020-03-20 16:12:14 [INFO]:    67/29   3520/6688      1.77   0.00184      27.5     -4.45      20.1     0.294
+2020-03-20 16:12:35 [INFO]:    67/29   3560/6688      1.77   0.00184      27.4     -4.45        20     0.317
+2020-03-20 16:12:57 [INFO]:    67/29   3600/6688      1.77   0.00184      27.4     -4.45      20.1     0.315
+2020-03-20 16:13:18 [INFO]:    67/29   3640/6688      1.77   0.00184      27.4     -4.46      20.1     0.323
+2020-03-20 16:13:39 [INFO]:    67/29   3680/6688      1.77   0.00184      27.3     -4.46      20.1     0.334
+2020-03-20 16:14:00 [INFO]:    67/29   3720/6688      1.77   0.00184      27.3     -4.47      20.1     0.288
+2020-03-20 16:14:21 [INFO]:    67/29   3760/6688      1.77   0.00184      27.2     -4.47      20.1     0.338
+2020-03-20 16:14:42 [INFO]:    67/29   3800/6688      1.77   0.00184      27.2     -4.47      20.1     0.326
+2020-03-20 16:15:03 [INFO]:    67/29   3840/6688      1.77   0.00185      27.2     -4.47        20     0.306
+2020-03-20 16:15:24 [INFO]:    67/29   3880/6688      1.77   0.00184      27.1     -4.48        20     0.313
+2020-03-20 16:15:45 [INFO]:    67/29   3920/6688      1.77   0.00185      27.1     -4.48        20      0.29
+2020-03-20 16:16:07 [INFO]:    67/29   3960/6688      1.77   0.00184      27.1     -4.48        20     0.323
+2020-03-20 16:16:28 [INFO]:    67/29   4000/6688      1.77   0.00184      27.1     -4.48        20     0.325
+2020-03-20 16:16:49 [INFO]:    67/29   4040/6688      1.77   0.00184      27.1     -4.48      20.1      0.32
+2020-03-20 16:17:10 [INFO]:    67/29   4080/6688      1.77   0.00184        27     -4.48      20.1     0.313
+2020-03-20 16:17:31 [INFO]:    67/29   4120/6688      1.77   0.00185        27     -4.49      20.1     0.324
+2020-03-20 16:17:52 [INFO]:    67/29   4160/6688      1.77   0.00185      26.9     -4.49      20.1     0.315
+2020-03-20 16:18:13 [INFO]:    67/29   4200/6688      1.77   0.00185      26.9     -4.49      20.1       0.3
+2020-03-20 16:18:34 [INFO]:    67/29   4240/6688      1.77   0.00185      26.9     -4.49      20.1     0.319
+2020-03-20 16:18:55 [INFO]:    67/29   4280/6688      1.77   0.00185      26.8     -4.49      20.1     0.323
+2020-03-20 16:19:16 [INFO]:    67/29   4320/6688      1.77   0.00185      26.8      -4.5      20.1     0.308
+2020-03-20 16:19:38 [INFO]:    67/29   4360/6688      1.77   0.00185      26.8      -4.5        20     0.316
+2020-03-20 16:19:59 [INFO]:    67/29   4400/6688      1.77   0.00185      26.7      -4.5        20     0.321
+2020-03-20 16:20:20 [INFO]:    67/29   4440/6688      1.77   0.00185      26.7     -4.51      20.1     0.303
+2020-03-20 16:20:41 [INFO]:    67/29   4480/6688      1.77   0.00185      26.7     -4.51      20.1     0.304
+2020-03-20 16:21:02 [INFO]:    67/29   4520/6688      1.77   0.00185      26.6     -4.51      20.1     0.306
+2020-03-20 16:21:23 [INFO]:    67/29   4560/6688      1.77   0.00185      26.6     -4.52        20     0.318
+2020-03-20 16:21:44 [INFO]:    67/29   4600/6688      1.77   0.00185      26.6     -4.52        20      0.31
+2020-03-20 16:22:05 [INFO]:    67/29   4640/6688      1.77   0.00185      26.6     -4.52        20     0.313
+2020-03-20 16:22:26 [INFO]:    67/29   4680/6688      1.77   0.00184      26.5     -4.53        20     0.329
+2020-03-20 16:22:47 [INFO]:    67/29   4720/6688      1.77   0.00185      26.5     -4.53        20     0.326
+2020-03-20 16:23:09 [INFO]:    67/29   4760/6688      1.77   0.00185      26.5     -4.53        20     0.317
+2020-03-20 16:23:30 [INFO]:    67/29   4800/6688      1.77   0.00185      26.4     -4.53        20       0.3
+2020-03-20 16:23:51 [INFO]:    67/29   4840/6688      1.76   0.00185      26.4     -4.54        20     0.309
+2020-03-20 16:24:12 [INFO]:    67/29   4880/6688      1.77   0.00185      26.4     -4.53        20     0.313
+2020-03-20 16:24:33 [INFO]:    67/29   4920/6688      1.77   0.00185      26.4     -4.54        20     0.326
+2020-03-20 16:24:55 [INFO]:    67/29   4960/6688      1.77   0.00185      26.3     -4.54      20.1     0.309
+2020-03-20 16:25:16 [INFO]:    67/29   5000/6688      1.77   0.00185      26.3     -4.54        20     0.317
+2020-03-20 16:25:37 [INFO]:    67/29   5040/6688      1.77   0.00185      26.3     -4.54      20.1     0.312
+2020-03-20 16:25:58 [INFO]:    67/29   5080/6688      1.77   0.00185      26.2     -4.55      20.1     0.315
+2020-03-20 16:26:19 [INFO]:    67/29   5120/6688      1.77   0.00185      26.2     -4.55      20.1     0.304
+2020-03-20 16:26:40 [INFO]:    67/29   5160/6688      1.76   0.00185      26.2     -4.55      20.1     0.323
+2020-03-20 16:27:02 [INFO]:    67/29   5200/6688      1.76   0.00185      26.2     -4.55      20.1     0.301
+2020-03-20 16:27:23 [INFO]:    67/29   5240/6688      1.76   0.00184      26.2     -4.56      20.1     0.304
+2020-03-20 16:27:44 [INFO]:    67/29   5280/6688      1.76   0.00185      26.1     -4.56      20.1     0.327
+2020-03-20 16:28:05 [INFO]:    67/29   5320/6688      1.77   0.00184      26.1     -4.56      20.1     0.325
+2020-03-20 16:28:26 [INFO]:    67/29   5360/6688      1.77   0.00185      26.1     -4.56      20.1     0.331
+2020-03-20 16:28:47 [INFO]:    67/29   5400/6688      1.76   0.00184        26     -4.57      20.1      0.32
+2020-03-20 16:29:08 [INFO]:    67/29   5440/6688      1.76   0.00184        26     -4.57      20.1     0.305
+2020-03-20 16:29:29 [INFO]:    67/29   5480/6688      1.76   0.00184        26     -4.57      20.1      0.35
+2020-03-20 16:29:50 [INFO]:    67/29   5520/6688      1.76   0.00184        26     -4.57      20.1     0.327
+2020-03-20 16:30:11 [INFO]:    67/29   5560/6688      1.76   0.00184        26     -4.57      20.1     0.319
+2020-03-20 16:30:32 [INFO]:    67/29   5600/6688      1.76   0.00184        26     -4.57      20.1     0.301
+2020-03-20 16:30:54 [INFO]:    67/29   5640/6688      1.76   0.00184      25.9     -4.58      20.1     0.316
+2020-03-20 16:31:15 [INFO]:    67/29   5680/6688      1.76   0.00184      25.9     -4.58        20     0.328
+2020-03-20 16:31:36 [INFO]:    67/29   5720/6688      1.76   0.00184      25.9     -4.58        20     0.309
+2020-03-20 16:31:57 [INFO]:    67/29   5760/6688      1.76   0.00184      25.9     -4.58      20.1     0.306
+2020-03-20 16:32:18 [INFO]:    67/29   5800/6688      1.76   0.00184      25.9     -4.58      20.1     0.324
+2020-03-20 16:32:39 [INFO]:    67/29   5840/6688      1.76   0.00184      25.8     -4.58        20     0.321
+2020-03-20 16:33:00 [INFO]:    67/29   5880/6688      1.76   0.00185      25.8     -4.58      20.1      0.32
+2020-03-20 16:33:21 [INFO]:    67/29   5920/6688      1.76   0.00184      25.8     -4.58        20     0.318
+2020-03-20 16:33:42 [INFO]:    67/29   5960/6688      1.76   0.00184      25.8     -4.59        20     0.295
+2020-03-20 16:34:03 [INFO]:    67/29   6000/6688      1.76   0.00184      25.8     -4.59        20     0.314
+2020-03-20 16:34:24 [INFO]:    67/29   6040/6688      1.76   0.00185      25.8     -4.59        20     0.343
+2020-03-20 16:34:45 [INFO]:    67/29   6080/6688      1.76   0.00185      25.7     -4.59      20.1      0.32
+2020-03-20 16:35:06 [INFO]:    67/29   6120/6688      1.76   0.00185      25.7     -4.59      20.1     0.304
+2020-03-20 16:35:28 [INFO]:    67/29   6160/6688      1.76   0.00185      25.7     -4.59      20.1      0.31
+2020-03-20 16:35:49 [INFO]:    67/29   6200/6688      1.76   0.00185      25.7     -4.59        20     0.329
+2020-03-20 16:36:10 [INFO]:    67/29   6240/6688      1.76   0.00185      25.7     -4.59      20.1       0.3
+2020-03-20 16:36:31 [INFO]:    67/29   6280/6688      1.76   0.00185      25.7     -4.59        20     0.318
+2020-03-20 16:36:52 [INFO]:    67/29   6320/6688      1.76   0.00185      25.7     -4.59        20     0.341
+2020-03-20 16:37:13 [INFO]:    67/29   6360/6688      1.76   0.00185      25.6     -4.59        20     0.305
+2020-03-20 16:37:35 [INFO]:    67/29   6400/6688      1.76   0.00185      25.6      -4.6        20     0.291
+2020-03-20 16:37:56 [INFO]:    67/29   6440/6688      1.76   0.00185      25.6      -4.6        20     0.303
+2020-03-20 16:38:17 [INFO]:    67/29   6480/6688      1.76   0.00185      25.6      -4.6        20     0.325
+2020-03-20 16:38:38 [INFO]:    67/29   6520/6688      1.76   0.00185      25.6      -4.6        20     0.328
+2020-03-20 16:38:59 [INFO]:    67/29   6560/6688      1.76   0.00185      25.5      -4.6        20     0.313
+2020-03-20 16:39:20 [INFO]:    67/29   6600/6688      1.76   0.00185      25.5      -4.6        20     0.319
+2020-03-20 16:39:41 [INFO]:    67/29   6640/6688      1.76   0.00185      25.5      -4.6        20     0.312
+2020-03-20 16:40:02 [INFO]:    67/29   6680/6688      1.76   0.00185      25.5     -4.61        20     0.287
+2020-03-20 16:40:06 [INFO]:    Epoch       Batch       box      conf        id     total  nTargets      time
+2020-03-20 16:40:08 [INFO]:    68/29      0/6688      1.95   0.00575      16.2     -2.39        17      1.69
+2020-03-20 16:40:30 [INFO]:    68/29     40/6688      1.78   0.00173      19.3     -5.13      19.8     0.321
+2020-03-20 16:40:51 [INFO]:    68/29     80/6688      1.77   0.00186      19.7     -5.05      20.3     0.319
+2020-03-20 16:41:13 [INFO]:    68/29    120/6688      1.78   0.00205      19.5     -4.89      21.1     0.318
+2020-03-20 16:41:34 [INFO]:    68/29    160/6688      1.78   0.00206      19.3     -4.87      21.7     0.322
+2020-03-20 16:41:55 [INFO]:    68/29    200/6688      1.78   0.00202      19.7     -4.86      21.5     0.323
+2020-03-20 16:42:16 [INFO]:    68/29    240/6688      1.79   0.00198      19.9     -4.87      21.5     0.325
+2020-03-20 16:42:38 [INFO]:    68/29    280/6688      1.79   0.00194      19.8      -4.9      21.5     0.325
+2020-03-20 16:42:59 [INFO]:    68/29    320/6688      1.79   0.00193        20      -4.9      21.5     0.339
+2020-03-20 16:43:20 [INFO]:    68/29    360/6688      1.78   0.00197      19.8     -4.91      21.2      0.31
+2020-03-20 16:43:42 [INFO]:    68/29    400/6688      1.78   0.00194        20     -4.92      21.1      0.32
+2020-03-20 16:44:03 [INFO]:    68/29    440/6688      1.77   0.00193        20     -4.95        21     0.305
+2020-03-20 16:44:24 [INFO]:    68/29    480/6688      1.76   0.00193        20     -4.95      20.8     0.318
+2020-03-20 16:44:45 [INFO]:    68/29    520/6688      1.77   0.00191      20.1     -4.96      20.8     0.312
+2020-03-20 16:45:06 [INFO]:    68/29    560/6688      1.77   0.00194      20.1     -4.93        21     0.324
+2020-03-20 16:45:27 [INFO]:    68/29    600/6688      1.77   0.00195      20.1     -4.91        21     0.317
+2020-03-20 16:45:49 [INFO]:    68/29    640/6688      1.77   0.00193        20     -4.94      20.8     0.317
+2020-03-20 16:46:10 [INFO]:    68/29    680/6688      1.76   0.00191      20.1     -4.96      20.6     0.329
+2020-03-20 16:46:31 [INFO]:    68/29    720/6688      1.76    0.0019      20.1     -4.97      20.4     0.326
+2020-03-20 16:46:52 [INFO]:    68/29    760/6688      1.76   0.00188      20.1     -4.99      20.3      0.31
+2020-03-20 16:47:13 [INFO]:    68/29    800/6688      1.76   0.00188      20.1     -4.99      20.3     0.312
+2020-03-20 16:47:34 [INFO]:    68/29    840/6688      1.76   0.00189      20.1     -4.97      20.4     0.297
+2020-03-20 16:47:56 [INFO]:    68/29    880/6688      1.76   0.00187      20.2     -4.99      20.4     0.322
+2020-03-20 16:48:17 [INFO]:    68/29    920/6688      1.76   0.00188        20     -4.99      20.4     0.344
+2020-03-20 16:48:38 [INFO]:    68/29    960/6688      1.76   0.00187        20        -5      20.3     0.295
+2020-03-20 16:48:59 [INFO]:    68/29   1000/6688      1.76   0.00187        20     -5.01      20.3     0.317
+2020-03-20 16:49:20 [INFO]:    68/29   1040/6688      1.76   0.00185      20.1     -5.02      20.3     0.312
+2020-03-20 16:49:42 [INFO]:    68/29   1080/6688      1.76   0.00187        20     -5.02      20.2     0.328
+2020-03-20 16:50:03 [INFO]:    68/29   1120/6688      1.76   0.00187        20     -5.01      20.1     0.318
+2020-03-20 16:50:28 [INFO]:    68/29   1160/6688      1.76   0.00189      20.1        -5      20.1     0.445
+2020-03-20 16:50:58 [INFO]:    68/29   1200/6688      1.76   0.00188        20     -5.01      20.2     0.509
+2020-03-20 16:51:20 [INFO]:    68/29   1240/6688      1.76   0.00187        20     -5.01      20.1     0.338
+2020-03-20 16:51:42 [INFO]:    68/29   1280/6688      1.76   0.00188        20     -5.01      20.1     0.312
+2020-03-20 16:52:03 [INFO]:    68/29   1320/6688      1.76   0.00186        20     -5.02      20.1      0.31
+2020-03-20 16:52:24 [INFO]:    68/29   1360/6688      1.76   0.00185        20     -5.03      20.1     0.336
+2020-03-20 16:52:50 [INFO]:    68/29   1400/6688      1.76   0.00186      20.1     -5.02      20.1     0.462
+2020-03-20 16:53:19 [INFO]:    68/29   1440/6688      1.75   0.00186        20     -5.02      20.1     0.389
+2020-03-20 16:53:44 [INFO]:    68/29   1480/6688      1.75   0.00186        20     -5.03        20     0.341
+2020-03-20 16:54:06 [INFO]:    68/29   1520/6688      1.75   0.00185        20     -5.04        20      0.34
+2020-03-20 16:54:27 [INFO]:    68/29   1560/6688      1.75   0.00184        20     -5.05        20     0.319
+2020-03-20 16:54:48 [INFO]:    68/29   1600/6688      1.75   0.00183      19.9     -5.06      19.9     0.316
+2020-03-20 16:55:09 [INFO]:    68/29   1640/6688      1.75   0.00183      19.9     -5.06      19.9     0.314
+2020-03-20 16:55:30 [INFO]:    68/29   1680/6688      1.75   0.00183      19.9     -5.06      19.9     0.313
+2020-03-20 16:55:51 [INFO]:    68/29   1720/6688      1.75   0.00184      19.9     -5.05        20     0.336
+2020-03-20 16:56:12 [INFO]:    68/29   1760/6688      1.75   0.00183      19.9     -5.06        20     0.322
+2020-03-20 16:56:33 [INFO]:    68/29   1800/6688      1.75   0.00184      19.9     -5.06        20     0.321
+2020-03-20 16:56:55 [INFO]:    68/29   1840/6688      1.75   0.00183      19.9     -5.06        20     0.318
+2020-03-20 16:57:16 [INFO]:    68/29   1880/6688      1.75   0.00183      19.9     -5.05        20     0.313
+2020-03-20 16:57:37 [INFO]:    68/29   1920/6688      1.75   0.00183        20     -5.05        20     0.324
+2020-03-20 16:57:58 [INFO]:    68/29   1960/6688      1.75   0.00183      19.9     -5.06        20     0.313
+2020-03-20 16:58:19 [INFO]:    68/29   2000/6688      1.75   0.00182      19.9     -5.06        20     0.343
+2020-03-20 16:58:40 [INFO]:    68/29   2040/6688      1.75   0.00181      19.9     -5.07      19.9     0.311
+2020-03-20 16:59:02 [INFO]:    68/29   2080/6688      1.75   0.00181      19.9     -5.07      19.9     0.327
+2020-03-20 16:59:23 [INFO]:    68/29   2120/6688      1.75   0.00181        20     -5.06        20     0.316
+2020-03-20 16:59:44 [INFO]:    68/29   2160/6688      1.75   0.00181        20     -5.06        20     0.323
+2020-03-20 17:00:05 [INFO]:    68/29   2200/6688      1.75   0.00182        20     -5.05        20     0.322
+2020-03-20 17:00:27 [INFO]:    68/29   2240/6688      1.76   0.00182      20.1     -5.05        20     0.324
+2020-03-20 17:00:48 [INFO]:    68/29   2280/6688      1.76   0.00182      20.1     -5.04        20     0.311
+2020-03-20 17:01:09 [INFO]:    68/29   2320/6688      1.76   0.00181      20.1     -5.05        20     0.323
+2020-03-20 17:01:30 [INFO]:    68/29   2360/6688      1.76   0.00181      20.1     -5.05        20     0.322
+2020-03-20 17:01:51 [INFO]:    68/29   2400/6688      1.76   0.00181      20.1     -5.05        20     0.296
+2020-03-20 17:02:12 [INFO]:    68/29   2440/6688      1.76   0.00181      20.1     -5.05        20     0.302
+2020-03-20 17:02:33 [INFO]:    68/29   2480/6688      1.76    0.0018      20.1     -5.05        20     0.301
+2020-03-20 17:02:55 [INFO]:    68/29   2520/6688      1.76    0.0018      20.1     -5.06        20     0.298
+2020-03-20 17:03:16 [INFO]:    68/29   2560/6688      1.76    0.0018      20.1     -5.05        20     0.339
+2020-03-20 17:03:37 [INFO]:    68/29   2600/6688      1.76    0.0018      20.1     -5.05        20     0.318
+2020-03-20 17:03:58 [INFO]:    68/29   2640/6688      1.76    0.0018      20.2     -5.05        20     0.315
+2020-03-20 17:04:19 [INFO]:    68/29   2680/6688      1.75    0.0018      20.2     -5.06        20     0.314
+2020-03-20 17:04:40 [INFO]:    68/29   2720/6688      1.75    0.0018      20.2     -5.06        20     0.323
+2020-03-20 17:05:01 [INFO]:    68/29   2760/6688      1.75   0.00181      20.2     -5.05        20     0.314
+2020-03-20 17:05:23 [INFO]:    68/29   2800/6688      1.75    0.0018      20.2     -5.06        20     0.307
+2020-03-20 17:05:44 [INFO]:    68/29   2840/6688      1.75   0.00181      20.2     -5.05        20     0.331
+2020-03-20 17:06:05 [INFO]:    68/29   2880/6688      1.75   0.00181      20.2     -5.05        20     0.328
+2020-03-20 17:06:26 [INFO]:    68/29   2920/6688      1.75    0.0018      20.2     -5.05        20     0.311
+2020-03-20 17:06:47 [INFO]:    68/29   2960/6688      1.75    0.0018      20.2     -5.05        20     0.313
+2020-03-20 17:07:09 [INFO]:    68/29   3000/6688      1.75    0.0018      20.2     -5.05        20     0.299
+2020-03-20 17:07:30 [INFO]:    68/29   3040/6688      1.75    0.0018      20.2     -5.05        20     0.325
+2020-03-20 17:07:51 [INFO]:    68/29   3080/6688      1.75   0.00179      20.2     -5.06      19.9     0.339
+2020-03-20 17:08:12 [INFO]:    68/29   3120/6688      1.75   0.00179      20.2     -5.06      19.9     0.317
+2020-03-20 17:08:33 [INFO]:    68/29   3160/6688      1.75   0.00179      20.2     -5.06      19.9     0.327
+2020-03-20 17:08:54 [INFO]:    68/29   3200/6688      1.75   0.00179      20.2     -5.06      19.9     0.294
+2020-03-20 17:09:15 [INFO]:    68/29   3240/6688      1.75   0.00179      20.2     -5.06      19.9     0.326
+2020-03-20 17:09:37 [INFO]:    68/29   3280/6688      1.75    0.0018      20.2     -5.06        20     0.307
+2020-03-20 17:09:58 [INFO]:    68/29   3320/6688      1.76    0.0018      20.1     -5.05        20     0.328
+2020-03-20 17:10:19 [INFO]:    68/29   3360/6688      1.76    0.0018      20.1     -5.05        20     0.326
+2020-03-20 17:10:40 [INFO]:    68/29   3400/6688      1.76   0.00181      20.2     -5.05        20     0.304
+2020-03-20 17:11:01 [INFO]:    68/29   3440/6688      1.76   0.00181      20.2     -5.04      20.1     0.324
+2020-03-20 17:11:23 [INFO]:    68/29   3480/6688      1.76   0.00182      20.2     -5.03      20.1      0.32
+2020-03-20 17:11:44 [INFO]:    68/29   3520/6688      1.76   0.00182      20.2     -5.03        20      0.32
+2020-03-20 17:12:05 [INFO]:    68/29   3560/6688      1.76   0.00182      20.2     -5.03        20     0.321
+2020-03-20 17:12:27 [INFO]:    68/29   3600/6688      1.76   0.00182      20.2     -5.02      20.1     0.348
+2020-03-20 17:12:48 [INFO]:    68/29   3640/6688      1.76   0.00182      20.2     -5.03      20.1     0.318
+2020-03-20 17:13:09 [INFO]:    68/29   3680/6688      1.76   0.00182      20.3     -5.02      20.1     0.321
+2020-03-20 17:13:30 [INFO]:    68/29   3720/6688      1.76   0.00183      20.3     -5.02      20.1     0.327
+2020-03-20 17:13:52 [INFO]:    68/29   3760/6688      1.76   0.00183      20.3     -5.02      20.1     0.319
+2020-03-20 17:14:13 [INFO]:    68/29   3800/6688      1.76   0.00183      20.3     -5.02        20     0.298
+2020-03-20 17:14:34 [INFO]:    68/29   3840/6688      1.76   0.00183      20.3     -5.01      20.1     0.321
+2020-03-20 17:14:55 [INFO]:    68/29   3880/6688      1.76   0.00183      20.3     -5.02        20     0.328
+2020-03-20 17:15:16 [INFO]:    68/29   3920/6688      1.76   0.00182      20.3     -5.02        20     0.319
+2020-03-20 17:15:37 [INFO]:    68/29   3960/6688      1.76   0.00183      20.3     -5.02        20     0.325
+2020-03-20 17:15:59 [INFO]:    68/29   4000/6688      1.76   0.00183      20.3     -5.01        20     0.318
+2020-03-20 17:16:20 [INFO]:    68/29   4040/6688      1.76   0.00183      20.3     -5.01        20     0.326
+2020-03-20 17:16:41 [INFO]:    68/29   4080/6688      1.76   0.00183      20.3     -5.01        20     0.327
+2020-03-20 17:17:02 [INFO]:    68/29   4120/6688      1.76   0.00183      20.3     -5.01        20      0.34
+2020-03-20 17:17:23 [INFO]:    68/29   4160/6688      1.76   0.00183      20.3     -5.01        20     0.369
+2020-03-20 17:17:45 [INFO]:    68/29   4200/6688      1.76   0.00183      20.3     -5.01        20     0.288
+2020-03-20 17:18:06 [INFO]:    68/29   4240/6688      1.76   0.00183      20.3     -5.01      20.1     0.319
+2020-03-20 17:18:27 [INFO]:    68/29   4280/6688      1.76   0.00183      20.3     -5.01        20     0.318
+2020-03-20 17:18:48 [INFO]:    68/29   4320/6688      1.76   0.00183      20.3     -5.01        20     0.323
+2020-03-20 17:19:09 [INFO]:    68/29   4360/6688      1.76   0.00183      20.3     -5.01      20.1     0.349
+2020-03-20 17:19:30 [INFO]:    68/29   4400/6688      1.76   0.00183      20.3     -5.01      20.1      0.33
+2020-03-20 17:19:51 [INFO]:    68/29   4440/6688      1.76   0.00183      20.3     -5.01      20.1     0.323
+2020-03-20 17:20:12 [INFO]:    68/29   4480/6688      1.76   0.00183      20.2     -5.01      20.1     0.323
+2020-03-20 17:20:34 [INFO]:    68/29   4520/6688      1.76   0.00183      20.2     -5.01      20.1     0.317
+2020-03-20 17:20:55 [INFO]:    68/29   4560/6688      1.76   0.00184      20.2     -5.01      20.1     0.324
+2020-03-20 17:21:16 [INFO]:    68/29   4600/6688      1.76   0.00184      20.2     -5.01      20.1     0.306
+2020-03-20 17:21:37 [INFO]:    68/29   4640/6688      1.76   0.00184      20.2     -5.01      20.1     0.323
+2020-03-20 17:21:58 [INFO]:    68/29   4680/6688      1.76   0.00184      20.2        -5      20.1     0.317
+2020-03-20 17:22:19 [INFO]:    68/29   4720/6688      1.76   0.00184      20.2        -5      20.1     0.339
+2020-03-20 17:22:40 [INFO]:    68/29   4760/6688      1.76   0.00184      20.2        -5      20.1     0.329
+2020-03-20 17:23:01 [INFO]:    68/29   4800/6688      1.76   0.00184      20.2     -5.01      20.1      0.32
+2020-03-20 17:23:22 [INFO]:    68/29   4840/6688      1.76   0.00184      20.2        -5        20     0.311
+2020-03-20 17:23:44 [INFO]:    68/29   4880/6688      1.76   0.00184      20.2        -5        20     0.323
+2020-03-20 17:24:05 [INFO]:    68/29   4920/6688      1.76   0.00185      20.2        -5      20.1      0.34
+2020-03-20 17:24:26 [INFO]:    68/29   4960/6688      1.76   0.00185      20.3        -5        20     0.315
+2020-03-20 17:24:47 [INFO]:    68/29   5000/6688      1.76   0.00185      20.3        -5        20     0.327
+2020-03-20 17:25:08 [INFO]:    68/29   5040/6688      1.76   0.00185      20.3        -5        20     0.321
+2020-03-20 17:25:29 [INFO]:    68/29   5080/6688      1.76   0.00185      20.3        -5        20     0.323
+2020-03-20 17:25:50 [INFO]:    68/29   5120/6688      1.76   0.00185      20.2        -5        20     0.317
+2020-03-20 17:26:11 [INFO]:    68/29   5160/6688      1.76   0.00185      20.2        -5        20     0.325
+2020-03-20 17:26:32 [INFO]:    68/29   5200/6688      1.76   0.00184      20.2        -5        20     0.316
+2020-03-20 17:26:54 [INFO]:    68/29   5240/6688      1.76   0.00184      20.3        -5        20     0.341
+2020-03-20 17:27:15 [INFO]:    68/29   5280/6688      1.76   0.00185      20.3        -5        20     0.314
+2020-03-20 17:27:36 [INFO]:    68/29   5320/6688      1.76   0.00184      20.3        -5        20     0.335
+2020-03-20 17:27:57 [INFO]:    68/29   5360/6688      1.76   0.00184      20.3        -5        20      0.32
+2020-03-20 17:28:18 [INFO]:    68/29   5400/6688      1.76   0.00184      20.3        -5        20     0.315
+2020-03-20 17:28:39 [INFO]:    68/29   5440/6688      1.76   0.00184      20.3        -5        20     0.312
+2020-03-20 17:29:00 [INFO]:    68/29   5480/6688      1.76   0.00184      20.3        -5        20     0.302
+2020-03-20 17:29:22 [INFO]:    68/29   5520/6688      1.76   0.00184      20.3        -5        20     0.318
+2020-03-20 17:29:43 [INFO]:    68/29   5560/6688      1.76   0.00184      20.3        -5        20      0.31
+2020-03-20 17:30:04 [INFO]:    68/29   5600/6688      1.76   0.00184      20.3        -5        20     0.316
+2020-03-20 17:30:25 [INFO]:    68/29   5640/6688      1.76   0.00184      20.3        -5        20     0.319
+2020-03-20 17:30:46 [INFO]:    68/29   5680/6688      1.76   0.00184      20.3        -5        20     0.323
+2020-03-20 17:31:07 [INFO]:    68/29   5720/6688      1.76   0.00184      20.3        -5        20      0.31
+2020-03-20 17:31:28 [INFO]:    68/29   5760/6688      1.76   0.00184      20.3        -5        20     0.329
+2020-03-20 17:31:49 [INFO]:    68/29   5800/6688      1.76   0.00184      20.3        -5        20     0.378
+2020-03-20 17:32:11 [INFO]:    68/29   5840/6688      1.76   0.00184      20.3        -5        20      0.32
+2020-03-20 17:32:32 [INFO]:    68/29   5880/6688      1.76   0.00184      20.3        -5        20      0.31
+2020-03-20 17:32:53 [INFO]:    68/29   5920/6688      1.76   0.00184      20.3        -5        20      0.32
+2020-03-20 17:33:14 [INFO]:    68/29   5960/6688      1.76   0.00184      20.3        -5        20     0.296
+2020-03-20 17:33:35 [INFO]:    68/29   6000/6688      1.76   0.00184      20.3        -5        20     0.296
+2020-03-20 17:33:56 [INFO]:    68/29   6040/6688      1.76   0.00184      20.3        -5        20     0.312
+2020-03-20 17:34:17 [INFO]:    68/29   6080/6688      1.76   0.00184      20.3        -5        20     0.322
+2020-03-20 17:34:38 [INFO]:    68/29   6120/6688      1.76   0.00184      20.3     -5.01        20     0.327
+2020-03-20 17:34:59 [INFO]:    68/29   6160/6688      1.76   0.00184      20.3     -5.01        20     0.287
+2020-03-20 17:35:20 [INFO]:    68/29   6200/6688      1.76   0.00184      20.3     -5.01        20     0.324
+2020-03-20 17:35:41 [INFO]:    68/29   6240/6688      1.76   0.00184      20.2     -5.01        20     0.322
+2020-03-20 17:36:03 [INFO]:    68/29   6280/6688      1.76   0.00184      20.2     -5.01        20     0.315
+2020-03-20 17:36:24 [INFO]:    68/29   6320/6688      1.76   0.00184      20.2     -5.01        20     0.384
+2020-03-20 17:36:45 [INFO]:    68/29   6360/6688      1.76   0.00184      20.2     -5.01        20     0.339
+2020-03-20 17:37:06 [INFO]:    68/29   6400/6688      1.76   0.00184      20.2     -5.01        20     0.321
+2020-03-20 17:37:27 [INFO]:    68/29   6440/6688      1.76   0.00184      20.2     -5.01        20     0.325
+2020-03-20 17:37:48 [INFO]:    68/29   6480/6688      1.76   0.00183      20.2     -5.01        20     0.325
+2020-03-20 17:38:09 [INFO]:    68/29   6520/6688      1.76   0.00183      20.2     -5.01        20     0.319
+2020-03-20 17:38:30 [INFO]:    68/29   6560/6688      1.76   0.00184      20.2     -5.01        20     0.324
+2020-03-20 17:38:52 [INFO]:    68/29   6600/6688      1.76   0.00184      20.2     -5.01        20     0.318
+2020-03-20 17:39:13 [INFO]:    68/29   6640/6688      1.76   0.00184      20.2     -5.01        20     0.306
+2020-03-20 17:39:34 [INFO]:    68/29   6680/6688      1.76   0.00184      20.2     -5.01        20     0.311
+2020-03-20 17:39:38 [INFO]:    Epoch       Batch       box      conf        id     total  nTargets      time
+2020-03-20 17:39:40 [INFO]:    69/29      0/6688      1.88  0.000967        21     -5.66        27      2.08
+2020-03-20 17:40:02 [INFO]:    69/29     40/6688       1.8   0.00177      18.4     -5.09      21.5     0.393
+2020-03-20 17:40:23 [INFO]:    69/29     80/6688       1.8   0.00187      18.4     -5.02      20.6      0.31
+2020-03-20 17:40:44 [INFO]:    69/29    120/6688       1.8   0.00185      18.7     -5.03      21.1     0.347
+2020-03-20 17:41:06 [INFO]:    69/29    160/6688      1.79   0.00189      18.8     -5.01      20.6     0.332
+2020-03-20 17:41:27 [INFO]:    69/29    200/6688      1.76   0.00179      18.8     -5.12      20.2     0.313
+2020-03-20 17:41:48 [INFO]:    69/29    240/6688      1.76   0.00178      18.8     -5.13      20.1     0.337
+2020-03-20 17:42:10 [INFO]:    69/29    280/6688      1.77   0.00183      19.1     -5.06      20.7     0.306
+2020-03-20 17:42:31 [INFO]:    69/29    320/6688      1.77   0.00179      18.8     -5.12      20.6     0.313
+2020-03-20 17:42:53 [INFO]:    69/29    360/6688      1.77   0.00179      18.8     -5.11      20.5     0.306
+2020-03-20 17:43:14 [INFO]:    69/29    400/6688      1.77   0.00182        19     -5.06      20.5     0.321
+2020-03-20 17:43:35 [INFO]:    69/29    440/6688      1.77    0.0018        19     -5.08      20.5     0.311
+2020-03-20 17:43:56 [INFO]:    69/29    480/6688      1.77   0.00184        19     -5.06      20.4     0.316
+2020-03-20 17:44:17 [INFO]:    69/29    520/6688      1.76   0.00184        19     -5.05      20.2     0.327
+2020-03-20 17:44:38 [INFO]:    69/29    560/6688      1.76   0.00184        19     -5.07      20.1     0.359
+2020-03-20 17:44:59 [INFO]:    69/29    600/6688      1.76   0.00183        19     -5.08      20.1     0.326
+2020-03-20 17:45:20 [INFO]:    69/29    640/6688      1.77   0.00181        19      -5.1      20.1     0.312
+2020-03-20 17:45:41 [INFO]:    69/29    680/6688      1.76   0.00182        19     -5.09        20     0.322
+2020-03-20 17:46:03 [INFO]:    69/29    720/6688      1.77   0.00183        19     -5.08        20      0.32
+2020-03-20 17:46:24 [INFO]:    69/29    760/6688      1.76   0.00183        19     -5.08      19.8     0.303
+2020-03-20 17:46:45 [INFO]:    69/29    800/6688      1.77   0.00184      18.8     -5.09      19.8       0.3
+2020-03-20 17:47:06 [INFO]:    69/29    840/6688      1.77   0.00187      18.9     -5.06      19.9     0.306
+2020-03-20 17:47:27 [INFO]:    69/29    880/6688      1.77   0.00188      18.9     -5.04      20.2     0.318
+2020-03-20 17:47:49 [INFO]:    69/29    920/6688      1.77   0.00189      18.9     -5.03      20.2      0.34
+2020-03-20 17:48:10 [INFO]:    69/29    960/6688      1.77   0.00189      18.9     -5.04      20.2     0.328
+2020-03-20 17:48:31 [INFO]:    69/29   1000/6688      1.77   0.00189        19     -5.02      20.2     0.309
+2020-03-20 17:48:52 [INFO]:    69/29   1040/6688      1.77   0.00189        19     -5.02      20.2     0.329
+2020-03-20 17:49:13 [INFO]:    69/29   1080/6688      1.77   0.00189        19     -5.02      20.3     0.326
+2020-03-20 17:49:34 [INFO]:    69/29   1120/6688      1.77    0.0019        19     -5.02      20.3     0.365
+2020-03-20 17:49:55 [INFO]:    69/29   1160/6688      1.77    0.0019      18.9     -5.02      20.4     0.318
+2020-03-20 17:50:16 [INFO]:    69/29   1200/6688      1.77   0.00191        19     -5.01      20.4     0.309
+2020-03-20 17:50:38 [INFO]:    69/29   1240/6688      1.77   0.00192        19        -5      20.4     0.311
+2020-03-20 17:50:59 [INFO]:    69/29   1280/6688      1.77   0.00192        19        -5      20.4     0.312
+2020-03-20 17:51:20 [INFO]:    69/29   1320/6688      1.77   0.00191        19     -5.01      20.3     0.314
+2020-03-20 17:51:41 [INFO]:    69/29   1360/6688      1.77   0.00192        19        -5      20.4     0.313
+2020-03-20 17:52:02 [INFO]:    69/29   1400/6688      1.77   0.00191      18.9     -5.02      20.4     0.333
+2020-03-20 17:52:23 [INFO]:    69/29   1440/6688      1.77   0.00191        19     -5.01      20.4     0.326
+2020-03-20 17:52:44 [INFO]:    69/29   1480/6688      1.77    0.0019        19     -5.02      20.3     0.305
+2020-03-20 17:53:05 [INFO]:    69/29   1520/6688      1.77    0.0019        19     -5.02      20.3     0.299
+2020-03-20 17:53:26 [INFO]:    69/29   1560/6688      1.77    0.0019        19     -5.03      20.2     0.326
+2020-03-20 17:53:47 [INFO]:    69/29   1600/6688      1.77   0.00189        19     -5.03      20.2     0.315
+2020-03-20 17:54:08 [INFO]:    69/29   1640/6688      1.77   0.00189      18.9     -5.04      20.3      0.36
+2020-03-20 17:54:29 [INFO]:    69/29   1680/6688      1.77   0.00188      18.9     -5.05      20.2     0.308
+2020-03-20 17:54:51 [INFO]:    69/29   1720/6688      1.76   0.00187      18.9     -5.05      20.1     0.315
+2020-03-20 17:55:12 [INFO]:    69/29   1760/6688      1.77   0.00188        19     -5.04      20.2     0.307
+2020-03-20 17:55:33 [INFO]:    69/29   1800/6688      1.76   0.00189        19     -5.04      20.1     0.323
+2020-03-20 17:55:54 [INFO]:    69/29   1840/6688      1.76   0.00188        19     -5.05        20     0.303
+2020-03-20 17:56:15 [INFO]:    69/29   1880/6688      1.76   0.00188        19     -5.05        20     0.324
+2020-03-20 17:56:36 [INFO]:    69/29   1920/6688      1.76   0.00188        19     -5.04        20     0.319
+2020-03-20 17:56:58 [INFO]:    69/29   1960/6688      1.76   0.00188      19.1     -5.04        20     0.322
+2020-03-20 17:57:19 [INFO]:    69/29   2000/6688      1.76   0.00188        19     -5.04      19.9     0.331
+2020-03-20 17:57:40 [INFO]:    69/29   2040/6688      1.77   0.00188      19.1     -5.04        20     0.325
+2020-03-20 17:58:01 [INFO]:    69/29   2080/6688      1.77   0.00188      19.1     -5.04        20      0.31
+2020-03-20 17:58:22 [INFO]:    69/29   2120/6688      1.76   0.00188      19.1     -5.04      19.9     0.333
+2020-03-20 17:58:43 [INFO]:    69/29   2160/6688      1.76   0.00188      19.1     -5.04      19.9     0.328
+2020-03-20 17:59:04 [INFO]:    69/29   2200/6688      1.77   0.00188      19.1     -5.04      19.9     0.381
+2020-03-20 17:59:26 [INFO]:    69/29   2240/6688      1.76   0.00188      19.1     -5.04      19.9     0.302
+2020-03-20 17:59:47 [INFO]:    69/29   2280/6688      1.76   0.00188      19.1     -5.04      19.9     0.321
+2020-03-20 18:00:08 [INFO]:    69/29   2320/6688      1.76   0.00188      19.1     -5.04      19.9     0.298
+2020-03-20 18:00:29 [INFO]:    69/29   2360/6688      1.77   0.00189      19.1     -5.03      19.9     0.314
+2020-03-20 18:00:50 [INFO]:    69/29   2400/6688      1.76   0.00188      19.1     -5.04      19.9     0.299
+2020-03-20 18:01:11 [INFO]:    69/29   2440/6688      1.76   0.00188      19.1     -5.04      19.9     0.314
+2020-03-20 18:01:32 [INFO]:    69/29   2480/6688      1.76   0.00188      19.1     -5.04      19.9     0.299
+2020-03-20 18:01:53 [INFO]:    69/29   2520/6688      1.76   0.00188      19.1     -5.04      19.8     0.294
+2020-03-20 18:02:15 [INFO]:    69/29   2560/6688      1.76   0.00189      19.1     -5.04      19.9     0.323
+2020-03-20 18:02:36 [INFO]:    69/29   2600/6688      1.76   0.00188      19.1     -5.04      19.9     0.301
+2020-03-20 18:02:57 [INFO]:    69/29   2640/6688      1.76   0.00189      19.1     -5.03      19.9     0.319
+2020-03-20 18:03:18 [INFO]:    69/29   2680/6688      1.76   0.00188      19.1     -5.04      19.9     0.322
+2020-03-20 18:03:39 [INFO]:    69/29   2720/6688      1.77   0.00188      19.1     -5.04      19.9     0.338
+2020-03-20 18:04:00 [INFO]:    69/29   2760/6688      1.76   0.00188      19.1     -5.05      19.9     0.298
+2020-03-20 18:04:21 [INFO]:    69/29   2800/6688      1.76   0.00187      19.1     -5.05      19.9     0.319
+2020-03-20 18:04:42 [INFO]:    69/29   2840/6688      1.76   0.00187      19.1     -5.05      19.9     0.291
+2020-03-20 18:05:03 [INFO]:    69/29   2880/6688      1.76   0.00187      19.1     -5.05      19.9     0.321
+2020-03-20 18:05:24 [INFO]:    69/29   2920/6688      1.76   0.00187      19.1     -5.05      19.9      0.32
+2020-03-20 18:05:45 [INFO]:    69/29   2960/6688      1.76   0.00186      19.1     -5.06      19.9     0.322
+2020-03-20 18:06:06 [INFO]:    69/29   3000/6688      1.76   0.00186      19.1     -5.06      19.9      0.33
+2020-03-20 18:06:28 [INFO]:    69/29   3040/6688      1.76   0.00186      19.1     -5.06        20     0.321
+2020-03-20 18:06:49 [INFO]:    69/29   3080/6688      1.76   0.00186      19.1     -5.06        20     0.297
+2020-03-20 18:07:10 [INFO]:    69/29   3120/6688      1.76   0.00185        19     -5.07        20     0.316
+2020-03-20 18:07:31 [INFO]:    69/29   3160/6688      1.76   0.00185      19.1     -5.07        20     0.316
+2020-03-20 18:07:52 [INFO]:    69/29   3200/6688      1.76   0.00185      19.1     -5.07      19.9     0.317
+2020-03-20 18:08:13 [INFO]:    69/29   3240/6688      1.76   0.00185      19.1     -5.07      19.9     0.314
+2020-03-20 18:08:35 [INFO]:    69/29   3280/6688      1.76   0.00185      19.1     -5.07      19.9     0.372
+2020-03-20 18:08:56 [INFO]:    69/29   3320/6688      1.77   0.00185      19.1     -5.07      19.9     0.296
+2020-03-20 18:09:17 [INFO]:    69/29   3360/6688      1.76   0.00184      19.1     -5.07      19.9     0.302
+2020-03-20 18:09:38 [INFO]:    69/29   3400/6688      1.76   0.00185      19.1     -5.07      19.9      0.31
+2020-03-20 18:09:59 [INFO]:    69/29   3440/6688      1.76   0.00185      19.1     -5.07      19.9      0.29
+2020-03-20 18:10:20 [INFO]:    69/29   3480/6688      1.76   0.00184      19.1     -5.07      19.9     0.319
+2020-03-20 18:10:41 [INFO]:    69/29   3520/6688      1.76   0.00184      19.1     -5.08      19.9     0.307
+2020-03-20 18:11:03 [INFO]:    69/29   3560/6688      1.76   0.00184      19.1     -5.08        20     0.299
+2020-03-20 18:11:24 [INFO]:    69/29   3600/6688      1.76   0.00184      19.1     -5.08      19.9     0.311
+2020-03-20 18:11:45 [INFO]:    69/29   3640/6688      1.76   0.00183      19.1     -5.09      19.9     0.347
+2020-03-20 18:12:06 [INFO]:    69/29   3680/6688      1.76   0.00183      19.1     -5.09      19.9     0.324
+2020-03-20 18:12:27 [INFO]:    69/29   3720/6688      1.76   0.00183      19.1     -5.08      19.9     0.327
+2020-03-20 18:12:48 [INFO]:    69/29   3760/6688      1.76   0.00183      19.1     -5.08      19.9      0.29
+2020-03-20 18:13:09 [INFO]:    69/29   3800/6688      1.76   0.00183      19.1     -5.08        20     0.361
+2020-03-20 18:13:30 [INFO]:    69/29   3840/6688      1.76   0.00183      19.1     -5.08      19.9     0.326
+2020-03-20 18:13:51 [INFO]:    69/29   3880/6688      1.76   0.00183      19.2     -5.08      19.9     0.322
+2020-03-20 18:14:12 [INFO]:    69/29   3920/6688      1.76   0.00183      19.2     -5.08      19.9     0.322
+2020-03-20 18:14:33 [INFO]:    69/29   3960/6688      1.76   0.00183      19.1     -5.08      19.9     0.303
+2020-03-20 18:14:54 [INFO]:    69/29   4000/6688      1.76   0.00183      19.1     -5.08      19.9     0.293
+2020-03-20 18:15:16 [INFO]:    69/29   4040/6688      1.76   0.00183      19.1     -5.08      19.9     0.315
+2020-03-20 18:15:37 [INFO]:    69/29   4080/6688      1.76   0.00183      19.1     -5.08      19.9     0.317
+2020-03-20 18:15:58 [INFO]:    69/29   4120/6688      1.76   0.00183      19.1     -5.08      19.9       0.3
+2020-03-20 18:16:19 [INFO]:    69/29   4160/6688      1.76   0.00185      19.2     -5.07      19.9     0.322
+2020-03-20 18:16:40 [INFO]:    69/29   4200/6688      1.76   0.00184      19.1     -5.07      19.9     0.325
+2020-03-20 18:17:01 [INFO]:    69/29   4240/6688      1.76   0.00184      19.1     -5.08      19.9     0.309
+2020-03-20 18:17:22 [INFO]:    69/29   4280/6688      1.76   0.00184      19.1     -5.08      19.9     0.294
+2020-03-20 18:17:43 [INFO]:    69/29   4320/6688      1.76   0.00184      19.1     -5.08      19.9     0.298
+2020-03-20 18:18:04 [INFO]:    69/29   4360/6688      1.76   0.00184      19.1     -5.08      19.9     0.357
+2020-03-20 18:18:25 [INFO]:    69/29   4400/6688      1.76   0.00184      19.1     -5.08      19.9     0.327
+2020-03-20 18:18:46 [INFO]:    69/29   4440/6688      1.76   0.00184      19.1     -5.08      19.9     0.314
+2020-03-20 18:19:07 [INFO]:    69/29   4480/6688      1.76   0.00184      19.1     -5.08      19.9     0.295
+2020-03-20 18:19:28 [INFO]:    69/29   4520/6688      1.76   0.00184      19.1     -5.08      19.9       0.3
+2020-03-20 18:19:49 [INFO]:    69/29   4560/6688      1.76   0.00184      19.1     -5.08      19.9     0.315
+2020-03-20 18:20:10 [INFO]:    69/29   4600/6688      1.76   0.00184      19.1     -5.08      19.9     0.305
+2020-03-20 18:20:31 [INFO]:    69/29   4640/6688      1.76   0.00184      19.1     -5.08      19.9     0.324
+2020-03-20 18:20:52 [INFO]:    69/29   4680/6688      1.76   0.00184      19.1     -5.08      19.9      0.33
+2020-03-20 18:21:13 [INFO]:    69/29   4720/6688      1.76   0.00184      19.1     -5.08      19.9     0.319
+2020-03-20 18:21:34 [INFO]:    69/29   4760/6688      1.76   0.00184      19.1     -5.08      19.9     0.311
+2020-03-20 18:21:55 [INFO]:    69/29   4800/6688      1.76   0.00184      19.1     -5.08      19.9     0.312
+2020-03-20 18:22:16 [INFO]:    69/29   4840/6688      1.76   0.00184      19.1     -5.08      19.9     0.322
+2020-03-20 18:22:38 [INFO]:    69/29   4880/6688      1.76   0.00184      19.1     -5.08      19.9     0.369
+2020-03-20 18:22:58 [INFO]:    69/29   4920/6688      1.76   0.00184      19.1     -5.08      19.9     0.319
+2020-03-20 18:23:19 [INFO]:    69/29   4960/6688      1.76   0.00184      19.1     -5.08      19.9     0.313
+2020-03-20 18:23:41 [INFO]:    69/29   5000/6688      1.76   0.00184      19.1     -5.08      19.9     0.317
+2020-03-20 18:24:02 [INFO]:    69/29   5040/6688      1.76   0.00184      19.1     -5.08      19.9     0.312
+2020-03-20 18:24:22 [INFO]:    69/29   5080/6688      1.76   0.00185      19.1     -5.08      19.9     0.316
+2020-03-20 18:24:43 [INFO]:    69/29   5120/6688      1.76   0.00185      19.1     -5.07        20     0.304
+2020-03-20 18:25:04 [INFO]:    69/29   5160/6688      1.76   0.00185      19.1     -5.07        20     0.335
+2020-03-20 18:25:25 [INFO]:    69/29   5200/6688      1.76   0.00185      19.1     -5.07      19.9     0.314
+2020-03-20 18:25:46 [INFO]:    69/29   5240/6688      1.76   0.00185      19.1     -5.08      19.9     0.321
+2020-03-20 18:26:07 [INFO]:    69/29   5280/6688      1.76   0.00185      19.1     -5.07      19.9     0.291
+2020-03-20 18:26:28 [INFO]:    69/29   5320/6688      1.76   0.00185      19.1     -5.07      19.9     0.329
+2020-03-20 18:26:49 [INFO]:    69/29   5360/6688      1.76   0.00185      19.1     -5.07      19.9     0.311
+2020-03-20 18:27:10 [INFO]:    69/29   5400/6688      1.76   0.00185      19.1     -5.07      19.9     0.288
+2020-03-20 18:27:32 [INFO]:    69/29   5440/6688      1.76   0.00185      19.1     -5.07        20     0.357
+2020-03-20 18:27:52 [INFO]:    69/29   5480/6688      1.76   0.00185      19.1     -5.07        20     0.306
+2020-03-20 18:28:14 [INFO]:    69/29   5520/6688      1.76   0.00185      19.1     -5.07        20     0.319
+2020-03-20 18:28:35 [INFO]:    69/29   5560/6688      1.76   0.00185      19.1     -5.08        20     0.289
+2020-03-20 18:28:56 [INFO]:    69/29   5600/6688      1.76   0.00185      19.1     -5.08        20     0.327
+2020-03-20 18:29:17 [INFO]:    69/29   5640/6688      1.76   0.00185      19.1     -5.08        20     0.328
+2020-03-20 18:29:38 [INFO]:    69/29   5680/6688      1.76   0.00185      19.1     -5.08        20     0.298
+2020-03-20 18:29:59 [INFO]:    69/29   5720/6688      1.76   0.00184      19.1     -5.08        20     0.313
+2020-03-20 18:30:20 [INFO]:    69/29   5760/6688      1.76   0.00184      19.1     -5.09        20     0.322
+2020-03-20 18:30:41 [INFO]:    69/29   5800/6688      1.76   0.00185      19.1     -5.08        20     0.314
+2020-03-20 18:31:02 [INFO]:    69/29   5840/6688      1.76   0.00184      19.1     -5.08        20     0.327
+2020-03-20 18:31:23 [INFO]:    69/29   5880/6688      1.76   0.00184      19.1     -5.08        20     0.314
+2020-03-20 18:31:44 [INFO]:    69/29   5920/6688      1.76   0.00184      19.1     -5.08        20     0.322
+2020-03-20 18:32:05 [INFO]:    69/29   5960/6688      1.76   0.00184      19.1     -5.08        20     0.362
+2020-03-20 18:32:26 [INFO]:    69/29   6000/6688      1.76   0.00184      19.1     -5.09        20     0.312
+2020-03-20 18:32:47 [INFO]:    69/29   6040/6688      1.76   0.00184      19.1     -5.09        20      0.31
+2020-03-20 18:33:07 [INFO]:    69/29   6080/6688      1.76   0.00184      19.1     -5.09        20     0.318
+2020-03-20 18:33:28 [INFO]:    69/29   6120/6688      1.76   0.00184      19.1     -5.09        20      0.32
+2020-03-20 18:33:49 [INFO]:    69/29   6160/6688      1.76   0.00184      19.1     -5.09        20     0.303
+2020-03-20 18:34:11 [INFO]:    69/29   6200/6688      1.76   0.00184      19.1     -5.09        20     0.332
+2020-03-20 18:34:32 [INFO]:    69/29   6240/6688      1.76   0.00184      19.1     -5.09        20     0.292
+2020-03-20 18:34:53 [INFO]:    69/29   6280/6688      1.76   0.00184      19.1     -5.09        20     0.323
+2020-03-20 18:35:14 [INFO]:    69/29   6320/6688      1.76   0.00184      19.1     -5.09        20     0.324
+2020-03-20 18:35:35 [INFO]:    69/29   6360/6688      1.76   0.00184      19.1     -5.08        20     0.314
+2020-03-20 18:35:56 [INFO]:    69/29   6400/6688      1.76   0.00184      19.1     -5.08        20     0.278
+2020-03-20 18:36:17 [INFO]:    69/29   6440/6688      1.76   0.00185      19.1     -5.08        20     0.308
+2020-03-20 18:36:38 [INFO]:    69/29   6480/6688      1.76   0.00184      19.1     -5.08        20     0.324
+2020-03-20 18:36:59 [INFO]:    69/29   6520/6688      1.76   0.00184      19.1     -5.08        20     0.356
+2020-03-20 18:37:19 [INFO]:    69/29   6560/6688      1.76   0.00184      19.1     -5.09      19.9     0.295
+2020-03-20 18:37:41 [INFO]:    69/29   6600/6688      1.76   0.00185      19.1     -5.08        20     0.308
+2020-03-20 18:38:01 [INFO]:    69/29   6640/6688      1.76   0.00184      19.1     -5.08        20     0.302
+2020-03-20 18:38:22 [INFO]:    69/29   6680/6688      1.76   0.00184      19.1     -5.08        20     0.306
+2020-03-20 18:38:32 [INFO]:    Epoch       Batch       box      conf        id     total  nTargets      time
+2020-03-20 18:38:34 [INFO]:    70/29      0/6688      2.08    0.0098      16.6     0.881      24.5      7.33
+2020-03-20 18:38:56 [INFO]:    70/29     40/6688      1.79   0.00213      16.1      -5.1      20.2     0.329
+2020-03-20 18:39:17 [INFO]:    70/29     80/6688      1.75   0.00173      17.7     -5.33      19.6     0.321
+2020-03-20 18:39:38 [INFO]:    70/29    120/6688      1.77   0.00173      17.8     -5.27      19.4     0.325
+2020-03-20 18:40:00 [INFO]:    70/29    160/6688      1.76   0.00164      17.6     -5.36      19.6      0.33
+2020-03-20 18:40:21 [INFO]:    70/29    200/6688      1.76   0.00161      17.6     -5.38      19.6     0.301
+2020-03-20 18:40:42 [INFO]:    70/29    240/6688      1.77   0.00163      17.8     -5.34      19.9     0.318
+2020-03-20 18:41:04 [INFO]:    70/29    280/6688      1.77   0.00162      17.8     -5.36      20.4       0.3
+2020-03-20 18:41:25 [INFO]:    70/29    320/6688      1.77   0.00166      17.9     -5.32      20.2     0.337
+2020-03-20 18:41:46 [INFO]:    70/29    360/6688      1.77   0.00167        18     -5.29      20.3     0.323
+2020-03-20 18:42:08 [INFO]:    70/29    400/6688      1.77   0.00168      17.7     -5.32      20.2     0.326
+2020-03-20 18:42:35 [INFO]:    70/29    440/6688      1.77   0.00167      17.7     -5.33      20.2     0.308
+2020-03-20 18:42:56 [INFO]:    70/29    480/6688      1.78   0.00172      17.8     -5.27      20.5     0.313
+2020-03-20 18:43:17 [INFO]:    70/29    520/6688      1.77    0.0017      17.6     -5.32      20.5      0.31
+2020-03-20 18:43:38 [INFO]:    70/29    560/6688      1.77   0.00169      17.7     -5.32      20.6     0.315
+2020-03-20 18:43:59 [INFO]:    70/29    600/6688      1.77   0.00171      17.8     -5.31      20.4     0.288
+2020-03-20 18:44:20 [INFO]:    70/29    640/6688      1.76   0.00171      17.7     -5.31      20.3     0.325
+2020-03-20 18:44:41 [INFO]:    70/29    680/6688      1.76   0.00172      17.8      -5.3      20.2     0.318
+2020-03-20 18:45:02 [INFO]:    70/29    720/6688      1.76   0.00172      17.9     -5.29      20.1     0.305
+2020-03-20 18:45:23 [INFO]:    70/29    760/6688      1.76   0.00171      17.8     -5.31      20.3     0.313
+2020-03-20 18:45:44 [INFO]:    70/29    800/6688      1.76   0.00171      17.9     -5.29      20.2     0.308
+2020-03-20 18:46:05 [INFO]:    70/29    840/6688      1.77   0.00172      17.9     -5.28      20.3     0.311
+2020-03-20 18:46:26 [INFO]:    70/29    880/6688      1.76   0.00173      17.9     -5.28      20.3     0.296
+2020-03-20 18:46:47 [INFO]:    70/29    920/6688      1.77   0.00172      17.9     -5.28      20.2     0.315
+2020-03-20 18:47:08 [INFO]:    70/29    960/6688      1.76   0.00172      17.9     -5.28      20.1     0.313
+2020-03-20 18:47:29 [INFO]:    70/29   1000/6688      1.76   0.00173      17.9     -5.28        20     0.314
+2020-03-20 18:47:49 [INFO]:    70/29   1040/6688      1.76   0.00174        18     -5.27      20.1     0.312
+2020-03-20 18:48:10 [INFO]:    70/29   1080/6688      1.76   0.00174      17.9     -5.28      20.1     0.306
+2020-03-20 18:48:31 [INFO]:    70/29   1120/6688      1.76   0.00174      17.9     -5.27      20.3     0.331
+2020-03-20 18:48:52 [INFO]:    70/29   1160/6688      1.76   0.00174        18     -5.26      20.3     0.319
+2020-03-20 18:49:13 [INFO]:    70/29   1200/6688      1.76   0.00174        18     -5.26      20.2     0.306
+2020-03-20 18:49:37 [INFO]:    70/29   1240/6688      1.76   0.00174        18     -5.26      20.2     0.462
+2020-03-20 18:50:01 [INFO]:    70/29   1280/6688      1.76   0.00174        18     -5.26      20.2     0.306
+2020-03-20 18:50:22 [INFO]:    70/29   1320/6688      1.76   0.00175      18.1     -5.24      20.2     0.323
+2020-03-20 18:50:43 [INFO]:    70/29   1360/6688      1.77   0.00176      18.1     -5.23      20.2     0.317
+2020-03-20 18:51:04 [INFO]:    70/29   1400/6688      1.76   0.00176      18.1     -5.23      20.1      0.31
+2020-03-20 18:51:25 [INFO]:    70/29   1440/6688      1.77   0.00176      18.1     -5.22      20.1     0.322
+2020-03-20 18:51:47 [INFO]:    70/29   1480/6688      1.76   0.00176      18.1     -5.23        20     0.326
+2020-03-20 18:52:10 [INFO]:    70/29   1520/6688      1.76   0.00175      18.1     -5.25        20     0.498
+2020-03-20 18:52:35 [INFO]:    70/29   1560/6688      1.76   0.00174      18.1     -5.25        20     0.309
+2020-03-20 18:52:56 [INFO]:    70/29   1600/6688      1.76   0.00174      18.1     -5.25      20.1     0.321
+2020-03-20 18:53:17 [INFO]:    70/29   1640/6688      1.76   0.00175      18.1     -5.24      20.1     0.315
+2020-03-20 18:53:38 [INFO]:    70/29   1680/6688      1.76   0.00174      18.1     -5.25      20.1     0.332
+2020-03-20 18:53:59 [INFO]:    70/29   1720/6688      1.76   0.00175      18.1     -5.24      20.2     0.322
+2020-03-20 18:54:20 [INFO]:    70/29   1760/6688      1.76   0.00176      18.1     -5.23      20.2     0.311
+2020-03-20 18:54:41 [INFO]:    70/29   1800/6688      1.76   0.00176      18.1     -5.23      20.2     0.315
+2020-03-20 18:55:02 [INFO]:    70/29   1840/6688      1.76   0.00175      18.1     -5.23      20.2     0.327
+2020-03-20 18:55:23 [INFO]:    70/29   1880/6688      1.76   0.00176      18.2     -5.22      20.2     0.335
+2020-03-20 18:55:44 [INFO]:    70/29   1920/6688      1.76   0.00177      18.2     -5.22      20.2     0.301
+2020-03-20 18:56:05 [INFO]:    70/29   1960/6688      1.76   0.00176      18.2     -5.23      20.1     0.329
+2020-03-20 18:56:26 [INFO]:    70/29   2000/6688      1.76   0.00176      18.1     -5.23      20.2     0.316
+2020-03-20 18:56:47 [INFO]:    70/29   2040/6688      1.76   0.00176      18.2     -5.23      20.2     0.294
+2020-03-20 18:57:08 [INFO]:    70/29   2080/6688      1.76   0.00176      18.2     -5.22      20.1     0.323
+2020-03-20 18:57:29 [INFO]:    70/29   2120/6688      1.76   0.00176      18.2     -5.22      20.2     0.303
+2020-03-20 18:57:50 [INFO]:    70/29   2160/6688      1.76   0.00176      18.2     -5.23      20.2     0.288
+2020-03-20 18:58:11 [INFO]:    70/29   2200/6688      1.76   0.00175      18.2     -5.23      20.1      0.32
+2020-03-20 18:58:32 [INFO]:    70/29   2240/6688      1.76   0.00175      18.2     -5.24      20.1     0.289
+2020-03-20 18:58:53 [INFO]:    70/29   2280/6688      1.76   0.00175      18.2     -5.24        20     0.294
+2020-03-20 18:59:14 [INFO]:    70/29   2320/6688      1.76   0.00176      18.2     -5.23        20     0.313
+2020-03-20 18:59:41 [INFO]:    70/29   2360/6688      1.76   0.00176      18.2     -5.23      20.1     0.307
+2020-03-20 19:00:02 [INFO]:    70/29   2400/6688      1.76   0.00176      18.2     -5.23        20     0.325
+2020-03-20 19:00:23 [INFO]:    70/29   2440/6688      1.76   0.00176      18.2     -5.23        20     0.324
+2020-03-20 19:00:44 [INFO]:    70/29   2480/6688      1.76   0.00176      18.2     -5.23        20     0.297
+2020-03-20 19:01:06 [INFO]:    70/29   2520/6688      1.76   0.00177      18.3     -5.22      20.1     0.312
+2020-03-20 19:01:27 [INFO]:    70/29   2560/6688      1.76   0.00177      18.2     -5.22      20.1     0.301
+2020-03-20 19:01:48 [INFO]:    70/29   2600/6688      1.76   0.00177      18.3     -5.21      20.1     0.327
+2020-03-20 19:02:11 [INFO]:    70/29   2640/6688      1.76   0.00177      18.2     -5.22      20.1     0.468
+2020-03-20 19:02:37 [INFO]:    70/29   2680/6688      1.76   0.00177      18.2     -5.21      20.1     0.322
+2020-03-20 19:02:58 [INFO]:    70/29   2720/6688      1.76   0.00177      18.2     -5.21        20     0.295
+2020-03-20 19:03:19 [INFO]:    70/29   2760/6688      1.76   0.00177      18.2     -5.21        20     0.325
+2020-03-20 19:03:45 [INFO]:    70/29   2800/6688      1.76   0.00177      18.2     -5.22        20      0.31
+2020-03-20 19:04:07 [INFO]:    70/29   2840/6688      1.76   0.00176      18.2     -5.22        20     0.325
+2020-03-20 19:04:28 [INFO]:    70/29   2880/6688      1.76   0.00176      18.2     -5.22      20.1     0.309
+2020-03-20 19:04:49 [INFO]:    70/29   2920/6688      1.76   0.00177      18.2     -5.21      20.1     0.289
+2020-03-20 19:05:10 [INFO]:    70/29   2960/6688      1.76   0.00177      18.2     -5.21      20.1     0.318
+2020-03-20 19:05:31 [INFO]:    70/29   3000/6688      1.76   0.00177      18.2     -5.21      20.1     0.321
+2020-03-20 19:05:53 [INFO]:    70/29   3040/6688      1.76   0.00178      18.2      -5.2        20     0.332
+2020-03-20 19:06:14 [INFO]:    70/29   3080/6688      1.76   0.00178      18.2      -5.2        20     0.316
+2020-03-20 19:06:35 [INFO]:    70/29   3120/6688      1.76   0.00178      18.2      -5.2        20     0.328
+2020-03-20 19:06:56 [INFO]:    70/29   3160/6688      1.76   0.00178      18.3      -5.2        20     0.317
+2020-03-20 19:07:17 [INFO]:    70/29   3200/6688      1.76   0.00179      18.3     -5.19        20     0.301
+2020-03-20 19:07:38 [INFO]:    70/29   3240/6688      1.76   0.00179      18.3     -5.19        20     0.303
+2020-03-20 19:07:59 [INFO]:    70/29   3280/6688      1.76   0.00179      18.3     -5.19      19.9     0.289
+2020-03-20 19:08:20 [INFO]:    70/29   3320/6688      1.76   0.00179      18.2      -5.2      19.9     0.307
+2020-03-20 19:08:41 [INFO]:    70/29   3360/6688      1.76    0.0018      18.3     -5.19        20     0.302
+2020-03-20 19:09:02 [INFO]:    70/29   3400/6688      1.76    0.0018      18.2     -5.19        20     0.298
+2020-03-20 19:09:23 [INFO]:    70/29   3440/6688      1.76   0.00179      18.2      -5.2        20     0.316
+2020-03-20 19:09:44 [INFO]:    70/29   3480/6688      1.76    0.0018      18.2     -5.19        20     0.296
+2020-03-20 19:10:05 [INFO]:    70/29   3520/6688      1.76    0.0018      18.2     -5.19      19.9      0.33
+2020-03-20 19:10:26 [INFO]:    70/29   3560/6688      1.76   0.00179      18.2     -5.19      19.9     0.318
+2020-03-20 19:10:47 [INFO]:    70/29   3600/6688      1.76   0.00179      18.2      -5.2      19.9     0.324
+2020-03-20 19:11:08 [INFO]:    70/29   3640/6688      1.76   0.00179      18.2      -5.2      19.9     0.308
+2020-03-20 19:11:29 [INFO]:    70/29   3680/6688      1.76   0.00178      18.2     -5.21      19.9     0.323
+2020-03-20 19:11:50 [INFO]:    70/29   3720/6688      1.76   0.00178      18.2     -5.21      19.9     0.313
+2020-03-20 19:12:11 [INFO]:    70/29   3760/6688      1.76   0.00178      18.2     -5.21      19.9     0.325
+2020-03-20 19:12:32 [INFO]:    70/29   3800/6688      1.76   0.00179      18.2      -5.2      19.8     0.317
+2020-03-20 19:12:53 [INFO]:    70/29   3840/6688      1.76   0.00178      18.2      -5.2      19.9     0.321
+2020-03-20 19:13:14 [INFO]:    70/29   3880/6688      1.76   0.00179      18.2      -5.2      19.9     0.321
+2020-03-20 19:13:35 [INFO]:    70/29   3920/6688      1.76   0.00179      18.2     -5.19      19.9     0.312
+2020-03-20 19:13:57 [INFO]:    70/29   3960/6688      1.76   0.00179      18.2     -5.19      19.9      0.33
+2020-03-20 19:14:18 [INFO]:    70/29   4000/6688      1.76    0.0018      18.3     -5.19      19.9     0.314
+2020-03-20 19:14:39 [INFO]:    70/29   4040/6688      1.76    0.0018      18.3     -5.18      19.9     0.316
+2020-03-20 19:15:00 [INFO]:    70/29   4080/6688      1.76    0.0018      18.2     -5.18      19.9     0.326
+2020-03-20 19:15:21 [INFO]:    70/29   4120/6688      1.76    0.0018      18.3     -5.18      19.9     0.324
+2020-03-20 19:15:42 [INFO]:    70/29   4160/6688      1.76    0.0018      18.3     -5.18      19.9     0.321
+2020-03-20 19:16:03 [INFO]:    70/29   4200/6688      1.76    0.0018      18.3     -5.18      19.9      0.32
+2020-03-20 19:16:24 [INFO]:    70/29   4240/6688      1.76    0.0018      18.3     -5.18      19.9     0.314
+2020-03-20 19:16:45 [INFO]:    70/29   4280/6688      1.76    0.0018      18.3     -5.18      19.9     0.299
+2020-03-20 19:17:06 [INFO]:    70/29   4320/6688      1.76    0.0018      18.3     -5.17      19.9     0.294
+2020-03-20 19:17:27 [INFO]:    70/29   4360/6688      1.76   0.00181      18.3     -5.17      19.9     0.324
+2020-03-20 19:17:48 [INFO]:    70/29   4400/6688      1.76   0.00181      18.3     -5.17      19.9     0.332
+2020-03-20 19:18:10 [INFO]:    70/29   4440/6688      1.76   0.00181      18.3     -5.17      19.9     0.342
+2020-03-20 19:18:31 [INFO]:    70/29   4480/6688      1.76   0.00181      18.3     -5.17      19.9     0.323
+2020-03-20 19:18:52 [INFO]:    70/29   4520/6688      1.76   0.00181      18.3     -5.17      19.9     0.315
+2020-03-20 19:19:13 [INFO]:    70/29   4560/6688      1.76    0.0018      18.3     -5.17      19.9      0.32
+2020-03-20 19:19:33 [INFO]:    70/29   4600/6688      1.76   0.00181      18.3     -5.17      19.9      0.32
+2020-03-20 19:19:55 [INFO]:    70/29   4640/6688      1.76   0.00181      18.3     -5.16      19.9     0.305
+2020-03-20 19:20:16 [INFO]:    70/29   4680/6688      1.76   0.00182      18.4     -5.16      19.9     0.314
+2020-03-20 19:20:37 [INFO]:    70/29   4720/6688      1.76   0.00181      18.4     -5.16      19.9     0.334
+2020-03-20 19:20:58 [INFO]:    70/29   4760/6688      1.76   0.00181      18.4     -5.16        20     0.317
+2020-03-20 19:21:19 [INFO]:    70/29   4800/6688      1.76   0.00181      18.4     -5.16        20     0.323
+2020-03-20 19:21:40 [INFO]:    70/29   4840/6688      1.76   0.00181      18.4     -5.16        20     0.282
+2020-03-20 19:22:01 [INFO]:    70/29   4880/6688      1.76   0.00181      18.4     -5.16      19.9     0.316
+2020-03-20 19:22:22 [INFO]:    70/29   4920/6688      1.76   0.00181      18.4     -5.17      19.9     0.297
+2020-03-20 19:22:43 [INFO]:    70/29   4960/6688      1.76    0.0018      18.3     -5.17      19.9     0.328
+2020-03-20 19:23:04 [INFO]:    70/29   5000/6688      1.76   0.00181      18.3     -5.17      19.9     0.309
+2020-03-20 19:23:25 [INFO]:    70/29   5040/6688      1.76   0.00181      18.3     -5.17        20     0.327
+2020-03-20 19:23:46 [INFO]:    70/29   5080/6688      1.76   0.00181      18.4     -5.16        20     0.326
+2020-03-20 19:24:07 [INFO]:    70/29   5120/6688      1.76   0.00181      18.4     -5.16        20     0.307
+2020-03-20 19:24:28 [INFO]:    70/29   5160/6688      1.76   0.00181      18.4     -5.17        20     0.303
+2020-03-20 19:24:49 [INFO]:    70/29   5200/6688      1.76    0.0018      18.4     -5.17        20     0.317
+2020-03-20 19:25:10 [INFO]:    70/29   5240/6688      1.76    0.0018      18.4     -5.17        20     0.336
+2020-03-20 19:25:31 [INFO]:    70/29   5280/6688      1.76   0.00181      18.4     -5.16        20     0.311
+2020-03-20 19:25:53 [INFO]:    70/29   5320/6688      1.76   0.00181      18.4     -5.16        20     0.319
+2020-03-20 19:26:13 [INFO]:    70/29   5360/6688      1.76   0.00181      18.4     -5.17        20     0.297
+2020-03-20 19:26:34 [INFO]:    70/29   5400/6688      1.76    0.0018      18.4     -5.17        20     0.312
+2020-03-20 19:26:56 [INFO]:    70/29   5440/6688      1.76    0.0018      18.4     -5.17        20     0.321
+2020-03-20 19:27:17 [INFO]:    70/29   5480/6688      1.76   0.00181      18.4     -5.17      19.9     0.323
+2020-03-20 19:27:38 [INFO]:    70/29   5520/6688      1.76    0.0018      18.4     -5.17      19.9     0.322
+2020-03-20 19:27:59 [INFO]:    70/29   5560/6688      1.76    0.0018      18.4     -5.17      19.9       0.3
+2020-03-20 19:28:20 [INFO]:    70/29   5600/6688      1.76   0.00181      18.4     -5.17      19.9     0.324
+2020-03-20 19:28:40 [INFO]:    70/29   5640/6688      1.76   0.00181      18.4     -5.17      19.9     0.321
+2020-03-20 19:29:01 [INFO]:    70/29   5680/6688      1.76    0.0018      18.4     -5.17      19.9     0.308
+2020-03-20 19:29:22 [INFO]:    70/29   5720/6688      1.76   0.00181      18.4     -5.17      19.9     0.287
+2020-03-20 19:29:43 [INFO]:    70/29   5760/6688      1.76    0.0018      18.4     -5.17      19.9     0.321
+2020-03-20 19:30:04 [INFO]:    70/29   5800/6688      1.76    0.0018      18.4     -5.17      19.9     0.319
+2020-03-20 19:30:25 [INFO]:    70/29   5840/6688      1.76   0.00181      18.4     -5.17      19.9     0.309
+2020-03-20 19:30:46 [INFO]:    70/29   5880/6688      1.76   0.00181      18.4     -5.16        20     0.312
+2020-03-20 19:31:07 [INFO]:    70/29   5920/6688      1.76   0.00181      18.4     -5.16        20     0.309
+2020-03-20 19:31:28 [INFO]:    70/29   5960/6688      1.76   0.00181      18.4     -5.16        20     0.314
+2020-03-20 19:31:49 [INFO]:    70/29   6000/6688      1.76   0.00181      18.4     -5.16        20     0.305
+2020-03-20 19:32:10 [INFO]:    70/29   6040/6688      1.76   0.00181      18.4     -5.16        20     0.311
+2020-03-20 19:32:31 [INFO]:    70/29   6080/6688      1.76   0.00182      18.4     -5.15        20     0.307
+2020-03-20 19:32:52 [INFO]:    70/29   6120/6688      1.76   0.00181      18.4     -5.16        20     0.295
+2020-03-20 19:33:13 [INFO]:    70/29   6160/6688      1.76   0.00181      18.4     -5.16        20      0.33
+2020-03-20 19:33:34 [INFO]:    70/29   6200/6688      1.76   0.00181      18.4     -5.16        20     0.309
+2020-03-20 19:33:55 [INFO]:    70/29   6240/6688      1.76   0.00181      18.4     -5.16        20     0.295

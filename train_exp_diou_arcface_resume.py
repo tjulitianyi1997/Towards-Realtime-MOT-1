@@ -5,9 +5,7 @@ import sys
 
 # import test  
 import test_mapgiou
-from models_arcface_arc_margin import *
-# from models_arcface import *
-# from models_diou_arcface import *
+from models_diou_arcface import *
 # from models_diou import *
 # from models import *
 from utils.datasets import JointDataset, collate_fn
@@ -60,7 +58,7 @@ def train(
     start_epoch = 0
     if resume:
         if opt.latest:
-            latest_resume = "/home/master/kuanzi/weights/72_epoch_arcface.pt"
+            latest_resume = "/home/master/kuanzi/weights/66_epoch_diou.pt"
             print("Loading the latest weight...", latest_resume)
             checkpoint = torch.load(latest_resume, map_location='cpu')
 
@@ -94,7 +92,7 @@ def train(
 
         else:
             # pretrain = "/home/master/kuanzi/weights/jde_1088x608_uncertainty.pt"
-            pretrain = "/home/master/kuanzi/weights/jde_864x480_uncertainty.pt" #576x320
+            pretrain = "/home/master/kuanzi/weights/66_epoch_diou_arcface.pt" #576x320
             print("Loading jde finetune weight...", pretrain)
             sys.stdout.flush()
             checkpoint = torch.load(pretrain, map_location='cpu')
@@ -217,7 +215,7 @@ def train(
 
         # Calculate mAP
         if epoch % opt.test_interval ==0 and epoch != 0:
-            epoch_chk = osp.join(weights, str(epoch) + '_epoch_arc_margin.pt')
+            epoch_chk = osp.join(weights, str(epoch) + '_epoch_diou_arcface_resume.pt')
             checkpoint = {'epoch': epoch,
                     'model': model.module.state_dict(),
                     'optimizer': optimizer.state_dict()}
@@ -237,6 +235,7 @@ if __name__ == '__main__':
     # 576x320 可以batch=8单卡
     # 864x480 可以batch=4单卡
     # 1088x608 可以batch=4单卡
+    # CUDA_VISIBLE_DEVICES=0,1 python train_exp_diou_arcface.py --data-cfg cfg/ccmcpe.json --batch-size 8 > train_exp_diou_arcface_dataall.log 2>&1 &
     parser = argparse.ArgumentParser()
     parser.add_argument('--epochs', type=int, default=30, help='number of epochs')
     parser.add_argument('--accumulated-batches', type=int, default=1, help='number of batches before optimizer step')

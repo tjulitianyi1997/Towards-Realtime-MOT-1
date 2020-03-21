@@ -7,6 +7,7 @@ import os.path as osp
 import time
 import torch
 import torch.nn.functional as F
+import sys
 
 from utils.utils import *
 from utils.log import logger
@@ -25,8 +26,9 @@ class STrack(BaseTrack):
         self._tlwh = np.asarray(tlwh, dtype=np.float)
         self.kalman_filter = None
         self.mean, self.covariance = None, None
-        self.is_activated = False
-
+        """ when an strack is initialized for the first time, 
+        set strack.stage = TrackState.tracked, strack.is_activated = False """
+        self.is_activated = False  # BaseTrack __init__, state = TrackState.New
         self.score = score
         self.tracklet_len = 0
 
@@ -41,6 +43,7 @@ class STrack(BaseTrack):
         if self.smooth_feat is None:
             self.smooth_feat = feat
         else:
+            #  We maintain a single feature vector for a tracklet by moving-averaging the features in each frame, with a momentum \alpha.
             self.smooth_feat = self.alpha *self.smooth_feat + (1-self.alpha) * feat
         self.features.append(feat)
         self.smooth_feat /= np.linalg.norm(self.smooth_feat)
@@ -48,6 +51,14 @@ class STrack(BaseTrack):
     def predict(self):
         mean_state = self.mean.copy()
         if self.state != TrackState.Tracked:
+            """ Q: Why in predict(), if state is not Tracked, you zero one of the state variables (velocity of h)?
+            A: For the first question, we find that setting the velocity to zero decreases the ID switches. 
+            Keeping predicting the states of lost tracklets indeed brings more ID recall, 
+            but in more cases, the tracklets tend to drift, which introduces many wrong assignments. 
+            Therefore the overall IDS increases. 
+            如果一直预测丢失的轨迹，虽然会提升recall，但是会带来轨迹漂移，从而导致错误分配，从而导致IDs上升
+            We are looking for a better association algorithm to address these problems. 
+            As for zeroing the velocity, we have not investigated whether it is good to zero the whole velocity vector (vx, vy, va, vh). This part of code is adapted from longcw/MOTDT."""
             mean_state[7] = 0
         self.mean, self.covariance = self.kalman_filter.predict(mean_state, self.covariance)
 
@@ -84,7 +95,8 @@ class STrack(BaseTrack):
         self.update_features(new_track.curr_feat)
         self.tracklet_len = 0
         self.state = TrackState.Tracked
-        self.is_activated = True
+        """ strack.is_activated will be set to True when this strack is associated by another observation (via IOU distance) in the consecutive frames. """
+        self.is_activated = True 
         self.frame_id = frame_id
         if new_id:
             self.track_id = self.next_id()
@@ -165,7 +177,6 @@ class STrack(BaseTrack):
         return 'OT_{}_({}-{})'.format(self.track_id, self.start_frame, self.end_frame)
 
 
-
 class JDETracker(object):
     def __init__(self, opt, frame_rate=30):
         self.opt = opt
@@ -185,6 +196,7 @@ class JDETracker(object):
 
         self.kalman_filter = KalmanFilter()
 
+
     def update(self, im_blob, img0):
         self.frame_id += 1
         activated_starcks = []
@@ -193,21 +205,6 @@ class JDETracker(object):
         removed_stracks = []
 
         t1 = time.time()
-        ''' Step 1: Network forward, get detections & embeddings'''
-        with torch.no_grad():
-            pred = self.model(im_blob)
-        pred = pred[pred[:, :, 4] > self.opt.conf_thres]
-        if len(pred) > 0:
-            dets = non_max_suppression(pred.unsqueeze(0), self.opt.conf_thres, 
-                                       self.opt.nms_thres)[0]
-            scale_coords(self.opt.img_size, dets[:, :4], img0.shape).round()
-            dets, embs = dets[:, :5].cpu().numpy(), dets[:, 6:].cpu().numpy()
-            '''Detections'''
-            detections = [STrack(STrack.tlbr_to_tlwh(tlbrs[:4]), tlbrs[4], f, 30) for
-                          (tlbrs, f) in zip(dets, embs)]
-        else:
-            detections = []
-
         ''' Add newly detected tracklets to tracked_stracks'''
         unconfirmed = []
         tracked_stracks = []  # type: list[STrack]
@@ -218,11 +215,54 @@ class JDETracker(object):
                 tracked_stracks.append(track)
 
         ''' Step 2: First association, with embedding'''
-        strack_pool = joint_stracks(tracked_stracks, self.lost_stracks)
+        strack_pool = joint_stracks(tracked_stracks, self.lost_stracks)  # 包括跟踪到的和丢失的轨迹，不包括的未确认的？
         # Predict the current location with KF
-        STrack.multi_predict(strack_pool)
-        dists = matching.embedding_distance(strack_pool, detections)
-        dists = matching.fuse_motion(self.kalman_filter, dists, strack_pool, detections)
+        STrack.multi_predict(strack_pool)    # kalman滤波估计mean std, multi_mean, multi_covariance = STrack.shared_kalman.
+        print("# strack_pool", len(strack_pool))
+        sys.stdout.flush()
+            
+        ''' Step 1: Network forward, get detections & embeddings'''
+        self.opt.conf_thres = 0.3
+        self.opt.nms_thres = 0.8
+        with torch.no_grad():
+            pred = self.model(im_blob)  # im_blob: torch.Size([1, 3, 480, 864]), pred: torch.Size([1, 34020, 518])
+            print("# real dets:", len(pred)) 
+            sys.stdout.flush()
+
+        pred = pred[pred[:, :, 4] > self.opt.conf_thres]  # 0.5  #TODO, 一般的置信度是多少？还是要删掉置信度太低的  # torch.Size([68, 518])
+        print("# 1-pass filter dets:", len(pred)) 
+        sys.stdout.flush()
+
+        if len(pred) > 0:
+            # dets = non_max_suppression(pred.unsqueeze(0), 0.3, 0.8)[0]   # conf_thres: 0.5->0.3, nms_thres: 0.4->0.8
+            dets = pred
+            motion_dists = matching.iou_motion(strack_pool, dets)  # 已有的轨迹的预测结果叫做strack_pool
+            '''cost_matrix[row] = lambda_ * cost_matrix[row] + (1-lambda_)* gating_distance, lambda_=0.98'''
+            # alpha = 2.0
+            # motion_dists = torch.squeeze(motion_dists, 0)  # argument 'input' (position 1) must be Tensor, not numpy.ndarray
+            # print(torch.from_numpy(motion_dists).dtype)
+            # print(dets[:, 4].dtype)
+            # print("motion_dists", motion_dists.shape)
+            # print("dets", dets.shape)
+            # dets[:, 4] = alpha * dets[:, 4] + (1 - alpha) * torch.from_numpy(motion_dists).float().cuda()
+            # dets[:, 4] = alpha * dets[:, 4] + (1 - alpha) * torch.from_numpy(motion_dists).cuda()
+            # dets[:, 4] = dets[:, 4] + alpha * torch.from_numpy(motion_dists).cuda()
+            dets[:, 4] = dets[:, 4] + 2.0 * torch.from_numpy(motion_dists).cuda()
+            dets = non_max_suppression(dets.unsqueeze(0), self.opt.conf_thres, 
+                                        self.opt.nms_thres)[0]
+            scale_coords(self.opt.img_size, dets[:, :4], img0.shape).round()
+            dets, embs = dets[:, :5].cpu().numpy(), dets[:, 6:].cpu().numpy()
+            '''Detections'''
+            detections = [STrack(STrack.tlbr_to_tlwh(tlbrs[:4]), tlbrs[4], f, 30) for
+                          (tlbrs, f) in zip(dets, embs)]
+        else:
+            detections = []
+        
+        '''cost_matrix[row] = lambda_ * cost_matrix[row] + (1-lambda_)* gating_distance, lambda_=0.98'''
+        
+        dists = matching.embedding_distance(strack_pool, detections)  
+        dists = matching.fuse_motion(self.kalman_filter, dists, strack_pool, detections)  
+        # dists = matching.iou_distance(strack_pool, detections)
         matches, u_track, u_detection = matching.linear_assignment(dists, thresh=0.7)
 
         for itracked, idet in matches:
@@ -236,9 +276,12 @@ class JDETracker(object):
                 refind_stracks.append(track)
 
         ''' Step 3: Second association, with IOU'''
+        ''' 对于上次没有关联上的量测，以下代码基本没有改动 '''
         detections = [detections[i] for i in u_detection]
-        r_tracked_stracks = [strack_pool[i] for i in u_track if strack_pool[i].state==TrackState.Tracked ]
+        r_tracked_stracks = [strack_pool[i] for i in u_track if strack_pool[i].state==TrackState.Tracked ]  # 如果以前是关联上的，但是今天没有关联
         dists = matching.iou_distance(r_tracked_stracks, detections)
+        # dists = matching.embedding_distance(r_tracked_stracks, detections)  
+        # dists = matching.fuse_motion(self.kalman_filter, dists, r_tracked_stracks, detections)  
         matches, u_track, u_detection = matching.linear_assignment(dists, thresh=0.5)
         
         for itracked, idet in matches:
@@ -310,7 +353,7 @@ def joint_stracks(tlista, tlistb):
         res.append(t)
     for t in tlistb:
         tid = t.track_id
-        if not exists.get(tid, 0):
+        if not exists.get(tid, 0):  # 如果该tid不在集合中，则加入集合
             exists[tid] = 1
             res.append(t)
     return res
@@ -333,10 +376,10 @@ def remove_duplicate_stracks(stracksa, stracksb):
         timep = stracksa[p].frame_id - stracksa[p].start_frame
         timeq = stracksb[q].frame_id - stracksb[q].start_frame
         if timep > timeq:
-            dupb.append(q)
+            dupb.append(q)  # 保留比较长的轨迹，pq是轨迹的index
         else:
             dupa.append(p)
-    resa = [t for i,t in enumerate(stracksa) if not i in dupa]
+    resa = [t for i,t in enumerate(stracksa) if not i in dupa]  # 将对应index的删掉
     resb = [t for i,t in enumerate(stracksb) if not i in dupb]
     return resa, resb
             

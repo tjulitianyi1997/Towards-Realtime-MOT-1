@@ -111,3 +111,37 @@ def fuse_motion(kf, cost_matrix, tracks, detections, only_position=False, lambda
         cost_matrix[row, gating_distance > gating_threshold] = np.inf
         cost_matrix[row] = lambda_ * cost_matrix[row] + (1-lambda_)* gating_distance
     return cost_matrix
+
+
+def iou_motion(tracks, detections):
+    """
+    Compute cost based on IoU
+    :type atracks: list[STrack]
+    :type btracks: list[STrack]  # 首先要将STrack转为tlbr
+
+    :rtype cost_matrix np.ndarray
+    """
+    # # print("****************")
+    # # if (len(tracks)>0 and isinstance(atracks[0], np.ndarray)) or (len(btracks) > 0 and isinstance(btracks[0], np.ndarray)):
+    # # cost_matrix = np.zeros((len(tracks), len(detections)), dtype=np.float)
+    # # print("det_tlbrs", len(tracks))
+    # print("type_detections", type(detections))
+    # # print("cost_matrix.shape", cost_matrix.shape)
+    # # if cost_matrix.size == 0:
+    #     # return cost_matrix
+    if ((len(tracks) > 0) and (len(detections) > 0)):
+        det_tlbrs = detections[:, :4].cpu()
+        # det_tlbrs = [det[:, :4] for det in detections]
+        track_tlbrs = [track.tlbr for track in tracks]
+        _ious = ious(det_tlbrs, track_tlbrs)
+        # print("_ious.shape", _ious.shape)
+        # print("_ious_type", type(_ious))
+        motion_conf = np.ndarray.max(_ious, 1)  # 每行找最大值，
+        motion_conf = motion_conf.astype(np.float32)
+        # cost_matrix = 1 - _ious
+    else:
+        # cost_matrix = np.zeros(len(detections), dtype=np.float)
+        # print("****************")
+        motion_conf = np.zeros(len(detections), dtype=np.float32)
+
+    return motion_conf
