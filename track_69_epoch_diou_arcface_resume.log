@@ -1,6 +1,0 @@
-Namespace(cfg='cfg/yolov3_864x480.cfg', conf_thres=0.5, iou_thres=0.5, min_box_area=200, nms_thres=0.4, save_images=False, save_videos=False, test_mot15=False, test_mot16=False, test_mot17=False, track_buffer=30, weights='../weights/69_epoch_diou_arcface_resume.pt')
-
-Traceback (most recent call last):
-  File "track.py", line 197, in <module>
-    seqs = [seq.strip() for seq in seqs_str.split()]
-NameError: name 'seqs_str' is not defined
